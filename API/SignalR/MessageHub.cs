@@ -26,7 +26,10 @@ namespace API.SignalR
             var httpContext = Context.GetHttpContext();
             var otherUser = httpContext.Request.Query["user"];
             var groupName = GetGroupName(Context.User.GetUsername(), otherUser);
+
+            //Add the connection to the 2 people SignalR group
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
             var group = await AddToGroup(groupName);
 
             await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
@@ -95,12 +98,24 @@ namespace API.SignalR
             }
         }
 
+        /// <summary>
+        /// Calculate the 2 people group name base on the current user and the target user
+        /// </summary>
+        /// <param name="caller">current user</param>
+        /// <param name="other">target user</param>
+        /// <returns></returns>
         private string GetGroupName(string caller, string other)
         {
             var stringCompare = string.CompareOrdinal(caller, other) < 0;
             return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
         }
 
+        /// <summary>
+        /// Persist the 2 people group to the database if not exist, persist the connection to the group
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <returns></returns>
+        /// <exception cref="HubException"></exception>
         private async Task<Group> AddToGroup(string groupName)
         {
             var group = await _uow.MessageRepository.GetMessageGroup(groupName);

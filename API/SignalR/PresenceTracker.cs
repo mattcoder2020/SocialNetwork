@@ -7,6 +7,7 @@ namespace API.SignalR
 
         public Task<bool> UserConnected(string username, string connectionId)
         {
+            //in scenario using a secondary device to connect (with different connectionId) for the same user, return false
             bool isOnline = false;
             lock(OnlineUsers)
             {
