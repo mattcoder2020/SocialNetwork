@@ -5,11 +5,12 @@ using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.SignalR
 {
     [Authorize]
-    public class MessageHub : Hub
+    public partial class MessageHub : Hub
     {
         private readonly IMapper _mapper;
         private readonly IHubContext<PresenceHub> _presenceHub;
@@ -25,6 +26,7 @@ namespace API.SignalR
         {
             var httpContext = Context.GetHttpContext();
             var otherUser = httpContext.Request.Query["user"];
+            
             var groupName = GetGroupName(Context.User.GetUsername(), otherUser);
 
             //Add the connection to the 2 people SignalR group
@@ -42,6 +44,7 @@ namespace API.SignalR
             if (_uow.HasChanges()) await _uow.Complete();
 
             await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
+           
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
@@ -98,6 +101,7 @@ namespace API.SignalR
             }
         }
 
+        
         /// <summary>
         /// Calculate the 2 people group name base on the current user and the target user
         /// </summary>

@@ -59,7 +59,7 @@ app.UseStaticFiles();
 
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
-app.MapHub<MessageHub>("hubs/message");
+app.MapHub<MessageHubPrivate>("hubs/message");
 app.MapFallbackToController("Index", "Fallback");
 
 using var scope = app.Services.CreateScope();

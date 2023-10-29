@@ -1,9 +1,14 @@
+using API.Entities;
+
 namespace API.SignalR
 {
     public class PresenceTracker
     {
         private static readonly Dictionary<string, List<string>> OnlineUsers = 
             new Dictionary<string, List<string>>();
+
+        private static readonly IList<Connection> UserConnections =
+           new List<Connection>();
 
         public Task<bool> UserConnected(string username, string connectionId)
         {
@@ -22,6 +27,15 @@ namespace API.SignalR
                 }
             }
 
+            lock(UserConnections)
+            {
+                var connection = new Connection { Username = username, ConnectionId = connectionId };
+                if (!UserConnections.Contains(connection))
+                {
+                    UserConnections.Add(connection);
+                }
+              
+            }
             return Task.FromResult(isOnline);
         }
 
@@ -42,6 +56,16 @@ namespace API.SignalR
                 }
             }
 
+            lock (UserConnections)
+            {
+                var connection = new Connection { Username = username, ConnectionId = connectionId };
+                if (UserConnections.Contains(connection))
+                {
+                    UserConnections.Remove(connection);
+                }
+
+            }
+
             return Task.FromResult(isOffline);
         }
 
@@ -54,6 +78,24 @@ namespace API.SignalR
             }
 
             return Task.FromResult(onlineUsers);
+        }
+
+        public static Task<string[]> GetChatGroupConnectionsByUsers(IEnumerable<AppUser> members)
+        {
+            List<string> connectionIds = new List<string>();
+
+            lock (OnlineUsers)
+            {
+                foreach(AppUser user in members)
+                {
+                    if (OnlineUsers.ContainsKey(user.UserName))
+                    {
+                        connectionIds.AddRange(OnlineUsers[user.UserName]);
+                    }
+                }
+            }
+
+            return Task.FromResult(connectionIds.ToArray<string>());
         }
 
         public static Task<List<string>> GetConnectionsForUser(string username)

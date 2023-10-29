@@ -85,6 +85,11 @@ export class MessageService {
       .catch(error => console.log(error));
   }
 
+  async sendChatGroupMessage(chatgroupname: string, content: string) {
+    return this.hubConnection?.invoke('SendMessageToChatGroup', {chatgroupname: chatgroupname, content})
+      .catch(error => console.log(error));
+  }
+
   deleteMessage(id: number) {
     return this.http.delete(this.baseUrl + 'messages/' + id);
   }
