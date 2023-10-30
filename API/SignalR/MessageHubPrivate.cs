@@ -23,11 +23,21 @@ namespace API.SignalR
         }
 
         public override async Task OnConnectedAsync()
+        {            
+           await base.OnConnectedAsync();
+        }
+
+        /// <summary>
+        /// Register a group between 2 users and add the connection to the group, then 
+        /// send the updated group to the caller with the messages base on the same group.
+        /// </summary>
+        /// <param name="createPrivateGroupDto"></param>
+        /// <returns></returns>
+        public async Task CreatePrivateGroupByOtherUser(CreatePrivateGroupDto createPrivateGroupDto)
         {
             var httpContext = Context.GetHttpContext();
-            var otherUser = httpContext.Request.Query["user"];
-            
-            var groupName = GetGroupName(Context.User.GetUsername(), otherUser);
+           
+            var groupName = GetGroupName(Context.User.GetUsername(), createPrivateGroupDto.OtherUser);
 
             //Add the connection to the 2 people SignalR group
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
@@ -37,14 +47,14 @@ namespace API.SignalR
             await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
             var messages = await _uow.MessageRepository
-                .GetMessageThread(Context.User.GetUsername(), otherUser);
+                .GetMessageThread(Context.User.GetUsername(), createPrivateGroupDto.OtherUser);
 
             var changes = _uow.HasChanges();
 
             if (_uow.HasChanges()) await _uow.Complete();
 
             await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
-           
+
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)
