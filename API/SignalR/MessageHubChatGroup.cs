@@ -12,6 +12,35 @@ namespace API.SignalR
     [Authorize]
     public partial class MessageHub : Hub
     {
+        /// <summary>
+        /// Subscribe to a chat group with 2 or more members and register the client functions and lastly 
+        /// retrieve the messages base on the same group.
+        /// </summary>
+        /// <param name="chatgroupName">Name of the chat group</param>
+        /// <returns></returns>
+        public async Task SubscribeToChatGroupByGroupName(string chatgroupName)
+        {
+            var httpContext = Context.GetHttpContext();
+
+            //var groupName = GetGroupName(Context.User.GetUsername(), createPrivateGroupDto.OtherUser);
+
+            ////Add the connection to the 2 people SignalR group
+            //await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+            //var group = await AddToGroup(groupName);
+
+            await Clients.Group(chatgroupName).SendAsync("UpdatedChatGroupName", chatgroupName);
+
+            var messages = await _uow.ChatGroupMessageRepository.GetMessageThreadAsync(chatgroupName);
+
+            var changes = _uow.HasChanges();
+
+            if (_uow.HasChanges()) await _uow.Complete();
+
+            await Clients.Caller.SendAsync("ReceiveChatGroupMessageThread", messages);
+
+        }
+
         public async Task SendMessageToChatGroup(CreateChatGroupMessageDto createMessageDto)
         {
             var username = Context.User.GetUsername();

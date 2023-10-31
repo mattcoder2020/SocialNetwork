@@ -11,7 +11,7 @@ import { MessageService } from 'src/app/_services/message.service';
 })
 export class MemberMessagesComponent implements OnInit {
   @ViewChild('messageForm') messageForm?: NgForm
-  @Input() username?: string;
+  @Input() username: string ="";
   messageContent = '';
   loading = false;
 
@@ -23,9 +23,12 @@ export class MemberMessagesComponent implements OnInit {
   sendMessage() {
     if (!this.username) return;
     this.loading = true;
-    this.messageService.sendMessage(this.username, this.messageContent).then(() => {
-      this.messageForm?.reset();
-    }).finally(() => this.loading = false);
+    
+    // this.messageService.createHubConnection()
+    // .then(() => {
+      this.messageService.sendMessage(this.username, this.messageContent).then(() => {this.messageForm?.reset();})
+    .finally(() => this.loading = false);
   }
-
+ 
 }
+
