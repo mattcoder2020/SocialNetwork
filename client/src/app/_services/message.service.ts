@@ -29,9 +29,14 @@ export class MessageService {
     });
   }
 
-  async createHubConnection(): Promise<void> {  
-    if (!this.hubConnection) {  
-      return new Promise<void>((resolve, reject) => {console.log})}
+  async createHubConnection(force: boolean = false): Promise<void> {  
+    if (this.hubConnection != undefined && force == false) {  
+      return new Promise<void>((resolve, reject) => {
+        console.log ("no need to create new hub connection");
+        resolve();
+      });
+       
+      }
     else {
       return new Promise<void>((resolve, reject) => {  
             this.hubConnection = new HubConnectionBuilder()  
@@ -66,7 +71,7 @@ export class MessageService {
         });
       }  
     
-}
+  }
 
  
  //Backend API: https://localhost:5001/api/messages
