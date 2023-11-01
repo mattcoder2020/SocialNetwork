@@ -18,10 +18,16 @@
                 <li *appHasRole="['Admin', 'Moderator']" class="nav-item">
                     <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/chatgroups" routerLinkActive="active">Chat Groups</a>
+                    <!-- <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Chat Groups </a>
+                    <div class="dropdown-menu mt-3" *dropdownMenu>
+                        <a class="dropdown-item" routerLink="/chatgroups/edit">Edit Profile</a>
+                        <a class="dropdown-item" (click)="logout()">Logout</a>
+                    </div> -->
+                </li>
             </ng-container>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/errors" routerLinkActive="active">Errors</a>
-            </li>
+            
         </ul>
 
         <div class="dropdown" *ngIf="(accountService.currentUser$  | async) as user" dropdown>

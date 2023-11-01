@@ -17,11 +17,16 @@ namespace API.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
+        public DbSet<ChatGroup> ChatGroups { get; set; }
+        public DbSet<ChatGroupMessage> ChatGroupMessages { get; set; }
+        public DbSet<ChatGroupMember> ChatGroupMembers { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+                       
+                                                                                                         
             builder.Entity<AppUser>()
                 .HasMany(ur => ur.UserRoles)
                 .WithOne(u => u.User)
@@ -58,6 +63,21 @@ namespace API.Data
                 .HasOne(u => u.Sender)
                 .WithMany(m => m.MessagesSent)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ChatGroupMember>()
+               .HasKey(k => new { k.ChatGroupId, k.AppUserId });
+
+            builder.Entity<ChatGroupMember>()
+                .HasOne(cgm => cgm.Member)
+                .WithMany(cg => cg.ChatGroupMembers)
+                .HasForeignKey(cgm => cgm.AppUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ChatGroupMember>()
+                .HasOne(cgm => cgm.ChatGroup)
+                .WithMany(cg => cg.ChatGroupMembers)
+                .HasForeignKey(cgm => cgm.ChatGroupId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

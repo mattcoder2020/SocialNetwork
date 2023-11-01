@@ -12,7 +12,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public AppUser Owner { get; set; }
-        public ICollection<AppUser> Members { get; set; } = new List<AppUser>();
+        public List<ChatGroupMember> ChatGroupMembers { get; set; } 
 
     }
 }
