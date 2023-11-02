@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class ChatGroupRespository : IChatGroupMemberRepository, IChatGroupMessageRepository, IChatGroupRepository
+    public class ChatGroupRespository : IChatGroupRepository
     {
         private readonly DataContext _dbContext;
 
@@ -12,6 +12,12 @@ namespace API.Data
         {
             _dbContext = dbContext;
         }
+
+        public async Task AddChatGroup(ChatGroup chatGroup)
+        {
+            await _dbContext.ChatGroups.AddAsync(chatGroup);
+        }
+
         public async Task AddMemberToChatGroupAsync(int userid, int chatgroupid)
         {
             await _dbContext.ChatGroupMembers.AddAsync(new ChatGroupMember { AppUserId = userid, ChatGroupId = chatgroupid });
@@ -27,26 +33,30 @@ namespace API.Data
             });
         }
 
+       
         public async Task<ChatGroup> GetChatGroupByNameAsync(string chatgroupName)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<AppUser>> GetMemberByChatGroupAsync(string chatgroupName)
+        public async Task<List<ChatGroupMember>> GetMemberByChatGroupAsync(string chatgroupName)
         {
-            var querable = _dbContext.ChatGroups.Include(e => e.ChatGroupMembers).FirstOrDefaultAsync(e => e.Name == chatgroupName);
-            return querable.Result.ChatGroupMembers;
+            var querable = await _dbContext.ChatGroups.Include(e => e.ChatGroupMembers).FirstOrDefaultAsync(e => e.Name == chatgroupName);
+            return querable.ChatGroupMembers;
             
         }
 
-        public Task<IEnumerable<AppUser>> GetMemberByChatGroupAsync(int chatgroupid)
+        public async Task<List<ChatGroupMember>> GetMemberByChatGroupAsync(int chatgroupid)
         {
-            throw new NotImplementedException();
+            var querable = await _dbContext.ChatGroups.Include(e => e.ChatGroupMembers).FirstOrDefaultAsync(e => e.Id == chatgroupid);
+            return querable.ChatGroupMembers;
         }
 
-        public async Task<IEnumerable<ChatGroupMessage>> GetMessageThreadAsync(string chatgroup)
+        public async Task<List<ChatGroupMessage>> GetMessageThreadAsync(int chatgroupid)
         {
-            throw new NotImplementedException();
+            var querable = _dbContext.ChatGroupMessages.Where(e => e.ChatGroupId == chatgroupid).AsQueryable();
+            return await querable.ToListAsync();
+            
         }
     }
 }
