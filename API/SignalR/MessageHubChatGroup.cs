@@ -48,18 +48,17 @@ namespace API.SignalR
             var sender = await _uow.UserRepository.GetUserByUsernameAsync(username);
             if (sender == null) throw new HubException("Message sender not found");
 
-            var chatgroup = await _uow.ChatGroupRepository.GetChatGroupByNameAsync(createMessageDto.ChatgroupName);
+            var chatgroup = await _uow.ChatGroupRepository.GetChatGroupByIdAsync(createMessageDto.chatgroupid);
             if (chatgroup == null) throw new HubException("Chat group not found");
 
 
             var message = new ChatGroupMessage
             {
-                Sender = sender,
-                ChatgroupName = createMessageDto.ChatgroupName,
-                Content = createMessageDto.Content
+                ChatGroupId = chatgroup.Id,
+                SenderId = sender.Id
             };
 
-            var members = await _uow.ChatGroupMemberRepository.GetMemberByChatGroupAsync(createMessageDto.ChatgroupName);
+            var members = await _uow.ChatGroupRepository.GetMemberByChatGroupAsync(createMessageDto.chatgroupid);
 
 
             var connections = await PresenceTracker.GetChatGroupConnectionsByUsers(members);

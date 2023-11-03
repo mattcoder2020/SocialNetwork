@@ -1,5 +1,6 @@
 ﻿using API.Entities;
 using API.Interfaces;
+using AutoMapper.Execution;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -33,7 +34,12 @@ namespace API.Data
             });
         }
 
-       
+        public async Task<ChatGroup> GetChatGroupByIdAsync(int chatgroupid)
+        {
+            var querable = await _dbContext.ChatGroups.FirstOrDefaultAsync(e=>e.Id == chatgroupid);
+            return querable;
+        }
+
         public async Task<ChatGroup> GetChatGroupByNameAsync(string chatgroupName)
         {
             throw new NotImplementedException();
@@ -46,10 +52,10 @@ namespace API.Data
             
         }
 
-        public async Task<List<ChatGroupMember>> GetMemberByChatGroupAsync(int chatgroupid)
+        public async Task<List<AppUser>> GetMemberByChatGroupAsync(int chatgroupid)
         {
-            var querable = await _dbContext.ChatGroups.Include(e => e.ChatGroupMembers).FirstOrDefaultAsync(e => e.Id == chatgroupid);
-            return querable.ChatGroupMembers;
+            var querable = _dbContext.ChatGroupMembers.Include(e => e.Member).Where(e => e.ChatGroupId == chatgroupid);                                                   .SelectMany(e => e.ChatGroupId == chatgroupid);
+            return await querable.Select(e=>e.Member).ToListAsync();
         }
 
         public async Task<List<ChatGroupMessage>> GetMessageThreadAsync(int chatgroupid)

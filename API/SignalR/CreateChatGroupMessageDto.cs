@@ -2,7 +2,7 @@
 {
     public class CreateChatGroupMessageDto
     {
-        public string ChatgroupName { get; set; }
+        public int chatgroupid { get; set; }
         public string Content { get; set; }
     }
 }
