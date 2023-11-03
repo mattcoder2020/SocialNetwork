@@ -45,7 +45,14 @@ namespace API.Data
             throw new NotImplementedException();
         }
 
-        public async Task<List<ChatGroupMember>> GetMemberByChatGroupAsync(string chatgroupName)
+        public async Task<IEnumerable<ChatGroup>> GetChatGroupsByUserIdAsync(int userid)
+        {
+            var querable =  _dbContext.ChatGroups.Where(e => e.OwnerId == userid).AsQueryable();
+            return await querable.ToArrayAsync();
+            
+        }
+
+        public async Task<IEnumerable<ChatGroupMember>> GetMemberByChatGroupAsync(string chatgroupName)
         {
             var querable = await _dbContext.ChatGroups.Include(e => e.ChatGroupMembers).FirstOrDefaultAsync(e => e.Name == chatgroupName);
             return querable.ChatGroupMembers;
@@ -63,6 +70,11 @@ namespace API.Data
             var querable = _dbContext.ChatGroupMessages.Where(e => e.ChatGroupId == chatgroupid).AsQueryable();
             return await querable.ToListAsync();
             
+        }
+
+        Task<List<ChatGroupMember>> IChatGroupRepository.GetMemberByChatGroupAsync(int chatgroupid)
+        {
+            throw new NotImplementedException();
         }
     }
 }

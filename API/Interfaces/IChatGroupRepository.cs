@@ -5,11 +5,12 @@ namespace API.Interfaces
     public interface IChatGroupRepository
     {
         Task<ChatGroup> GetChatGroupByNameAsync(string chatgroupName);
+        Task<IEnumerable<ChatGroup>> GetChatGroupsByUserIdAsync(int userid);
         Task<ChatGroup> GetChatGroupByIdAsync(int chatgroupid);
+        Task<IEnumerable<ChatGroupMessage>> GetMessageThreadAsync(int chatgroupid);
+        Task<IEnumerable<ChatGroupMember>> GetMemberByChatGroupAsync(int chatgroupid);
         Task AddChatGroup(ChatGroup chatGroup);
         Task AddMessageAsync(int senderid, int chatgroupid, string content);
-        Task<List<ChatGroupMessage>> GetMessageThreadAsync(int chatgroupid);
-        Task<List<ChatGroupMember>> GetMemberByChatGroupAsync(int chatgroupid);
         Task AddMemberToChatGroupAsync(int userid, int chatgroupid);
     }
 }
