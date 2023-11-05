@@ -1,1 +1,49 @@
-<p>manage works!</p>
+<!-- FILEPATH: /d:/SourceCode/AngularPerfectMatch/client/src/app/chatgroup/manage/manage.component.html -->
+
+<!-- Import the necessary Angular Material modules -->
+<!-- Make sure to add these imports to your manage.component.ts file as well -->
+<!-- Example: import { MatTableDataSource } from '@angular/material/table'; -->
+<!-- Example: import { MatPaginator } from '@angular/material/paginator'; -->
+<!-- Example: import { MatSort } from '@angular/material/sort'; -->
+<!-- Example: import { MatDialog } from '@angular/material/dialog'; -->
+<!-- Example: import { MatSnackBar } from '@angular/material/snack-bar'; -->
+<!-- Example: import { Router } from '@angular/router'; -->
+<!-- Example: import { ChatgroupService } from '../chatgroup.service'; -->
+<!-- Example: import { Chatgroup } from '../chatgroup.model'; -->
+
+<!-- Create a table to display the chatgroups -->
+<table mat-table [dataSource]="dataSource" matSort>
+
+    <!-- Define the columns of the table -->
+    <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef> Image </th>
+        <td mat-cell *matCellDef="let chatgroup"> 
+            <img [src]="chatgroup.image" alt="Chatgroup Image" width="50" height="50">
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let chatgroup"> {{chatgroup.name}} </td>
+    </ng-container>
+    <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+        <td mat-cell *matCellDef="let chatgroup"> {{chatgroup.description}} </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let chatgroup"> 
+            <button mat-icon-button (click)="editChatgroup(chatgroup)"> 
+                <mat-icon>edit</mat-icon> 
+            </button> 
+            <button mat-icon-button (click)="enterChatgroup(chatgroup)"> 
+                <mat-icon>chat</mat-icon> 
+            </button> 
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let chatgroup; columns: displayedColumns;"></tr>
+
+</table>
+
+<!-- Add pagination to the table -->
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
