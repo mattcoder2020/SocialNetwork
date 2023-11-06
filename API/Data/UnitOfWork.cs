@@ -21,10 +21,6 @@ namespace API.Data
 
         public IChatGroupRepository ChatGroupRepository => throw new NotImplementedException();
 
-        public IChatGroupMessageRepository ChatGroupMessageRepository => throw new NotImplementedException();
-
-        public IChatGroupMemberRepository ChatGroupMemberRepository => throw new NotImplementedException();
-
         public async Task<bool> Complete()
         {
             return await _context.SaveChangesAsync() > 0;

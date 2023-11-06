@@ -14,13 +14,16 @@ import { AdminGuard } from './_guards/admin.guard';
 import { AuthGuard } from './_guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
+import { ManageComponent } from './chatgroup/manage/manage.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
+
   {path: '', 
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
+      {path: 'chatgroups', component: ManageComponent},
       {path: 'members', component: MemberListComponent},
       {path: 'members/:username', component: MemberDetailComponent, resolve: {member: MemberDetailedResolver}},
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},

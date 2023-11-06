@@ -7,7 +7,8 @@
     [footerHeight]="50"
     [rowHeight]="'auto'"
     [limit]="10"
-  
+    [sortType]="SortType.multi"
+    [scrollbarV]="true"
     (select)='onSelect($event)'>
     
     <ngx-datatable-column name="Image">
@@ -16,10 +17,10 @@
         </ng-template>
     </ngx-datatable-column>
     
-    <ngx-datatable-column name="Name" prop="name" sortable="true">
+    <ngx-datatable-column name="Name" prop="name" >
     </ngx-datatable-column>
     
-    <ngx-datatable-column name="Owner" prop="description" sortable="true">
+    <ngx-datatable-column name="Owner" prop="OwnerId" >
     </ngx-datatable-column>
     
     <ngx-datatable-column name="Actions">

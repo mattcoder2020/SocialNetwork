@@ -61,7 +61,7 @@ namespace API.Data
 
         public async Task<IEnumerable<AppUser>> GetMemberByChatGroupAsync(int chatgroupid)
         {
-            var querable = _dbContext.ChatGroupMembers.Include(e => e.Member).Where(e => e.ChatGroupId == chatgroupid);                                                   .SelectMany(e => e.ChatGroupId == chatgroupid);
+            var querable = _dbContext.ChatGroupMembers.Include(e => e.Member).Where(e => e.ChatGroupId == chatgroupid);                                                   
             return await querable.Select(e=>e.Member).ToListAsync();
         }
 

@@ -4,6 +4,8 @@ import { ChatGroup } from 'src/app/_models/chatgroup';
 import { ChatgroupService } from 'src/app/_services/chatgroup.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { ColumnMode, SortType } from 'projects/swimlane/ngx-datatable/src/public-api';
+
 
 @Component({
   selector: 'app-manage',
@@ -18,10 +20,12 @@ export class ManageComponent implements OnInit {
   public chatgroupUpdateForm: FormGroup;
   public selectedChatgroup?: ChatGroup;
   public columns = [
-    { prop: 'Name' },
+    { name: 'Name' },
     { name: 'Owner' },
     { name: 'Actions' }
   ];
+  ColumnMode = ColumnMode;
+  SortType = SortType;
 
   @ViewChild(DatatableComponent) table?: DatatableComponent;
 
@@ -49,7 +53,7 @@ export class ManageComponent implements OnInit {
   createChatgroup() {
     this.chatgroupService.createChatGroup(this.chatgroupForm.value).subscribe(chatgroup => {
       this.chatgroups?.push(chatgroup);
-      this.rows = [...this.chatgroups?];
+      this.rows = [...this.chatgroups];
       this.chatgroupForm.reset();
     });
   }

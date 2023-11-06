@@ -18,7 +18,7 @@ namespace API.SignalR
         /// </summary>
         /// <param name="chatgroupName">Name of the chat group</param>
         /// <returns></returns>
-        public async Task SubscribeToChatGroupByGroupName(string chatgroupName)
+        public async Task SubscribeToChatGroupByGroupName(string chatgroupName, int chatgroupid)
         {
             var httpContext = Context.GetHttpContext();
 
@@ -31,7 +31,7 @@ namespace API.SignalR
 
             await Clients.Group(chatgroupName).SendAsync("UpdatedChatGroupName", chatgroupName);
 
-            var messages = await _uow.ChatGroupMessageRepository.GetMessageThreadAsync(chatgroupName);
+            var messages = await _uow.ChatGroupRepository.GetMessageThreadAsync(chatgroupid);
 
             var changes = _uow.HasChanges();
 
@@ -67,18 +67,18 @@ namespace API.SignalR
                 //await _presenceHub.Clients.Clients(connections).SendAsync("NewChatGroupMessageReceived",
                 //    new { username = sender.UserName, chatgroup = createMessageDto.ChatgroupName });
                 await _presenceHub.Clients.Clients(connections).SendAsync("NewChatGroupMessageReceived",
-                    new { username = sender.UserName, chatgroup = createMessageDto.ChatgroupName });
+                    new { username = sender.UserName, chatgroup = createMessageDto.chatgroupid});
 
                 foreach (var connection in connections)
-                    await Groups.AddToGroupAsync(connection, createMessageDto.ChatgroupName);
+                    await Groups.AddToGroupAsync(connection, createMessageDto.chatgroupname);
             }
 
 
-            await _uow.ChatGroupMessageRepository.AddMessageAsync(message);
+            await _uow.ChatGroupRepository.AddMessageAsync(message.SenderId, message.ChatGroupId, message.Content);
 
             if (await _uow.Complete())
             {
-                await Clients.Group(createMessageDto.ChatgroupName).SendAsync("NewChatGroupMessage", _mapper.Map<MessageDto>(message));
+                await Clients.Group(createMessageDto.chatgroupname).SendAsync("NewChatGroupMessage", _mapper.Map<MessageDto>(message));
             }
         }
 
