@@ -42,8 +42,8 @@ export class ChatgroupService {
     return this.http.post<ChatGroup>(this.baseUrl, chatGroup);
   }
 
-  updateChatGroup(id: string, chatGroup: ChatGroup): Observable<ChatGroup> {
-    return this.http.put<ChatGroup>(`${this.baseUrl}/${id}`, chatGroup);
+  updateChatGroup(chatGroup: ChatGroup): Observable<ChatGroup> {
+    return this.http.put<ChatGroup>(`${this.baseUrl}/${chatGroup.id}`, chatGroup);
   }
 
   deleteChatGroup(id: string): Observable<any> {

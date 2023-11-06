@@ -35,6 +35,11 @@ import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.c
 import { ManageComponent } from './chatgroup/manage/manage.component';
 import { ChatComponent } from './chatgroup/chat/chat.component';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +67,8 @@ import { ChatComponent } from './chatgroup/chat/chat.component';
     ConfirmDialogComponent,
     ManageComponent,
     ChatComponent
+
+
   ],
   imports: [
     BrowserAnimationsModule,
@@ -70,7 +77,11 @@ import { ChatComponent } from './chatgroup/chat/chat.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
