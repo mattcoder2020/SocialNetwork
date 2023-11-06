@@ -34,10 +34,13 @@ import { RolesModalComponent } from './modals/roles-modal/roles-modal.component'
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
 import { ManageComponent } from './chatgroup/manage/manage.component';
 import { ChatComponent } from './chatgroup/chat/chat.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ChatgroupService } from './_services/chatgroup.service';
 
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatIconModule } from '@angular/material/icon';
+
+// import { MatTableModule } from '@angular/material/table';
+// import { MatPaginatorModule } from '@angular/material/paginator';
+// import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -67,9 +70,7 @@ import { MatIconModule } from '@angular/material/icon';
     ConfirmDialogComponent,
     ManageComponent,
     ChatComponent
-
-
-  ],
+      ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
@@ -78,15 +79,17 @@ import { MatIconModule } from '@angular/material/icon';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    NgxDatatableModule
 
-    MatTableModule,
-    MatPaginatorModule,
-    MatIconModule
+    // MatTableModule,
+    // MatPaginatorModule,
+    // MatIconModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    
   ],
   bootstrap: [AppComponent]
 })

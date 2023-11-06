@@ -59,22 +59,20 @@ namespace API.Data
             
         }
 
-        public async Task<List<AppUser>> GetMemberByChatGroupAsync(int chatgroupid)
+        public async Task<IEnumerable<AppUser>> GetMemberByChatGroupAsync(int chatgroupid)
         {
             var querable = _dbContext.ChatGroupMembers.Include(e => e.Member).Where(e => e.ChatGroupId == chatgroupid);                                                   .SelectMany(e => e.ChatGroupId == chatgroupid);
             return await querable.Select(e=>e.Member).ToListAsync();
         }
 
-        public async Task<List<ChatGroupMessage>> GetMessageThreadAsync(int chatgroupid)
+        public async Task<IEnumerable<ChatGroupMessage>> GetMessageThreadAsync(int chatgroupid)
         {
             var querable = _dbContext.ChatGroupMessages.Where(e => e.ChatGroupId == chatgroupid).AsQueryable();
             return await querable.ToListAsync();
             
         }
 
-        Task<List<ChatGroupMember>> IChatGroupRepository.GetMemberByChatGroupAsync(int chatgroupid)
-        {
-            throw new NotImplementedException();
-        }
+
+        
     }
 }

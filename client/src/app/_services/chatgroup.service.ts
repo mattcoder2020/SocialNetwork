@@ -46,16 +46,16 @@ export class ChatgroupService {
     return this.http.put<ChatGroup>(`${this.baseUrl}/${chatGroup.id}`, chatGroup);
   }
 
-  deleteChatGroup(id: string): Observable<any> {
+  deleteChatGroup(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
   // CRUD operations for Member property in ChatGroup model
-  addMemberToChatGroup(chatGroupId: string, member: Member): Observable<Member> {
+  addMemberToChatGroup(chatGroupId: number, member: Member): Observable<Member> {
     return this.http.post<Member>(`${this.baseUrl}/${chatGroupId}/members`, member);
   }
 
-  removeMemberFromChatGroup(chatGroupId: string, memberId: string): Observable<any> {
+  removeMemberFromChatGroup(chatGroupId: number, memberId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${chatGroupId}/members/${memberId}`);
   }
 }
