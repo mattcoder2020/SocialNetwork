@@ -4,7 +4,7 @@ export interface ChatGroup {
     id: number | undefined;
     name: string;
     ownerid: number;
-    owner: Member;
-    chatGroupMembers: Member[];
+    owner?: Member;
+    chatGroupMembers?: Member[];
 }
 

@@ -69,7 +69,7 @@ namespace API.Data
             {
                 await unitOfWork.ChatGroupRepository.AddChatGroupAsync(chatgroup);
             }
-
+            await unitOfWork.Complete();
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using API.Entities;
+﻿using API.DTOs;
+using API.Entities;
 
 namespace API.Interfaces
 {
     public interface IChatGroupRepository
     {
-        Task<ChatGroup> GetChatGroupByNameAsync(string chatgroupName);
         Task<IEnumerable<ChatGroup>> GetChatGroupsByUserIdAsync(int userid);
+        Task<IEnumerable<ChatGroupDto>> GetChatGroupsByUserNameAsync(string username);
         Task<ChatGroup> GetChatGroupByIdAsync(int chatgroupid);
         Task<IEnumerable<ChatGroupMessage>> GetMessageThreadAsync(int chatgroupid);
         Task<IEnumerable<AppUser>> GetMemberByChatGroupAsync(int chatgroupid);

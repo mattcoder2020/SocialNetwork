@@ -11,7 +11,7 @@ import { User } from '../_models/user';
   providedIn: 'root'
 })
 export class ChatgroupService {
-  private baseUrl = environment.apiUrl + 'chatgroups';
+  private baseUrl = environment.apiUrl + 'chatgroup';
   user: User | undefined;
 
 
@@ -31,7 +31,7 @@ export class ChatgroupService {
   }
 
   getAllChatGroupsByOwnerId(): Observable<ChatGroup[]> {
-    return this.http.get<ChatGroup[]>(this.baseUrl + '/ownerid=' + this.user?.username);
+    return this.http.get<ChatGroup[]>(this.baseUrl + '/' + this.user?.username);
   }
 
   getChatGroupById(id: string): Observable<ChatGroup> {

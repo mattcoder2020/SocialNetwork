@@ -1,17 +1,22 @@
-﻿using API.Entities;
+﻿using API.DTOs;
+using API.Entities;
 using API.Interfaces;
 using AutoMapper.Execution;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace API.Data
 {
     public class ChatGroupRespository : IChatGroupRepository
     {
         private readonly DataContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public ChatGroupRespository(DataContext dbContext)
+        public ChatGroupRespository(DataContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            this._mapper = mapper;
         }
 
         public async Task AddChatGroupAsync(ChatGroup chatGroup)
@@ -40,16 +45,19 @@ namespace API.Data
             return querable;
         }
 
-        public async Task<ChatGroup> GetChatGroupByNameAsync(string chatgroupName)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public async Task<IEnumerable<ChatGroup>> GetChatGroupsByUserIdAsync(int userid)
         {
             var querable =  _dbContext.ChatGroups.Where(e => e.OwnerId == userid).AsQueryable();
             return await querable.ToArrayAsync();
             
+        }
+
+        public async Task<IEnumerable<ChatGroupDto>> GetChatGroupsByUserNameAsync(string username)
+        {
+            var querable = _dbContext.ChatGroups.Include(e=>e.Owner).Where(e => e.Owner.UserName == username).ProjectTo<ChatGroupDto>(_mapper.ConfigurationProvider).AsQueryable();
+            return await querable.ToArrayAsync();
+
         }
 
         public async Task<IEnumerable<ChatGroupMember>> GetMemberByChatGroupAsync(string chatgroupName)

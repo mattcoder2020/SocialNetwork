@@ -19,7 +19,7 @@ namespace API.Data
 
         public ILikesRepository LikesRepository => new LikesRepository(_context);
 
-        public IChatGroupRepository ChatGroupRepository => throw new NotImplementedException();
+        public IChatGroupRepository ChatGroupRepository => new ChatGroupRespository(_context, _mapper);
 
         public async Task<bool> Complete()
         {

@@ -5,22 +5,22 @@
     [columnMode]="'force'"
     [headerHeight]="50"
     [footerHeight]="50"
-    [rowHeight]="'auto'"
+    [rowHeight]="30"
     [limit]="10"
     [sortType]="SortType.multi"
     [scrollbarV]="true"
     (select)='onSelect($event)'>
     
-    <ngx-datatable-column name="Image">
+    <!-- <ngx-datatable-column name="Image">
         <ng-template let-row="row" ngx-datatable-cell-template>
             <img [src]="row.image" alt="Chatgroup Image" width="50" height="50">
         </ng-template>
-    </ngx-datatable-column>
+    </ngx-datatable-column> -->
     
     <ngx-datatable-column name="Name" prop="name" >
     </ngx-datatable-column>
     
-    <ngx-datatable-column name="Owner" prop="OwnerId" >
+    <ngx-datatable-column name="Owner" prop="ownerId" >
     </ngx-datatable-column>
     
     <ngx-datatable-column name="Actions">
