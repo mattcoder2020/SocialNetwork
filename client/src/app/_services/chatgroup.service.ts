@@ -15,14 +15,7 @@ export class ChatgroupService {
   user: User | undefined;
 
 
-  constructor(private http: HttpClient, private accountService: AccountService) { 
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
-      next: user => {
-        if (user) {
-          this.user = user;
-        }
-      }
-    })
+  constructor(private http: HttpClient){
   }
 
   // CRUD operations for ChatGroup model
@@ -30,8 +23,8 @@ export class ChatgroupService {
     return this.http.get<ChatGroup[]>(this.baseUrl);
   }
 
-  getAllChatGroupsByOwnerId(): Observable<ChatGroup[]> {
-    return this.http.get<ChatGroup[]>(this.baseUrl + '/' + this.user?.username);
+  getAllChatGroupsByOwnerName(ownername: string): Observable<ChatGroup[]> {
+    return this.http.get<ChatGroup[]>(this.baseUrl + '/' + ownername);
   }
 
   getChatGroupById(id: string): Observable<ChatGroup> {

@@ -5,12 +5,20 @@ import { ChatgroupService } from 'src/app/_services/chatgroup.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ColumnMode, SortType } from 'projects/swimlane/ngx-datatable/src/public-api';
+import { AccountService } from 'src/app/_services/account.service';
+import { take } from 'rxjs';
+import { User } from 'src/app/_models/user';
 
 
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.css']
+  styleUrls: [
+    './manage.component.css',
+    './material.scss',
+    '../../../../projects/swimlane/ngx-datatable/src/lib/themes/dark.scss',
+    '../../../../projects/swimlane/ngx-datatable/src/lib/themes/bootstrap.scss'
+  ],
 })
 export class ManageComponent implements OnInit {
   public chatgroups: ChatGroup[] = [];
@@ -19,6 +27,7 @@ export class ManageComponent implements OnInit {
   public chatgroupForm: FormGroup;
   public chatgroupUpdateForm: FormGroup;
   public selectedChatgroup?: ChatGroup;
+  public user: User = {} as User;
   public columns = [
     { name: 'Name' },
     { name: 'Owner' },
@@ -29,7 +38,7 @@ export class ManageComponent implements OnInit {
 
   @ViewChild(DatatableComponent) table?: DatatableComponent;
 
-  constructor(private chatgroupService: ChatgroupService, private fb: FormBuilder) {
+  constructor(private chatgroupService: ChatgroupService, private fb: FormBuilder, private accountService: AccountService) {
     this.chatgroupForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required]
@@ -40,10 +49,18 @@ export class ManageComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required]
     });
+
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if (user) {
+          this.user = user;
+        }
+      }
+    })
   }
 
   ngOnInit() {
-    this.chatgroupService.getAllChatGroupsByOwnerId().subscribe(chatgroups => {
+    this.chatgroupService.getAllChatGroupsByOwnerName(this.user.username).subscribe(chatgroups => {
       this.chatgroups = chatgroups;
       this.rows = chatgroups;
       this.temp = [...chatgroups];
