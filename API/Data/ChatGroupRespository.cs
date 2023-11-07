@@ -14,7 +14,7 @@ namespace API.Data
             _dbContext = dbContext;
         }
 
-        public async Task AddChatGroup(ChatGroup chatGroup)
+        public async Task AddChatGroupAsync(ChatGroup chatGroup)
         {
             await _dbContext.ChatGroups.AddAsync(chatGroup);
         }

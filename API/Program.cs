@@ -1,6 +1,7 @@
 using API.Data;
 using API.Entities;
 using API.Extensions;
+using API.Interfaces;
 using API.Middleware;
 using API.SignalR;
 using Microsoft.AspNetCore.Identity;
@@ -69,9 +70,11 @@ try
     var context = services.GetRequiredService<DataContext>();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+    var uowManager = services.GetRequiredService<IUnitOfWork>();
     await context.Database.MigrateAsync();
     await Seed.ClearConnections(context);
     await Seed.SeedUsers(userManager, roleManager);
+    await Seed.SeedChatGroups(uowManager);
 }
 catch (Exception ex)
 {

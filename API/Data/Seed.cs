@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,6 +55,21 @@ namespace API.Data
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");
             await userManager.AddToRolesAsync(admin, new[] {"Admin", "Moderator"});
+        }
+
+        public static async Task SeedChatGroups(IUnitOfWork unitOfWork)
+        {
+            var chatgroupData = await File.ReadAllTextAsync("Data/ChatGroupSeedData.json");
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            var chatgroups = JsonSerializer.Deserialize<List<ChatGroup>>(chatgroupData);
+
+           foreach (var chatgroup in chatgroups)
+            {
+                await unitOfWork.ChatGroupRepository.AddChatGroupAsync(chatgroup);
+            }
+
         }
     }
 }
