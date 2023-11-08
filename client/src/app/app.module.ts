@@ -36,12 +36,7 @@ import { ManageComponent } from './chatgroup/manage/manage.component';
 import { ChatComponent } from './chatgroup/chat/chat.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ChatgroupService } from './_services/chatgroup.service';
-
-
-// import { MatTableModule } from '@angular/material/table';
-// import { MatPaginatorModule } from '@angular/material/paginator';
-// import { MatIconModule } from '@angular/material/icon';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -79,11 +74,9 @@ import { ChatgroupService } from './_services/chatgroup.service';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    ModalModule.forRoot()
 
-    // MatTableModule,
-    // MatPaginatorModule,
-    // MatIconModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

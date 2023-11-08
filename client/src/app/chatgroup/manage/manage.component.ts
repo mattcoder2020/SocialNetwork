@@ -22,8 +22,8 @@ import { User } from 'src/app/_models/user';
 })
 export class ManageComponent implements OnInit {
   public chatgroups: ChatGroup[] = [];
-  public rows: ChatGroup[] = [];
-  public temp: ChatGroup[] = [];
+  rows = [];
+  temp = [];
   public chatgroupForm: FormGroup;
   public chatgroupUpdateForm: FormGroup;
   public selectedChatgroup?: ChatGroup;
@@ -66,7 +66,13 @@ export class ManageComponent implements OnInit {
       this.temp = [...chatgroups];
     });
   }
-
+  
+  openCreateChatGroupModal() 
+  {}
+  openUpdateChatGroupModal() 
+  {}
+  openDeleteChatGroupModal() 
+  {}
   createChatgroup() {
     this.chatgroupService.createChatGroup(this.chatgroupForm.value).subscribe(chatgroup => {
       this.chatgroups?.push(chatgroup);
@@ -114,17 +120,18 @@ export class ManageComponent implements OnInit {
     }
   }
 
-  updateFilter(event: any) {
+  updateFilter(event) {
     const val = event.target.value.toLowerCase();
 
+    // filter our data
     const temp = this.temp.filter(function (d) {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
+    // update the rows
     this.rows = temp;
-    if (this.table) {
-      this.table.offset = 0;
-    }
+    // Whenever the filter changes, always go back to the first page
+    this.table.offset = 0;
   }
 }
 

@@ -1,7 +1,24 @@
 
+<div id="topdiv" class="d-flex justify-content-between align-items-center"> 
+    <div id="1div" class="col-6">
+        <input
+            type="text"
+            style="padding:8px;margin:15px auto;width:30%;"
+            placeholder="Type to filter by name..."
+            (keyup)="updateFilter($event)"
+        />
+    </div>
+   
+    <div id="2div" class="col-4 offset-4"> 
+        <button id="create" class="btn btn-primary align-items-right" type="button" (click)="openCreateChatGroupModal()">
+            <span>Create Chatgroup</span>
+        </button>
+    </div>
+</div>
+<div>
 <ngx-datatable 
-    class= "material"
-    [rows]="chatgroups"
+    class="material"
+    [rows]="rows"
     [columns]="columns"
     [headerHeight]="50"
     [footerHeight]="50"
@@ -9,30 +26,16 @@
     (select)='onSelect($event)'
     [sortType]="SortType.multi"
     [columnMode]="ColumnMode.force"
-    [limit]="2"   
-    >
-    
-   
-    <ngx-datatable-column name="Name" prop="name" >
-    </ngx-datatable-column>
-    
-    <ngx-datatable-column name="Owner" prop="owner.userName" >
-    </ngx-datatable-column>
-    
+    [limit]="5"   
+>
+    <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
+    <ngx-datatable-column name="Owner" prop="owner.userName"></ngx-datatable-column>
     <ngx-datatable-column name="Actions">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <button class="btn btn-info" (click)="enterChatgroup(row)"> 
-                chat
-            </button> 
-            <button class="btn btn-success" (click)="updateChatgroup(row)"> 
-                edit
-            </button> 
-            <button  class="btn btn-info" (click)="deleteChatgroup(row)"> 
-                delete
-            </button> 
+            <button class="btn btn-info" (click)="enterChatgroup(row)">chat</button> &nbsp;
+            <button class="btn btn-success" (click)="updateChatgroup(row)">edit</button> &nbsp;
+            <button class="btn btn-info" (click)="deleteChatgroup(row)">delete</button> 
         </ng-template>
     </ngx-datatable-column>
-    
 </ngx-datatable>
-
-<!-- Add pagination to the table -->
+</div>
