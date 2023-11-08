@@ -8,7 +8,9 @@ import { ColumnMode, SortType } from 'projects/swimlane/ngx-datatable/src/public
 import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs';
 import { User } from 'src/app/_models/user';
-
+import { ChatgroupModalComponent } from 'src/app/modals/chatgroup-modal/chatgroup-modal.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AdminService } from 'src/app/_services/admin.service';
 
 @Component({
   selector: 'app-manage',
@@ -28,6 +30,8 @@ export class ManageComponent implements OnInit {
   public chatgroupUpdateForm: FormGroup;
   public selectedChatgroup?: ChatGroup;
   public user: User = {} as User;
+  public tempallusers: User[] = [];
+  public selectedUsers: User[] = [];
   public columns = [
     { name: 'Name' },
     { name: 'Owner' },
@@ -35,10 +39,16 @@ export class ManageComponent implements OnInit {
   ];
   ColumnMode = ColumnMode;
   SortType = SortType;
+  bsModalRef: BsModalRef<ChatgroupModalComponent> = new BsModalRef<ChatgroupModalComponent>();
 
   @ViewChild(DatatableComponent) table?: DatatableComponent;
 
-  constructor(private chatgroupService: ChatgroupService, private fb: FormBuilder, private accountService: AccountService) {
+  constructor(private chatgroupService: ChatgroupService, 
+    private fb: FormBuilder, 
+    private accountService: AccountService,
+    private modalService: BsModalService,
+    private adminService: AdminService) {
+
     this.chatgroupForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required]
@@ -69,6 +79,33 @@ export class ManageComponent implements OnInit {
   
   openCreateChatGroupModal() 
   {}
+  openRolesModal(chatgroup: ChatGroup) {
+    this.adminService.getUsersWithRoles().subscribe
+    ({ next: users => this.tempallusers = users });
+
+    this.chatgroupService.getChatGroupById(chatgroup.id).subscribe
+    ({ next: chatgroup => this.selectedUsers = chatgroup.chatGroupMembers! });
+
+    const config = {
+      class: 'modal-dialog-centered',
+      initialState: {
+        chatgroup: chatgroup,
+        allUsers: tempusers,
+        selectedUsers: [...user.roles]
+      }
+    }
+    this.bsModalRef = this.modalService.show(RolesModalComponent, config);
+    this.bsModalRef.onHide?.subscribe({
+      next: () => {
+        const selectedRoles = this.bsModalRef.content?.selectedRoles;
+        if (!this.arrayEqual(selectedRoles!, user.roles)) {
+          this.adminService.updateUserRoles(user.username, selectedRoles!).subscribe({
+            next: roles => user.roles = roles
+          })
+        }
+      }
+    })
+  }
   openUpdateChatGroupModal() 
   {}
   openDeleteChatGroupModal() 

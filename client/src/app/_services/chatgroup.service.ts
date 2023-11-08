@@ -27,7 +27,7 @@ export class ChatgroupService {
     return this.http.get<ChatGroup[]>(this.baseUrl + '/' + ownername);
   }
 
-  getChatGroupById(id: string): Observable<ChatGroup> {
+  getChatGroupById(id: number): Observable<ChatGroup> {
     return this.http.get<ChatGroup>(`${this.baseUrl}/${id}`);
   }
 
