@@ -77,9 +77,34 @@ export class ManageComponent implements OnInit {
     });
   }
   
-  openCreateChatGroupModal() 
-  {}
-  openRolesModal(chatgroup: ChatGroup) {
+  openCreateChatGroupModal() {
+    
+    this.adminService.getUsersWithRoles().subscribe
+    ({ next: users => this.tempallusers = users });
+
+
+    const config = {
+      class: 'modal-dialog-centered',
+      initialState: {
+        isedit: false,
+        allUsers: this.tempallusers,
+    
+      }
+    }
+    this.bsModalRef = this.modalService.show(ChatgroupModalComponent, config);
+    this.bsModalRef.onHide?.subscribe({
+      next: () => {
+         const selectedUsers = this.bsModalRef.content?.selectedUsers;
+        let chatgroup = this.bsModalRef.content?.chatgroup;
+         chatgroup.chatGroupMembers = selectedUsers;
+        this.chatgroupService.createChatGroup(chatgroup).subscribe(
+          {next:(chatgroup)=>this.chatgroups.push(chatgroup)}
+         )}
+       
+      })
+    }
+  openUpdateChatGroupModal(chatgroup: ChatGroup) {
+    
     this.adminService.getUsersWithRoles().subscribe
     ({ next: users => this.tempallusers = users });
 
@@ -89,25 +114,35 @@ export class ManageComponent implements OnInit {
     const config = {
       class: 'modal-dialog-centered',
       initialState: {
+        isedit: true,
         chatgroup: chatgroup,
         allUsers: this.tempallusers,
         selectedUsers: this.tempselectedUsers
       }
     }
-    this.bsModalRef = this.modalService.show(RolesModalComponent, config);
+    this.bsModalRef = this.modalService.show(ChatgroupModalComponent, config);
     this.bsModalRef.onHide?.subscribe({
       next: () => {
-        const selectedRoles = this.bsModalRef.content?.selectedRoles;
-        if (!this.arrayEqual(selectedRoles!, user.roles)) {
-          this.adminService.updateUserRoles(user.username, selectedRoles!).subscribe({
-            next: roles => user.roles = roles
-          })
+        let dirty = false;
+        const selectedUsers = this.bsModalRef.content?.selectedUsers;
+        if (!this.arrayEqual(selectedUsers!, this.tempselectedUsers)) {
+          chatgroup.chatGroupMembers = selectedUsers;
+          dirty = true;
         }
-      }
-    })
-  }
-  openUpdateChatGroupModal() 
-  {}
+        const index = this.chatgroups.findIndex(c => c.id === chatgroup.id);
+        if (this.chatgroups[index].name !== chatgroup.name) {
+          this.chatgroups[index] = chatgroup;
+          this.rows = [...this.chatgroups];
+          dirty = true;
+        }
+
+        if (dirty) {
+          this.chatgroupService.updateChatGroup(chatgroup).subscribe(
+            {next:(chatgroup)=>this.chatgroups[index] = chatgroup}
+          );
+        }
+      }})
+    }
   openDeleteChatGroupModal() 
   {}
   createChatgroup() {
@@ -169,6 +204,10 @@ export class ManageComponent implements OnInit {
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
+  }
+
+  private arrayEqual(arr1: any[], arr2: any[]) {
+    return JSON.stringify(arr1.sort()) === JSON.stringify(arr2.sort());
   }
 }
 

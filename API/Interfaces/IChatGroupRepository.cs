@@ -13,5 +13,8 @@ namespace API.Interfaces
         Task AddChatGroupAsync(ChatGroup chatGroup);
         Task AddMessageAsync(int senderid, int chatgroupid, string content);
         Task AddMemberToChatGroupAsync(int userid, int chatgroupid);
+        Task AddMembersToChatGroupAsync(int[] userids, int chatgroupid);
+        Task RemoveMembersFromChatGroupAsync(int[] userids, int chatgroupid);
+        Task UpdateChatGroupAsync(ChatGroup chatgroup);
     }
 }

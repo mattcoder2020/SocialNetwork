@@ -29,6 +29,12 @@ namespace API.Data
             await _dbContext.ChatGroupMembers.AddAsync(new ChatGroupMember { AppUserId = userid, ChatGroupId = chatgroupid });
         }
 
+        public async Task AddMembersToChatGroupAsync(int[] userids, int chatgroupid)
+        {
+            foreach (int userid in userids)
+                await AddMemberToChatGroupAsync(userid,  chatgroupid );
+        }
+
         public async Task AddMessageAsync(int senderid, int chatgroupid, string content)
         {
             await _dbContext.ChatGroupMessages.AddAsync(new ChatGroupMessage
@@ -80,7 +86,21 @@ namespace API.Data
             
         }
 
+        public Task RemoveMembersFromChatGroupAsync(int[] userids, int chatgroupid)
+        {
+            foreach (int userid in userids)
+            {
+                var querable = _dbContext.ChatGroupMembers.Where(e => e.AppUserId == userid && e.ChatGroupId == chatgroupid);
+                _dbContext.ChatGroupMembers.RemoveRange(querable);
+            }
+            return Task.CompletedTask;
 
-        
+        }
+
+        public Task UpdateChatGroupAsync(ChatGroup chatgroup)
+        {
+            _dbContext.ChatGroups.Update(chatgroup);
+            return Task.CompletedTask;
+        }
     }
 }
