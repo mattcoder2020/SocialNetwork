@@ -37,6 +37,7 @@ import { ChatComponent } from './chatgroup/chat/chat.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ChatgroupService } from './_services/chatgroup.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ChatgroupModalComponent } from './modals/chatgroup-modal/chatgroup-modal.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     RolesModalComponent,
     ConfirmDialogComponent,
     ManageComponent,
-    ChatComponent
+    ChatComponent,
+    ChatgroupModalComponent
       ],
   imports: [
     BrowserAnimationsModule,

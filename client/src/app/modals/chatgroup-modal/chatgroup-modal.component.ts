@@ -29,6 +29,10 @@ export class ChatgroupModalComponent implements OnInit {
     index !== -1 ? this.selectedUsers.splice(index, 1) : this.selectedUsers.push(checkedValue);
   }
 
+  updateName(event: any) {
+    this.chatgroup.name = event.target.value;
+  }
+
  
 
 }

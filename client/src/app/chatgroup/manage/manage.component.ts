@@ -18,8 +18,8 @@ import { AdminService } from 'src/app/_services/admin.service';
   styleUrls: [
     './manage.component.css',
     './material.scss',
-    '../../../../projects/swimlane/ngx-datatable/src/lib/themes/dark.scss',
-    '../../../../projects/swimlane/ngx-datatable/src/lib/themes/bootstrap.scss'
+    './dark.scss',
+    './bootstrap.scss'
   ],
 })
 export class ManageComponent implements OnInit {

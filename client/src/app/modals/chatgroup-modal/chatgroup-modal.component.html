@@ -5,8 +5,10 @@
     </button>
   </div>
   <div class="modal-body">
-    <form>
-        <div class="form-check" *ngFor="let user of  allusers">
+    <form #userform ="ngForm">
+        <input type="text" class="form-control" value="{{chatgroup? chatgroup.name:''}}" (input)="updateName($event)"  (change) = "updateName($event)" name="name" placeholder="Enter name of chatgroup" 
+        (change) = "updateName($event)" name="name" required>
+        <div class="form-check" *ngFor="let user of allusers">
             <input type="checkbox"
                 class="form-check-input"
                 [checked]="selectedUsers.includes(user)"
