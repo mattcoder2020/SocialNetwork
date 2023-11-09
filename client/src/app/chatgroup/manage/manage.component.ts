@@ -31,7 +31,7 @@ export class ManageComponent implements OnInit {
   public selectedChatgroup?: ChatGroup;
   public user: User = {} as User;
   public tempallusers: User[] = [];
-  public selectedUsers: User[] = [];
+  public tempselectedUsers: User[] = [];
   public columns = [
     { name: 'Name' },
     { name: 'Owner' },
@@ -83,15 +83,15 @@ export class ManageComponent implements OnInit {
     this.adminService.getUsersWithRoles().subscribe
     ({ next: users => this.tempallusers = users });
 
-    this.chatgroupService.getChatGroupById(chatgroup.id).subscribe
-    ({ next: chatgroup => this.selectedUsers = chatgroup.chatGroupMembers! });
+    this.chatgroupService.getMembersByGroupById(chatgroup.id).subscribe
+    ({ next: users => this.tempselectedUsers = users });
 
     const config = {
       class: 'modal-dialog-centered',
       initialState: {
         chatgroup: chatgroup,
-        allUsers: tempusers,
-        selectedUsers: [...user.roles]
+        allUsers: this.tempallusers,
+        selectedUsers: this.tempselectedUsers
       }
     }
     this.bsModalRef = this.modalService.show(RolesModalComponent, config);

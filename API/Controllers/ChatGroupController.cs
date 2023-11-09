@@ -21,11 +21,20 @@ namespace API.Controllers
             this._uow = uow;
             
         }
-        [HttpGet("{ownername}")]
+
+        [Route("/owner/{ownername}")]
+        [HttpGet()]
         public async Task<ActionResult<IEnumerable<ChatGroupDto>>> GetChatgroupsByUserNameAsync(string ownername)
         {
             return Ok( await _uow.ChatGroupRepository.GetChatGroupsByUserNameAsync(ownername));
            
+        }
+
+        [HttpGet("/membersbychatgroupid/{id}")]
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetMembersByChatGroupIdAsync(int id)
+        {
+            return Ok(await _uow.ChatGroupRepository.GetMemberByChatGroupAsync(id));
+
         }
     }
 }

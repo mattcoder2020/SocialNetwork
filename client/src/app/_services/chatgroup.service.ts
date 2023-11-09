@@ -24,11 +24,15 @@ export class ChatgroupService {
   }
 
   getAllChatGroupsByOwnerName(ownername: string): Observable<ChatGroup[]> {
-    return this.http.get<ChatGroup[]>(this.baseUrl + '/' + ownername);
+    return this.http.get<ChatGroup[]>(this.baseUrl + '/owner/' + ownername);
   }
 
   getChatGroupById(id: number): Observable<ChatGroup> {
     return this.http.get<ChatGroup>(`${this.baseUrl}/${id}`);
+  }
+
+  getMembersByGroupById(id: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/membersbychatgroupid/${id}`);
   }
 
   createChatGroup(chatGroup: ChatGroup): Observable<ChatGroup> {
