@@ -11,11 +11,11 @@
         <div class="form-check" *ngFor="let user of allusers">
             <input type="checkbox"
                 class="form-check-input"
-                [checked]="selectedUsers.includes(user)"
+                [checked]="Checked(user)"
                 value="role"
                 (change)="updateChecked(user)"                
             >
-            <label>{{user}}</label>
+            <label>{{user.username}}</label>
         </div>
     </form>
   </div>

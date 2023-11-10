@@ -17,6 +17,8 @@ namespace API.Helpers
             CreateMap<MemberUpdateDto, AppUser>();
             CreateMap<RegisterDto, AppUser>();
             CreateMap<ChatGroupDto, ChatGroup>();
+            CreateMap<CreateChatGroupDto, ChatGroup>();
+            CreateMap<ChatGroupMemberDto, ChatGroupMember>();
             CreateMap<ChatGroup, ChatGroupDto>();
             CreateMap<Message, MessageDto>()
                 .ForMember(d => d.SenderPhotoUrl, o => o.MapFrom(s => s.Sender.Photos

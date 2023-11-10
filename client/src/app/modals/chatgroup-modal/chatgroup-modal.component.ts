@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ChatGroup } from 'src/app/_models/chatgroup';
+import { User } from 'src/app/_models/user';
+import { AdminService } from 'src/app/_services/admin.service';
 
 @Component({
   selector: 'app-chatgroup-modal',
@@ -11,26 +13,39 @@ export class ChatgroupModalComponent implements OnInit {
   isedit: boolean = false;
   title: string = '';
   chatgroup: ChatGroup ;
-  allusers: any[] = [];
-  selectedUsers: any[] = [];
+  allusers: User[] = [];
+  selectedUsers: User[] = [];
 
-  constructor(public bsModalRef: BsModalRef) { }
+  constructor(public bsModalRef: BsModalRef, private adminService: AdminService) {
+
+    this.adminService.getUsersWithRoles().subscribe
+    ({ next: users => this.allusers = users });
+   }
 
   ngOnInit(): void {
+
+   
+
     if (this.isedit && this.chatgroup) {
       this.title = 'Edit Chat Group ' + this.chatgroup.name;
     }
-    else
+    else{
+      this.chatgroup = {} as ChatGroup;
       this.title = 'Create Chat Group';
+    }
   }
 
-  updateChecked(checkedValue: string) {
-    const index = this.selectedUsers.indexOf(checkedValue);
+  updateChecked(checkedValue: User) {
+    const index = this.selectedUsers.findIndex (e=>e.id == checkedValue.id)
     index !== -1 ? this.selectedUsers.splice(index, 1) : this.selectedUsers.push(checkedValue);
   }
 
   updateName(event: any) {
     this.chatgroup.name = event.target.value;
+  }
+
+  Checked(user: User) {
+    return this.selectedUsers.findIndex (e=>e.id == user.id) !== -1;
   }
 
  

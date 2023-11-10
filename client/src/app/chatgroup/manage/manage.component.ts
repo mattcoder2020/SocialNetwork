@@ -11,6 +11,7 @@ import { User } from 'src/app/_models/user';
 import { ChatgroupModalComponent } from 'src/app/modals/chatgroup-modal/chatgroup-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AdminService } from 'src/app/_services/admin.service';
+import { chatGroupMember } from 'src/app/_models/chatgroupmember';
 
 @Component({
   selector: 'app-manage',
@@ -78,17 +79,11 @@ export class ManageComponent implements OnInit {
   }
   
   openCreateChatGroupModal() {
-    
-    this.adminService.getUsersWithRoles().subscribe
-    ({ next: users => this.tempallusers = users });
-
-
-    const config = {
+     const config = {
       class: 'modal-dialog-centered',
       initialState: {
         isedit: false,
-        allUsers: this.tempallusers,
-    
+         
       }
     }
     this.bsModalRef = this.modalService.show(ChatgroupModalComponent, config);
@@ -96,27 +91,42 @@ export class ManageComponent implements OnInit {
       next: () => {
          const selectedUsers = this.bsModalRef.content?.selectedUsers;
         let chatgroup = this.bsModalRef.content?.chatgroup;
-         chatgroup.chatGroupMembers = selectedUsers;
+     
+        chatgroup.ownerid = this.user.id;
+        chatgroup.chatGroupMembers = selectedUsers.map(user => {
+          const chatGroupMember: chatGroupMember = {
+            appuserid: user.id,
+            chatGroupId: chatgroup.id
+           
+          };
+          return chatGroupMember;});
+
+        if (chatgroup &&this.bsModalRef.content?.isedit === false) {
         this.chatgroupService.createChatGroup(chatgroup).subscribe(
           {next:(chatgroup)=>this.chatgroups.push(chatgroup)}
          )}
+        if (chatgroup && this.bsModalRef.content?.isedit === true) {
+          const index = this.chatgroups.findIndex(c => c.id === chatgroup.id);
+          this.chatgroupService.updateChatGroup(chatgroup).subscribe(
+            
+            {next:(chatgroup)=>{
+              this.chatgroups.splice(index, 1, chatgroup);
+              this.rows = [...this.chatgroups];}}
+          );}
        
-      })
+      }})
     }
+
   openUpdateChatGroupModal(chatgroup: ChatGroup) {
     
-    this.adminService.getUsersWithRoles().subscribe
-    ({ next: users => this.tempallusers = users });
-
     this.chatgroupService.getMembersByGroupById(chatgroup.id).subscribe
-    ({ next: users => this.tempselectedUsers = users });
+     ({ next: users => this.tempselectedUsers = users });
 
     const config = {
       class: 'modal-dialog-centered',
       initialState: {
         isedit: true,
         chatgroup: chatgroup,
-        allUsers: this.tempallusers,
         selectedUsers: this.tempselectedUsers
       }
     }
@@ -126,9 +136,16 @@ export class ManageComponent implements OnInit {
         let dirty = false;
         const selectedUsers = this.bsModalRef.content?.selectedUsers;
         if (!this.arrayEqual(selectedUsers!, this.tempselectedUsers)) {
-          chatgroup.chatGroupMembers = selectedUsers;
+          chatgroup.chatGroupMembers = selectedUsers.map(user => {
+            const chatGroupMember: chatGroupMember = {
+              appuserid: user.id,
+              chatGroupId: chatgroup.id
+             
+            };
+            return chatGroupMember;});
           dirty = true;
         }
+
         const index = this.chatgroups.findIndex(c => c.id === chatgroup.id);
         if (this.chatgroups[index].name !== chatgroup.name) {
           this.chatgroups[index] = chatgroup;
@@ -143,8 +160,10 @@ export class ManageComponent implements OnInit {
         }
       }})
     }
+
   openDeleteChatGroupModal() 
   {}
+  
   createChatgroup() {
     this.chatgroupService.createChatGroup(this.chatgroupForm.value).subscribe(chatgroup => {
       this.chatgroups?.push(chatgroup);

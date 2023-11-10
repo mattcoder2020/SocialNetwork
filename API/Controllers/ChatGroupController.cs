@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    
     public class ChatGroupController : ControllerBase
     {
         private readonly IUnitOfWork _uow;
@@ -28,7 +27,7 @@ namespace API.Controllers
 
         }
 
-        [HttpGet("/membersbychatgroupid/{id}")]
+        [HttpGet("membersbychatgroupid/{id}")]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetMembersByChatGroupIdAsync(int id)
         {
             return Ok(await _uow.ChatGroupRepository.GetMemberByChatGroupAsync(id));
@@ -48,6 +47,14 @@ namespace API.Controllers
         public async Task UpdateChatGroupAsync([FromBody] ChatGroup chatgroup)
         {
             await _uow.ChatGroupRepository.UpdateChatGroupAsync(chatgroup);
+            await _uow.Complete();
+
+        }
+
+        [HttpPost()]
+        public async Task CreateChatGroupAsync([FromBody] ChatGroup chatgroup)
+        {
+            await _uow.ChatGroupRepository.AddChatGroupAsync(chatgroup);
             await _uow.Complete();
 
         }

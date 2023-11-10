@@ -22,7 +22,7 @@ namespace API.Controllers
                 .OrderBy(u => u.UserName)
                 .Select(u => new
                 {
-                    u.Id,
+                    Id = u.Id,
                     Username = u.UserName,
                     Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
                 })

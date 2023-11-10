@@ -1,4 +1,4 @@
-﻿namespace API.SignalR
+﻿namespace API.DTOs
 {
     public class CreateChatGroupMessageDto
     {
