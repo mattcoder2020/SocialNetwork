@@ -11,7 +11,7 @@ namespace API.Interfaces
         Task<IEnumerable<ChatGroupMessage>> GetMessageThreadAsync(int chatgroupid);
         Task<IEnumerable<AppUser>> GetMemberByChatGroupAsync(int chatgroupid);
         Task AddChatGroupAsync(ChatGroup chatGroup);
-        Task AddMessageAsync(int senderid, int chatgroupid, string content);
+        Task AddMessageAsync(int senderid, int? chatgroupid, string content);
         Task AddMemberToChatGroupAsync(int userid, int chatgroupid);
         Task AddMembersToChatGroupAsync(int[] userids, int chatgroupid);
         Task RemoveMembersFromChatGroupAsync(int[] userids, int chatgroupid);

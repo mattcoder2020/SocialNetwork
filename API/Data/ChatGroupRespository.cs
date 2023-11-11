@@ -35,7 +35,7 @@ namespace API.Data
                 await AddMemberToChatGroupAsync(userid,  chatgroupid );
         }
 
-        public async Task AddMessageAsync(int senderid, int chatgroupid, string content)
+        public async Task AddMessageAsync(int senderid, int? chatgroupid, string content)
         {
             await _dbContext.ChatGroupMessages.AddAsync(new ChatGroupMessage
             {
@@ -99,6 +99,9 @@ namespace API.Data
 
         public Task UpdateChatGroupAsync(ChatGroup chatgroup)
         {
+            //cascade update the chatgroupmembers
+            _dbContext.ChatGroupMembers.UpdateRange(chatgroup.ChatGroupMembers);
+
             _dbContext.ChatGroups.Update(chatgroup);
             return Task.CompletedTask;
         }

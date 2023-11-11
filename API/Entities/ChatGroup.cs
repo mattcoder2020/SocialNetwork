@@ -9,7 +9,7 @@
             Name = name;
             Owner = owner;
         }
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
         public int OwnerId { get; set; }
         public AppUser Owner { get; set; }

@@ -103,7 +103,9 @@ export class ManageComponent implements OnInit {
 
         if (chatgroup &&this.bsModalRef.content?.isedit === false) {
         this.chatgroupService.createChatGroup(chatgroup).subscribe(
-          {next:(chatgroup)=>this.chatgroups.push(chatgroup)}
+          {next:(chatgroup)=>
+            {this.chatgroups.push(chatgroup);
+             this.rows = [...this.chatgroups];}}
          )}
         if (chatgroup && this.bsModalRef.content?.isedit === true) {
           const index = this.chatgroups.findIndex(c => c.id === chatgroup.id);
