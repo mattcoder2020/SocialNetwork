@@ -6,6 +6,7 @@ using API.Middleware;
 using API.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+});
+
 
 var connString = "";
 if (builder.Environment.IsDevelopment())
@@ -57,6 +63,9 @@ app.UseAuthorization();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
