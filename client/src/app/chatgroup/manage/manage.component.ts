@@ -130,7 +130,6 @@ export class ManageComponent implements OnInit {
       initialState: {
         isedit: true,
         chatgroup: chatgroup,
-        //selectedUsers: this.tempselectedUsers
       }
     }
     this.bsModalRef = this.modalService.show(ChatgroupModalComponent, config);
@@ -140,7 +139,7 @@ export class ManageComponent implements OnInit {
         const selectedUsers = this.bsModalRef.content?.selectedUsers;
         const initselectedUsers = this.bsModalRef.content?.initselectedUsers;
         //if selected users have changed, flag dirty
-        if (!this.arrayEqual(selectedUsers!, initselectedUsers)) {
+        if (!this.arrayEqual(selectedUsers, initselectedUsers)) {
           chatgroup.chatGroupMembers = selectedUsers.map(user => {
             const chatGroupMember: chatGroupMember = {
               appuserid: user.id,
@@ -161,7 +160,7 @@ export class ManageComponent implements OnInit {
         //if flag dirty, update chatgroup to backend
         if (dirty) {
           this.chatgroupService.updateChatGroup(chatgroup).subscribe(
-            {next:(chatgroup)=>this.chatgroups[index] = chatgroup}
+            {next:()=>this.chatgroups[index] = chatgroup}
           );
         }
       }})

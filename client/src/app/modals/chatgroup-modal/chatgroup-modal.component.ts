@@ -4,6 +4,7 @@ import { ChatGroup } from 'src/app/_models/chatgroup';
 import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
 import { ChatgroupService } from 'src/app/_services/chatgroup.service';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-chatgroup-modal',
@@ -18,6 +19,9 @@ export class ChatgroupModalComponent implements OnInit {
   selectedUsers: User[] = [];
   initselectedUsers: User[] = [];
 
+  // Define an event emitter for when the chat group is saved
+  chatGroupSaved: EventEmitter<ChatGroup> = new EventEmitter<ChatGroup>();
+
   constructor(public bsModalRef: BsModalRef, 
     private adminService: AdminService, 
     private chatgroupService: ChatgroupService) {
@@ -31,7 +35,9 @@ export class ChatgroupModalComponent implements OnInit {
   ngOnInit(): void {
 
     this.chatgroupService.getMembersByGroupById(this.chatgroup.id).subscribe
-    ({ next: users => {this.initselectedUsers = users; this.selectedUsers = users;} });
+    
+    ({ next: users => {this.selectedUsers = users;this.initselectedUsers = this.selectedUsers.slice(); } });
+
 
     if (this.isedit && this.chatgroup) {
       this.title = 'Edit Chat Group ' + this.chatgroup.name;
@@ -43,8 +49,12 @@ export class ChatgroupModalComponent implements OnInit {
   }
 
   updateChecked(checkedValue: User) {
+    
+    console.log('initselecteduser - before checkupdate' + this.initselectedUsers.values()); 
     const index = this.selectedUsers.findIndex (e=>e.id == checkedValue.id)
     index !== -1 ? this.selectedUsers.splice(index, 1) : this.selectedUsers.push(checkedValue);
+    console.log('initselecteduser - after checkupdate' + this.initselectedUsers.values()); 
+
   }
 
   updateName(event: any) {
@@ -54,7 +64,16 @@ export class ChatgroupModalComponent implements OnInit {
   Checked(user: User) {
     return this.selectedUsers.findIndex (e=>e.id == user.id) !== -1;
   }
+  
 
+  saveChatGroup() {
+         // Emit the chatGroupSaved event with the saved chat group
+        this.chatGroupSaved.emit(this.chatgroup);
+        // Close the modal
+        this.bsModalRef.hide();
+      
+  }
+}
  
 
-}
+
