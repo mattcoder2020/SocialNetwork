@@ -97,39 +97,40 @@ export class ManageComponent implements OnInit {
           const chatGroupMember: chatGroupMember = {
             appuserid: user.id,
             chatGroupId: chatgroup.id
-           
-          };
+           };
           return chatGroupMember;});
-
+        // if this is a new chatgroup, create it
         if (chatgroup &&this.bsModalRef.content?.isedit === false) {
         this.chatgroupService.createChatGroup(chatgroup).subscribe(
           {next:(chatgroup)=>
             {this.chatgroups.push(chatgroup);
              this.rows = [...this.chatgroups];}}
          )}
+        // if this is an existing chatgroup, update it
         if (chatgroup && this.bsModalRef.content?.isedit === true) {
           const index = this.chatgroups.findIndex(c => c.id === chatgroup.id);
           this.chatgroupService.updateChatGroup(chatgroup).subscribe(
-            
             {next:(chatgroup)=>{
               this.chatgroups.splice(index, 1, chatgroup);
-              this.rows = [...this.chatgroups];}}
+              this.rows = [...this.chatgroups];}
+             // , error?:(err:any) => console.log(err)
+            }
           );}
-       
+         
       }})
     }
 
   openUpdateChatGroupModal(chatgroup: ChatGroup) {
     
-    this.chatgroupService.getMembersByGroupById(chatgroup.id).subscribe
-     ({ next: users => this.tempselectedUsers = users });
+    // this.chatgroupService.getMembersByGroupById(chatgroup.id).subscribe
+    //  ({ next: users => this.tempselectedUsers = users });
 
     const config = {
       class: 'modal-dialog-centered',
       initialState: {
         isedit: true,
         chatgroup: chatgroup,
-        selectedUsers: this.tempselectedUsers
+        //selectedUsers: this.tempselectedUsers
       }
     }
     this.bsModalRef = this.modalService.show(ChatgroupModalComponent, config);
@@ -137,7 +138,9 @@ export class ManageComponent implements OnInit {
       next: () => {
         let dirty = false;
         const selectedUsers = this.bsModalRef.content?.selectedUsers;
-        if (!this.arrayEqual(selectedUsers!, this.tempselectedUsers)) {
+        const initselectedUsers = this.bsModalRef.content?.initselectedUsers;
+        //if selected users have changed, flag dirty
+        if (!this.arrayEqual(selectedUsers!, initselectedUsers)) {
           chatgroup.chatGroupMembers = selectedUsers.map(user => {
             const chatGroupMember: chatGroupMember = {
               appuserid: user.id,
@@ -149,12 +152,13 @@ export class ManageComponent implements OnInit {
         }
 
         const index = this.chatgroups.findIndex(c => c.id === chatgroup.id);
+        //if name has changed, flag dirty
         if (this.chatgroups[index].name !== chatgroup.name) {
           this.chatgroups[index] = chatgroup;
           this.rows = [...this.chatgroups];
           dirty = true;
         }
-
+        //if flag dirty, update chatgroup to backend
         if (dirty) {
           this.chatgroupService.updateChatGroup(chatgroup).subscribe(
             {next:(chatgroup)=>this.chatgroups[index] = chatgroup}

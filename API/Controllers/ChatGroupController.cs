@@ -34,7 +34,7 @@ namespace API.Controllers
 
         }
 
-        [HttpPost("/chatgroup/{id}/members/{userids}")]
+        [HttpPost("{id}/members/{userids}")]
         public async Task AddMembersToChatGroupAsync(int id, string userids)
         {
             int[] ids = userids.Split(',').Select(e => int.Parse(e)).ToArray();
@@ -43,7 +43,7 @@ namespace API.Controllers
 
         }
 
-        [HttpPut("/chatgroup/{id}")]
+        [HttpPut("{id}")]
         public async Task UpdateChatGroupAsync([FromBody] ChatGroup chatgroup)
         {
             await _uow.ChatGroupRepository.UpdateChatGroupAsync(chatgroup);

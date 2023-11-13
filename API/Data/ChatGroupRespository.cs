@@ -5,6 +5,7 @@ using AutoMapper.Execution;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using System.Linq;
 
 namespace API.Data
 {
@@ -99,8 +100,14 @@ namespace API.Data
 
         public Task UpdateChatGroupAsync(ChatGroup chatgroup)
         {
-            //cascade update the chatgroupmembers
-            _dbContext.ChatGroupMembers.UpdateRange(chatgroup.ChatGroupMembers);
+            //
+            //fix the compile issue below
+
+
+            var memberstoberemoved = _dbContext.ChatGroupMembers.Where(e=>e.ChatGroupId == chatgroup.Id);
+            _dbContext.ChatGroupMembers.RemoveRange(memberstoberemoved);
+            _dbContext.ChatGroupMembers.AddRange(chatgroup.ChatGroupMembers);
+
 
             _dbContext.ChatGroups.Update(chatgroup);
             return Task.CompletedTask;
