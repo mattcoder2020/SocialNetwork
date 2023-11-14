@@ -12,6 +12,7 @@ import { ChatgroupModalComponent } from 'src/app/modals/chatgroup-modal/chatgrou
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AdminService } from 'src/app/_services/admin.service';
 import { chatGroupMember } from 'src/app/_models/chatgroupmember';
+import { Member } from 'src/app/_models/member';
 
 @Component({
   selector: 'app-manage',
@@ -82,15 +83,16 @@ export class ManageComponent implements OnInit {
      const config = {
       class: 'modal-dialog-centered',
       initialState: {
-        isedit: false,
+        isedit: false
          
       }
     }
+    
     this.bsModalRef = this.modalService.show(ChatgroupModalComponent, config);
     this.bsModalRef.onHide?.subscribe({
       next: () => {
-         const selectedUsers = this.bsModalRef.content?.selectedUsers;
-        let chatgroup = this.bsModalRef.content?.chatgroup;
+        const selectedUsers = this.bsModalRef.content?.selectedUsers;
+        const chatgroup = this.bsModalRef.content?.chatgroup;
      
         chatgroup.ownerid = this.user.id;
         chatgroup.chatGroupMembers = selectedUsers.map(user => {
@@ -102,8 +104,12 @@ export class ManageComponent implements OnInit {
         // if this is a new chatgroup, create it
         if (chatgroup &&this.bsModalRef.content?.isedit === false) {
         this.chatgroupService.createChatGroup(chatgroup).subscribe(
-          {next:(chatgroup)=>
-            {this.chatgroups.push(chatgroup);
+          {next:chatgroupid=>
+            {
+              chatgroup.id = chatgroupid;
+              chatgroup.owner = {} as Member;
+              chatgroup.owner.userName = this.user.username  ;
+              this.chatgroups.push(chatgroup);
              this.rows = [...this.chatgroups];}}
          )}
         // if this is an existing chatgroup, update it

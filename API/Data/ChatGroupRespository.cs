@@ -52,7 +52,13 @@ namespace API.Data
             return querable;
         }
 
-        
+        public async Task<ChatGroup> GetChatGroupByNameAsync(string chatgroupname)
+        {
+            var querable = await _dbContext.ChatGroups.FirstOrDefaultAsync(e => e.Name == chatgroupname);
+            return querable;
+        }
+
+
         public async Task<IEnumerable<ChatGroup>> GetChatGroupsByUserIdAsync(int userid)
         {
             var querable =  _dbContext.ChatGroups.Where(e => e.OwnerId == userid).AsQueryable();
@@ -66,6 +72,7 @@ namespace API.Data
             return await querable.ToArrayAsync();
 
         }
+
 
         public async Task<IEnumerable<ChatGroupMember>> GetMemberByChatGroupAsync(string chatgroupName)
         {
@@ -112,5 +119,7 @@ namespace API.Data
             _dbContext.ChatGroups.Update(chatgroup);
             return Task.CompletedTask;
         }
+
+        
     }
 }

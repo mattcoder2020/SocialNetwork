@@ -52,11 +52,12 @@ namespace API.Controllers
         }
 
         [HttpPost()]
-        public async Task CreateChatGroupAsync([FromBody] ChatGroup chatgroup)
+        public async Task<int?> CreateChatGroupAsync([FromBody] ChatGroup chatgroup)
         {
             await _uow.ChatGroupRepository.AddChatGroupAsync(chatgroup);
             await _uow.Complete();
-
+            var newchatgroup = await _uow.ChatGroupRepository.GetChatGroupByNameAsync(chatgroup.Name);
+            return newchatgroup.Id;
         }
 
         public class OwnerParams

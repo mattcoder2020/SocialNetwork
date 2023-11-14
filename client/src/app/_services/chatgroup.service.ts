@@ -35,7 +35,7 @@ export class ChatgroupService {
     return this.http.get<User[]>(`${this.baseUrl}/membersbychatgroupid/${id}`);
   }
 
-  createChatGroup(chatGroup: ChatGroup): Observable<ChatGroup> {
+  createChatGroup(chatGroup: ChatGroup): Observable<any> {
     return this.http.post<ChatGroup>(this.baseUrl, chatGroup);
   }
 

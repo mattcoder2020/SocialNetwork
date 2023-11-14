@@ -34,7 +34,7 @@ export class ChatgroupModalComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.chatgroupService.getMembersByGroupById(this.chatgroup.id).subscribe
+    this.chatgroupService.getMembersByGroupById(this.chatgroup?.id).subscribe
     
     ({ next: users => {this.selectedUsers = users;this.initselectedUsers = this.selectedUsers.slice(); } });
 
