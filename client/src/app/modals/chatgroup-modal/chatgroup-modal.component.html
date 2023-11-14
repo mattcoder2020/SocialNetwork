@@ -8,10 +8,12 @@
     <form #userform ="ngForm">
         <input type="text" class="form-control" value="{{chatgroup? chatgroup.name:''}}" (input)="updateName($event)"  (change) = "updateName($event)" name="name" placeholder="Enter name of chatgroup" 
         (change) = "updateName($event)" name="name" required>
+        Please select users to add to chatgroup
         <div class="form-check" *ngFor="let user of allusers">
             <input type="checkbox"
                 class="form-check-input"
                 [checked]="Checked(user)"
+                disabled="{{user.username == currentUser.username}}"
                 value="role"
                 (change)="updateChecked(user)"                
             >

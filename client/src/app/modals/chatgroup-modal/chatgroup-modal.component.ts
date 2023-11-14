@@ -5,6 +5,8 @@ import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
 import { ChatgroupService } from 'src/app/_services/chatgroup.service';
 import { EventEmitter } from '@angular/core';
+import { AccountService } from 'src/app/_services/account.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-chatgroup-modal',
@@ -19,16 +21,25 @@ export class ChatgroupModalComponent implements OnInit {
   selectedUsers: User[] = [];
   initselectedUsers: User[] = [];
   closebybutton: boolean = false;
+  currentUser: User = {} as User;
 
   // Define an event emitter for when the chat group is saved
   chatGroupSaved: EventEmitter<ChatGroup> = new EventEmitter<ChatGroup>();
 
   constructor(public bsModalRef: BsModalRef, 
     private adminService: AdminService, 
-    private chatgroupService: ChatgroupService) {
+    private chatgroupService: ChatgroupService,
+    private accountService: AccountService) {
 
     this.adminService.getUsersWithRoles().subscribe
     ({ next: users => this.allusers = users });
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if (user) {
+          this.currentUser = user;
+        }
+      }
+    })
     
 
    }
@@ -63,7 +74,8 @@ export class ChatgroupModalComponent implements OnInit {
   }
 
   Checked(user: User) {
-    return this.selectedUsers.findIndex (e=>e.id == user.id) !== -1;
+    return this.selectedUsers.findIndex (e=>e.id == user.id) !== -1 
+    || user.username == this.currentUser.username;
   }
   
 
