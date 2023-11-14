@@ -107,10 +107,6 @@ namespace API.Data
 
         public Task UpdateChatGroupAsync(ChatGroup chatgroup)
         {
-            //
-            //fix the compile issue below
-
-
             var memberstoberemoved = _dbContext.ChatGroupMembers.Where(e=>e.ChatGroupId == chatgroup.Id);
             _dbContext.ChatGroupMembers.RemoveRange(memberstoberemoved);
             _dbContext.ChatGroupMembers.AddRange(chatgroup.ChatGroupMembers);
@@ -120,6 +116,11 @@ namespace API.Data
             return Task.CompletedTask;
         }
 
-        
+        public Task DeleteChatGroupAsync(int id)
+        {
+            var cg = _dbContext.ChatGroups.FirstOrDefault(e => e.Id == id);
+            _dbContext.ChatGroups.Remove(cg);
+            return Task.CompletedTask;
+        }
     }
 }

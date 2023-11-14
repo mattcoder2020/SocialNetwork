@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ChatGroup } from 'src/app/_models/chatgroup';
 import { ChatgroupService } from 'src/app/_services/chatgroup.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -10,9 +10,9 @@ import { take } from 'rxjs';
 import { User } from 'src/app/_models/user';
 import { ChatgroupModalComponent } from 'src/app/modals/chatgroup-modal/chatgroup-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { AdminService } from 'src/app/_services/admin.service';
 import { chatGroupMember } from 'src/app/_models/chatgroupmember';
 import { Member } from 'src/app/_models/member';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage',
@@ -42,14 +42,16 @@ export class ManageComponent implements OnInit {
   ColumnMode = ColumnMode;
   SortType = SortType;
   bsModalRef: BsModalRef<ChatgroupModalComponent> = new BsModalRef<ChatgroupModalComponent>();
-
+  confirmmodalRef?: BsModalRef;
   @ViewChild(DatatableComponent) table?: DatatableComponent;
+  message: string;
+  
 
   constructor(private chatgroupService: ChatgroupService, 
     private fb: FormBuilder, 
     private accountService: AccountService,
     private modalService: BsModalService,
-    private adminService: AdminService) {
+    private toastr: ToastrService) {
 
     this.chatgroupForm = this.fb.group({
       name: ['', Validators.required],
@@ -84,9 +86,7 @@ export class ManageComponent implements OnInit {
       class: 'modal-dialog-centered',
       initialState: {
         isedit: false
-         
-      }
-    }
+        } }
     
     this.bsModalRef = this.modalService.show(ChatgroupModalComponent, config);
     this.bsModalRef.onHide?.subscribe({
@@ -111,27 +111,15 @@ export class ManageComponent implements OnInit {
               chatgroup.owner = {} as Member;
               chatgroup.owner.userName = this.user.username  ;
               this.chatgroups.push(chatgroup);
-             this.rows = [...this.chatgroups];}}
+             this.rows = [...this.chatgroups];
+             this.toastr.success('Chatgroup created successfully');}}
          )}
-        // if this is an existing chatgroup, update it
-        if (chatgroup && this.bsModalRef.content?.isedit === true) {
-          const index = this.chatgroups.findIndex(c => c.id === chatgroup.id);
-          this.chatgroupService.updateChatGroup(chatgroup).subscribe(
-            {next:(chatgroup)=>{
-              this.chatgroups.splice(index, 1, chatgroup);
-              this.rows = [...this.chatgroups];}
-             // , error?:(err:any) => console.log(err)
-            }
-          );}
+      
          
       }})
     }
 
   openUpdateChatGroupModal(chatgroup: ChatGroup) {
-    
-    // this.chatgroupService.getMembersByGroupById(chatgroup.id).subscribe
-    //  ({ next: users => this.tempselectedUsers = users });
-
     const config = {
       class: 'modal-dialog-centered',
       initialState: {
@@ -153,7 +141,6 @@ export class ManageComponent implements OnInit {
             const chatGroupMember: chatGroupMember = {
               appuserid: user.id,
               chatGroupId: chatgroup.id
-             
             };
             return chatGroupMember;});
           dirty = true;
@@ -169,23 +156,15 @@ export class ManageComponent implements OnInit {
         //if flag dirty, update chatgroup to backend
         if (dirty) {
           this.chatgroupService.updateChatGroup(chatgroup).subscribe(
-            {next:()=>this.chatgroups[index] = chatgroup}
+            {next:()=>
+              {this.chatgroups[index] = chatgroup;
+               this.toastr.success('Chatgroup updated successfully');}
+            }
           );
         }
       }})
     }
 
-  openDeleteChatGroupModal() 
-  {}
-  
-  createChatgroup() {
-    this.chatgroupService.createChatGroup(this.chatgroupForm.value).subscribe(chatgroup => {
-      this.chatgroups?.push(chatgroup);
-      this.rows = [...this.chatgroups];
-      this.chatgroupForm.reset();
-    });
-  }
-  
   enterChatgroup(cg: ChatGroup ) {}
   updateChatgroup(cg: ChatGroup ) {
     if (this.chatgroupUpdateForm.value.id !== undefined) {
@@ -201,17 +180,31 @@ export class ManageComponent implements OnInit {
     }
   }
 
-  deleteChatgroup(cg: ChatGroup) {
-    if (this.selectedChatgroup && this.selectedChatgroup.id) {
-      this.chatgroupService.deleteChatGroup(this.selectedChatgroup.id).subscribe(() => {
-        const index = this.chatgroups?.findIndex(c => c.id === this.selectedChatgroup?.id);
-        if (this.chatgroups && index !== undefined && index !== null) {
-          this.chatgroups.splice(index, 1);
-          this.rows = [...this.chatgroups];
-        }
-        this.selectedChatgroup = undefined;
-      });
-    }
+  openDeleteChatGroupModal(cg: ChatGroup, template: TemplateRef<any>) {
+    this.confirmmodalRef = this.modalService.show(template, {class: 'modal-sm'});
+    this.confirmmodalRef.onHide.subscribe(() => {
+    if(this.message != 'yes') return;
+    if (cg && cg.id) {
+        this.chatgroupService.deleteChatGroup(cg.id).subscribe(() => {
+        const index = this.chatgroups?.findIndex(c => c.id === cg.id);
+        this.chatgroups.splice(index, 1);
+        this.rows = [...this.chatgroups];
+        this.toastr.success('Chatgroup deleted successfully');
+        });
+       
+      }
+    });
+  }
+  
+ 
+  confirm(): void {
+    this.message = 'yes';
+    this.confirmmodalRef?.hide();
+  }
+ 
+  decline(): void {
+    this.message = 'no';
+    this.confirmmodalRef?.hide();
   }
 
   onSelect({ selected }: any) {
@@ -227,12 +220,10 @@ export class ManageComponent implements OnInit {
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-
     // filter our data
     const temp = this.temp.filter(function (d) {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
-
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page

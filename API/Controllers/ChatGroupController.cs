@@ -51,6 +51,14 @@ namespace API.Controllers
 
         }
 
+        [HttpDelete("{id}")]
+        public async Task DeleteChatGroupAsync(int id)
+        {
+            await _uow.ChatGroupRepository.DeleteChatGroupAsync(id);
+            await _uow.Complete();
+
+        }
+
         [HttpPost()]
         public async Task<int?> CreateChatGroupAsync([FromBody] ChatGroup chatgroup)
         {
