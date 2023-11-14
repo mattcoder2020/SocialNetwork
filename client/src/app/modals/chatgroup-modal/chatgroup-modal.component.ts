@@ -18,6 +18,7 @@ export class ChatgroupModalComponent implements OnInit {
   allusers: User[] = [];
   selectedUsers: User[] = [];
   initselectedUsers: User[] = [];
+  closebybutton: boolean = false;
 
   // Define an event emitter for when the chat group is saved
   chatGroupSaved: EventEmitter<ChatGroup> = new EventEmitter<ChatGroup>();
@@ -68,8 +69,9 @@ export class ChatgroupModalComponent implements OnInit {
 
   saveChatGroup() {
          // Emit the chatGroupSaved event with the saved chat group
-        this.chatGroupSaved.emit(this.chatgroup);
+        //this.chatGroupSaved.emit(this.chatgroup);
         // Close the modal
+        this.closebybutton = true;
         this.bsModalRef.hide();
       
   }

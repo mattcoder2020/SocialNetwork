@@ -93,7 +93,8 @@ export class ManageComponent implements OnInit {
       next: () => {
         const selectedUsers = this.bsModalRef.content?.selectedUsers;
         const chatgroup = this.bsModalRef.content?.chatgroup;
-     
+        const closebybutton = this.bsModalRef.content?.closebybutton;
+        if (closebybutton == false) {return;}
         chatgroup.ownerid = this.user.id;
         chatgroup.chatGroupMembers = selectedUsers.map(user => {
           const chatGroupMember: chatGroupMember = {
@@ -144,6 +145,8 @@ export class ManageComponent implements OnInit {
         let dirty = false;
         const selectedUsers = this.bsModalRef.content?.selectedUsers;
         const initselectedUsers = this.bsModalRef.content?.initselectedUsers;
+        const closebybutton = this.bsModalRef.content?.closebybutton;
+        if (closebybutton == false) {return;}
         //if selected users have changed, flag dirty
         if (!this.arrayEqual(selectedUsers, initselectedUsers)) {
           chatgroup.chatGroupMembers = selectedUsers.map(user => {

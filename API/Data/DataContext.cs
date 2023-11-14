@@ -29,14 +29,26 @@ namespace API.Data
                                                                                                          
             builder.Entity<AppUser>()
                 .HasMany(ur => ur.UserRoles)
-                .WithOne(u => u.User)
+                .WithOne(ur => ur.User)
                 .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
 
             builder.Entity<AppRole>()
                 .HasMany(ur => ur.UserRoles)
-                .WithOne(u => u.Role)
+                .WithOne(ur => ur.Role)
                 .HasForeignKey(ur => ur.RoleId)
+                .IsRequired();
+
+            builder.Entity<AppUser>()
+                .HasMany(cgm=>cgm.ChatGroupMembers)
+                .WithOne(cgm=>cgm.Member)
+                .HasForeignKey(cgm=>cgm.AppUserId)
+                .IsRequired();
+
+            builder.Entity<ChatGroup>()
+                .HasMany(cgm => cgm.ChatGroupMembers)
+                .WithOne(cgm => cgm.ChatGroup)
+                .HasForeignKey(cgm => cgm.ChatGroupId)
                 .IsRequired();
 
             builder.Entity<UserLike>()
@@ -67,17 +79,17 @@ namespace API.Data
             builder.Entity<ChatGroupMember>()
                .HasKey(k => new { k.ChatGroupId, k.AppUserId });
 
-            builder.Entity<ChatGroupMember>()
-                .HasOne(cgm => cgm.Member)
-                .WithMany(cg => cg.ChatGroupMembers)
-                .HasForeignKey(cgm => cgm.AppUserId)
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<ChatGroupMember>()
+            //    .HasOne(cgm => cgm.Member)
+            //    .WithMany(cg => cg.ChatGroupMembers)
+            //    .HasForeignKey(cgm => cgm.AppUserId)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<ChatGroupMember>()
-                .HasOne(cgm => cgm.ChatGroup)
-                .WithMany(cg => cg.ChatGroupMembers)
-                .HasForeignKey(cgm => cgm.ChatGroupId)
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.Entity<ChatGroupMember>()
+            //    .HasOne(cgm => cgm.ChatGroup)
+            //    .WithMany(cg => cg.ChatGroupMembers)
+            //    .HasForeignKey(cgm => cgm.ChatGroupId)
+            //    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

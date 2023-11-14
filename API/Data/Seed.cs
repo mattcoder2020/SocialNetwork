@@ -67,6 +67,8 @@ namespace API.Data
 
            foreach (var chatgroup in chatgroups)
             {
+                var tempgroup = await unitOfWork.ChatGroupRepository.GetChatGroupByNameAsync(chatgroup.Name);
+                if (tempgroup != null) continue;
                 await unitOfWork.ChatGroupRepository.AddChatGroupAsync(chatgroup);
             }
             await unitOfWork.Complete();
