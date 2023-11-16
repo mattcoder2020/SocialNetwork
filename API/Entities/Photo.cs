@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Entities
 {
@@ -11,6 +12,7 @@ namespace API.Entities
         public string PublicId { get; set; }
 
         public int AppUserId { get; set; }
+        [JsonIgnore]
         public AppUser AppUser { get; set; }
     }
 }

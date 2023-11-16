@@ -37,6 +37,7 @@ export class ManageComponent implements OnInit {
   public columns = [
     { name: 'Name' },
     { name: 'Owner' },
+    { name: 'Members' },
     { name: 'Actions' }
   ];
   ColumnMode = ColumnMode;

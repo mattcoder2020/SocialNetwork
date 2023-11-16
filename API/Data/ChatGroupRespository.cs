@@ -68,7 +68,7 @@ namespace API.Data
 
         public async Task<IEnumerable<ChatGroupDto>> GetChatGroupsByUserNameAsync(string username)
         {
-            var querable = _dbContext.ChatGroups.Include(e=>e.Owner).Where(e => e.Owner.UserName == username).ProjectTo<ChatGroupDto>(_mapper.ConfigurationProvider).AsQueryable();
+            var querable = _dbContext.ChatGroups.Include(e=>e.Owner).Include(e=>e.ChatGroupMembers).Where(e => e.Owner.UserName == username).ProjectTo<ChatGroupDto>(_mapper.ConfigurationProvider).AsQueryable();
             return await querable.ToArrayAsync();
 
         }
@@ -83,7 +83,10 @@ namespace API.Data
 
         public async Task<IEnumerable<AppUser>> GetMemberByChatGroupAsync(int chatgroupid)
         {
-            var querable = _dbContext.ChatGroupMembers.Include(e => e.Member).Where(e => e.ChatGroupId == chatgroupid);                                                   
+            //eager load Member's photos property as well
+
+
+            var querable = _dbContext.ChatGroupMembers.Include(e => e.Member).Include(e=>e.Member.Photos).Where(e => e.ChatGroupId == chatgroupid);                                                   
             return await querable.Select(e=>e.Member).ToListAsync();
         }
 
