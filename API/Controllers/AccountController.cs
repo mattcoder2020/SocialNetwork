@@ -1,6 +1,3 @@
-using System.Security.Cryptography;
-using System.Text;
-using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
@@ -40,8 +37,10 @@ namespace API.Controllers
 
             if (!roleResult.Succeeded) return BadRequest(result.Errors);
 
+            var id = await _userManager.GetUserIdAsync(user);
             return new UserDto
             {
+                Id = Int32.Parse(id),
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user),
                 KnownAs = user.KnownAs,

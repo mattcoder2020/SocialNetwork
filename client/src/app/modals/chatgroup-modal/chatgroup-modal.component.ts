@@ -45,12 +45,11 @@ export class ChatgroupModalComponent implements OnInit {
    }
 
   ngOnInit(): void {
-
+    if (this.chatgroup?.id) {
     this.chatgroupService.getMembersByGroupById(this.chatgroup?.id).subscribe
-    
     ({ next: users => {this.selectedUsers = users;this.initselectedUsers = this.selectedUsers.slice(); } });
-
-
+    }
+    
     if (this.isedit && this.chatgroup) {
       this.title = 'Edit Chat Group ' + this.chatgroup.name;
     }

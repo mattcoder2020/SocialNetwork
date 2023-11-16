@@ -17,7 +17,7 @@
                 value="role"
                 (change)="updateChecked(user)"                
             >
-            <img src="user.photoUrl" alt="profile picture" width="30" height="30">
+            <img [src]="user.photoUrl!=null?user.photoUrl:'/assets/user.png'" alt="profile picture" width="20" height="20"> &nbsp;
             <label>{{user.username}}</label>
         </div>
     </form>
