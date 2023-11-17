@@ -26,6 +26,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ManageComponent implements OnInit {
   public chatgroups: ChatGroup[] = [];
+  showTooltip = false;
   rows = [];
   temp = [];
   public chatgroupForm: FormGroup;
@@ -46,6 +47,7 @@ export class ManageComponent implements OnInit {
   confirmmodalRef?: BsModalRef;
   @ViewChild(DatatableComponent) table?: DatatableComponent;
   message: string;
+  groupmembers: User[];
   
 
   constructor(private chatgroupService: ChatgroupService, 
@@ -81,7 +83,18 @@ export class ManageComponent implements OnInit {
       this.temp = [...chatgroups];
     });
   }
+  showMemberPhotos(chatgroup: ChatGroup) {
+    this.chatgroupService.getMembersByGroupById(chatgroup.id).subscribe
+    ({ next: users => {
+      this.groupmembers = users;
+      this.showTooltip = true;
   
+  }})}
+  
+  hideMemberPhotos() {
+    this.showTooltip = false;
+  }
+
   openCreateChatGroupModal() {
      const config = {
       class: 'modal-dialog-centered',

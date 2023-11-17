@@ -7,6 +7,7 @@ import { ChatgroupService } from 'src/app/_services/chatgroup.service';
 import { EventEmitter } from '@angular/core';
 import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chatgroup-modal',
@@ -22,15 +23,24 @@ export class ChatgroupModalComponent implements OnInit {
   initselectedUsers: User[] = [];
   closebybutton: boolean = false;
   currentUser: User = {} as User;
+  chatgroupForm: FormGroup;
 
   // Define an event emitter for when the chat group is saved
   chatGroupSaved: EventEmitter<ChatGroup> = new EventEmitter<ChatGroup>();
 
-  constructor(public bsModalRef: BsModalRef, 
+  constructor(
+    private fb: FormBuilder, 
+    public bsModalRef: BsModalRef, 
     private adminService: AdminService, 
     private chatgroupService: ChatgroupService,
     private accountService: AccountService) {
+      this.chatgroupForm = this.fb.group({
+        name: ['', Validators.required]
+      });
+   }
 
+  ngOnInit(): void {
+    //get all users
     this.adminService.getUsersWithRoles().subscribe
     ({ next: users => this.allusers = users });
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -39,33 +49,26 @@ export class ChatgroupModalComponent implements OnInit {
           this.currentUser = user;
         }
       }
-    })
-    
-
-   }
-
-  ngOnInit(): void {
-    if (this.chatgroup?.id) {
+    });
+    //get members of chatgroup
     this.chatgroupService.getMembersByGroupById(this.chatgroup?.id).subscribe
-    ({ next: users => {this.selectedUsers = users;this.initselectedUsers = this.selectedUsers.slice(); } });
-    }
-    
+    ({ next: users => {
+      this.selectedUsers = users;
+      this.initselectedUsers = this.selectedUsers.slice(); } });
+
     if (this.isedit && this.chatgroup) {
-      this.title = 'Edit Chat Group ' + this.chatgroup.name;
+      this.title = 'Edit ' + this.chatgroup.name;
     }
     else{
       this.chatgroup = {} as ChatGroup;
+      this.selectedUsers.push(this.currentUser);
       this.title = 'Create Chat Group';
     }
   }
 
   updateChecked(checkedValue: User) {
-    
-    console.log('initselecteduser - before checkupdate' + this.initselectedUsers.values()); 
     const index = this.selectedUsers.findIndex (e=>e.id == checkedValue.id)
-    index !== -1 ? this.selectedUsers.splice(index, 1) : this.selectedUsers.push(checkedValue);
-    console.log('initselecteduser - after checkupdate' + this.initselectedUsers.values()); 
-
+    index !== -1 ? this.selectedUsers.splice(index, 1) : this.selectedUsers.push(checkedValue);   
   }
 
   updateName(event: any) {
@@ -79,9 +82,6 @@ export class ChatgroupModalComponent implements OnInit {
   
 
   saveChatGroup() {
-         // Emit the chatGroupSaved event with the saved chat group
-        //this.chatGroupSaved.emit(this.chatgroup);
-        // Close the modal
         this.closebybutton = true;
         this.bsModalRef.hide();
       

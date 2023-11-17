@@ -5,24 +5,21 @@
     </button>
   </div>
   <div class="modal-body">
-    <form #userform ="ngForm">
-        <input type="text" class="form-control" value="{{chatgroup? chatgroup.name:''}}" (input)="updateName($event)"  (change) = "updateName($event)" name="name" placeholder="Enter name of chatgroup" 
-        (change) = "updateName($event)" name="name" required>
-        <h5> select users to add to chatgroup </h5>
+    <form #userform ="ngForm" [formGroup] = chatgroupForm >
+    <input type="text" class="form-control"  [(ngModel)]="chatgroup.name" name="name" placeholder="Enter name of chatgroup" formControlName="name" required>
+        <h6> select users to add to chatgroup </h6>
         <div class="form-check" *ngFor="let user of allusers">
-            <input type="checkbox"
-                class="form-check-input"
-                [checked]="Checked(user)"
-                [disabled]="user.username == currentUser.username"
-                value="role"
-                (change)="updateChecked(user)"                
-            >
-            <img [src]="user.photoUrl!=null?user.photoUrl:'/assets/user.png'" alt="profile picture" width="20" height="20"> &nbsp;
-            <label>{{user.username}}</label>
+          <input type="checkbox"
+            class="form-check-input"
+            [checked]="Checked(user)"
+            [disabled]="user.username == currentUser.username"
+            value="role"
+            (change)="updateChecked(user)"                
+          >
+          <img [src]="user.photoUrl!=null?user.photoUrl:'/assets/user.png'" alt="profile picture" width="20" height="20"> &nbsp;
+          <label>{{user.username}}</label>
         </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    
-    <button type="button" class="btn btn-default" (click)="saveChatGroup()">Submit</button>
-  </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-default" [disabled]="chatgroupForm.invalid" (click)="saveChatGroup()">Submit</button>
+        </div>
+ 
