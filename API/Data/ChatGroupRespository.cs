@@ -68,8 +68,12 @@ namespace API.Data
 
         public async Task<IEnumerable<ChatGroupDto>> GetChatGroupsByUserNameAsync(string username)
         {
-            var querable = _dbContext.ChatGroups.Include(e=>e.Owner).Include(e=>e.ChatGroupMembers).Where(e => e.Owner.UserName == username).ProjectTo<ChatGroupDto>(_mapper.ConfigurationProvider).AsQueryable();
-            return await querable.ToArrayAsync();
+            var queryable = _dbContext.ChatGroups.Include(e => e.Owner).Include(e => e.ChatGroupMembers)
+             .ThenInclude(cgm => cgm.Member)
+             .ThenInclude(m=>m.Photos)
+             .Where(e => e.Owner.UserName == username).ProjectTo<ChatGroupDto>(_mapper.ConfigurationProvider).AsQueryable();
+        
+            return await queryable.ToArrayAsync();
 
         }
 

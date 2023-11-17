@@ -83,18 +83,7 @@ export class ManageComponent implements OnInit {
       this.temp = [...chatgroups];
     });
   }
-  showMemberPhotos(chatgroup: ChatGroup) {
-    this.chatgroupService.getMembersByGroupById(chatgroup.id).subscribe
-    ({ next: users => {
-      this.groupmembers = users;
-      this.showTooltip = true;
   
-  }})}
-  
-  hideMemberPhotos() {
-    this.showTooltip = false;
-  }
-
   openCreateChatGroupModal() {
      const config = {
       class: 'modal-dialog-centered',
@@ -221,16 +210,7 @@ export class ManageComponent implements OnInit {
     this.confirmmodalRef?.hide();
   }
 
-  onSelect({ selected }: any) {
-    this.selectedChatgroup = selected[0];
-    if (this.selectedChatgroup && this.selectedChatgroup.id && this.selectedChatgroup.owner) {
-    this.chatgroupUpdateForm.patchValue({
-      id: this.selectedChatgroup.id,
-      name: this.selectedChatgroup.name,
-      owner: this.selectedChatgroup.owner
-    });
-    }
-  }
+
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
