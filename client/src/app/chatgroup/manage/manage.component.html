@@ -28,18 +28,16 @@
     [limit]="5"   
 >
     <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
-    <ngx-datatable-column name="Owner" prop="owner.userName"></ngx-datatable-column>
     <ngx-datatable-column name="Members" >
         <ng-template let-row="row" ngx-datatable-cell-template>
-       
-            <!-- <img width="15px" height="15px" *ngFor="let url of calculatePhotoUrls(row.chatGroupMembers)" [src]="url" alt="Member Photo">   -->
             <div class="member-photos-tooltip">
                 <!-- Display member photos here -->
-                <ng-container *ngFor="let chatgroupmember of row.chatGroupMembers">
-                    <img width="20px" height="20px" [src]="chatgroupmember.member.photos?.[0]?.url || 'assets/user.png'" alt="Member Photo"> &nbsp;
-                </ng-container>
+                <div class="image-container">
+                    <ng-container *ngFor="let chatgroupmember of row.chatGroupMembers">
+                        <img height="25px" width="25px" [src]="chatgroupmember.member.photos?.[0]?.url || 'assets/user.png'" [title]="chatgroupmember.member.userName?chatgroupmember.member.userName:chatgroupmember.member.knownAs"> 
+                    </ng-container>
+                </div>
             </div>
-          
         </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="Actions">

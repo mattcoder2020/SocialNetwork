@@ -28,7 +28,6 @@ export class ManageComponent implements OnInit {
   public chatgroups: ChatGroup[] = [];
   showTooltip = false;
   rows = [];
-  temp = [];
   public chatgroupForm: FormGroup;
   public chatgroupUpdateForm: FormGroup;
   public selectedChatgroup?: ChatGroup;
@@ -56,17 +55,6 @@ export class ManageComponent implements OnInit {
     private modalService: BsModalService,
     private toastr: ToastrService) {
 
-    this.chatgroupForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required]
-    });
-
-    this.chatgroupUpdateForm = this.fb.group({
-      id: [''],
-      name: ['', Validators.required],
-      description: ['', Validators.required]
-    });
-
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) {
@@ -77,10 +65,9 @@ export class ManageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chatgroupService.getAllChatGroupsByOwnerName(this.user.username).subscribe(chatgroups => {
+    this.chatgroupService.getAllChatGroupsByOwnerId(this.user.id).subscribe(chatgroups => {
       this.chatgroups = chatgroups;
-      this.rows = chatgroups;
-      this.temp = [...chatgroups];
+      this.rows = this.chatgroups;
     });
   }
   
@@ -103,24 +90,46 @@ export class ManageComponent implements OnInit {
           const chatGroupMember: chatGroupMember = {
             appuserid: user.id,
             chatGroupId: chatgroup.id
-           };
-          return chatGroupMember;});
+          };
+          return chatGroupMember;
+        });
         // if this is a new chatgroup, create it
         if (chatgroup &&this.bsModalRef.content?.isedit === false) {
         this.chatgroupService.createChatGroup(chatgroup).subscribe(
           {next:chatgroupid=>
             {
               chatgroup.id = chatgroupid;
-              chatgroup.owner = {} as Member;
-              chatgroup.owner.userName = this.user.username  ;
+              chatgroup.ownerid = this.user.id;
+              //chatgroup.owner.userName = this.user.username;
+              chatgroup.chatGroupMembers = selectedUsers.map(user => {
+                const chatGroupMember: chatGroupMember = {
+                  appuserid: user.id,
+                  chatGroupId: chatgroup.id,
+                  //a trick to add photos to chatgroupmember to render at datatable to avoid round trip to backend
+                  member: { 
+                    userName: user.username, 
+                    id: 0,
+                    photoUrl: '',
+                    age: 0,
+                    knownAs:  user.knownAs,
+                    created: null,
+                    lastActive: null,
+                    gender: null,
+                    introduction: null,
+                    lookingFor: null,
+                    interests: null,
+                    city: null,
+                    country: null,
+                    photos: [{id:0, isMain:true, url: user.photoUrl }] }
+                };
+                return chatGroupMember;
+              });
               this.chatgroups.push(chatgroup);
-             this.rows = [...this.chatgroups];
-             this.toastr.success('Chatgroup created successfully');}}
+              this.rows = [...this.chatgroups];
+              this.toastr.success('Chatgroup created successfully');}}
          )}
-      
-         
       }})
-    }
+  }
 
   openUpdateChatGroupModal(chatgroup: ChatGroup) {
     const config = {
@@ -145,7 +154,8 @@ export class ManageComponent implements OnInit {
               appuserid: user.id,
               chatGroupId: chatgroup.id
             };
-            return chatGroupMember;});
+            return chatGroupMember;
+          });
           dirty = true;
         }
 
@@ -160,7 +170,31 @@ export class ManageComponent implements OnInit {
         if (dirty) {
           this.chatgroupService.updateChatGroup(chatgroup).subscribe(
             {next:()=>
-              {this.chatgroups[index] = chatgroup;
+              {
+                chatgroup.chatGroupMembers = selectedUsers.map(user => {
+                  const chatGroupMember: chatGroupMember = {
+                    appuserid: user.id,
+                    chatGroupId: chatgroup.id,
+                    //a trick to add photos to chatgroupmember to render at datatable to avoid round trip to backend
+                    member: { 
+                      userName: user.username, 
+                      id: 0,
+                      photoUrl: '',
+                      age: 0,
+                      knownAs:  user.knownAs,
+                      created: null,
+                      lastActive: null,
+                      gender: null,
+                      introduction: null,
+                      lookingFor: null,
+                      interests: null,
+                      city: null,
+                      country: null,
+                      photos: [{id:0, isMain:true, url: user.photoUrl }] }
+                  };
+                  return chatGroupMember;
+                });
+                this.chatgroups[index] = chatgroup;
                this.toastr.success('Chatgroup updated successfully');}
             }
           );
@@ -210,12 +244,10 @@ export class ManageComponent implements OnInit {
     this.confirmmodalRef?.hide();
   }
 
-
-
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
     // filter our data
-    const temp = this.temp.filter(function (d) {
+    const temp = this.chatgroups.filter(function (d) {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
     // update the rows
