@@ -15,6 +15,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
 import { ManageComponent } from './chatgroup/manage/manage.component';
+import { ChatComponent } from './chatgroup/chat/chat.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: 'chatgroups', component: ManageComponent},
+      {path: 'chatgroupmessage', component: ChatComponent},
       {path: 'members', component: MemberListComponent},
       {path: 'members/:username', component: MemberDetailComponent, resolve: {member: MemberDetailedResolver}},
       {path: 'member/edit', component: MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},

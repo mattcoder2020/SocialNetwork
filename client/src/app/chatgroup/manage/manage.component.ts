@@ -13,6 +13,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { chatGroupMember } from 'src/app/_models/chatgroupmember';
 import { Member } from 'src/app/_models/member';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage',
@@ -53,7 +54,8 @@ export class ManageComponent implements OnInit {
     private fb: FormBuilder, 
     private accountService: AccountService,
     private modalService: BsModalService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private router: Router) {
 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
@@ -202,7 +204,9 @@ export class ManageComponent implements OnInit {
       }})
     }
 
-  enterChatgroup(cg: ChatGroup ) {}
+  enterChatgroup(cg: ChatGroup ) {
+    this.router.navigateByUrl('/chatgroupmessage');
+  }
   updateChatgroup(cg: ChatGroup ) {
     if (this.chatgroupUpdateForm.value.id !== undefined) {
       this.chatgroupService.updateChatGroup(this.chatgroupUpdateForm.value).subscribe(
