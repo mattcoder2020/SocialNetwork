@@ -28,6 +28,8 @@
     [limit]="5"   
 >
     <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
+    <ngx-datatable-column name="Owner" prop="owner.userName"></ngx-datatable-column>
+
     <ngx-datatable-column name="Members" >
         <ng-template let-row="row" ngx-datatable-cell-template>
             <div class="member-photos-tooltip">
@@ -43,8 +45,8 @@
     <ngx-datatable-column name="Actions">
         <ng-template let-row="row" ngx-datatable-cell-template>
             <button class="btn btn-info" (click)="enterChatgroup(row)">chat</button> &nbsp;
-            <button class="btn btn-success" (click)="openUpdateChatGroupModal(row)">edit</button> &nbsp;
-            <button class="btn btn-info" (click)="openDeleteChatGroupModal(row, template)">delete</button> 
+            <button *ngIf="row.owner.id == user.id" class="btn btn-success" (click)="openUpdateChatGroupModal(row)">edit</button> &nbsp;
+            <button *ngIf="row.owner.id == user.id" class="btn btn-info" (click)="openDeleteChatGroupModal(row, template)">delete</button> 
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>
