@@ -9,6 +9,7 @@ import { User } from '../_models/user';
 import { BusyService } from './busy.service';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 import { AccountService } from './account.service';
+import { ChatGroupMessage } from '../_models/chatgroupmessage';
 
 @Injectable({
   providedIn: 'root'
@@ -49,11 +50,12 @@ export class ChatGroupMessageService {
   
             this.hubConnection.start()  
                 .then(() => {  
-                    this.hubConnection?.on('ReceiveMessageThread', messages => {  
+                  //Received batch of message that ocurred during user offine
+                    this.hubConnection?.on('ReceiveChatGroupMessageThread', messages => {  
                         this.messageThreadSource.next(messages);  
                     });  
   
-                    this.hubConnection?.on('NewMessage', message => {  
+                    this.hubConnection?.on('NewChatGroupMessageReceived', message => {  
                         this.messageThread$.pipe(take(1)).subscribe({  
                             next: messages => {  
                                 this.messageThreadSource.next([...messages, message]);  
@@ -108,9 +110,7 @@ export class ChatGroupMessageService {
      
   }
 
-  async sendMessage(username: string, content: string) {
-    return this.hubConnection?.invoke('SendMessage', {recipientUsername: username, content}).catch(error => console.log(error));
-  }
+
 
   async sendChatGroupMessage(chatgroupname: string, content: string) {
     return this.hubConnection?.invoke('SendMessageToChatGroup', {chatgroupname: chatgroupname, content})
