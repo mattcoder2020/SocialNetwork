@@ -14,6 +14,7 @@ import { chatGroupMember } from 'src/app/_models/chatgroupmember';
 import { Member } from 'src/app/_models/member';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ChatGroupMessageModal } from '../chat/chatgroupmessagemodal.component';
 
 @Component({
   selector: 'app-manage',
@@ -43,11 +44,14 @@ export class ManageComponent implements OnInit {
   ];
   ColumnMode = ColumnMode;
   SortType = SortType;
-  bsModalRef: BsModalRef<ChatgroupModalComponent> = new BsModalRef<ChatgroupModalComponent>();
-  confirmmodalRef?: BsModalRef;
-  @ViewChild(DatatableComponent) table?: DatatableComponent;
   message: string;
   groupmembers: User[];
+  bsModalRef: BsModalRef<ChatgroupModalComponent> = new BsModalRef<ChatgroupModalComponent>();
+  bsModalRefMessaging: BsModalRef<ChatGroupMessageModal> = new BsModalRef<ChatGroupMessageModal>();
+
+  confirmmodalRef?: BsModalRef;
+  @ViewChild(DatatableComponent) table?: DatatableComponent;
+  
   
 
   constructor(private chatgroupService: ChatgroupService, 
@@ -204,22 +208,18 @@ export class ManageComponent implements OnInit {
       }})
     }
 
-  enterChatgroup(cg: ChatGroup ) {
-    this.router.navigateByUrl('/chatgroupmessage');
-  }
-  updateChatgroup(cg: ChatGroup ) {
-    if (this.chatgroupUpdateForm.value.id !== undefined) {
-      this.chatgroupService.updateChatGroup(this.chatgroupUpdateForm.value).subscribe(
-        chatgroup => {
-          const index = this.chatgroups?.findIndex(c => c.id === chatgroup.id);
-          if (this.chatgroups && index !== undefined && index !== null) {
-            this.chatgroups[index] = chatgroup;
-            this.rows = [...this.chatgroups];
-          }
-          this.chatgroupUpdateForm.reset();
-        });
+  enterChatgroup(chatgroup: ChatGroup ) {
+    //this.router.navigateByUrl('/chatgroupmessage');
+    console.log(chatgroup.name);
+    const config = {
+      class: 'modal-dialog-centered',
+      initialState: {
+        chatgroup: chatgroup,
+      }
     }
+    this.bsModalRefMessaging = this.modalService.show(ChatGroupMessageModal, config);
   }
+  
 
   openDeleteChatGroupModal(cg: ChatGroup, template: TemplateRef<any>) {
     this.confirmmodalRef = this.modalService.show(template, {class: 'modal-sm'});

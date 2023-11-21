@@ -33,7 +33,7 @@ import { PhotoManagementComponent } from './admin/photo-management/photo-managem
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
 import { ManageComponent } from './chatgroup/manage/manage.component';
-import { ChatComponent } from './chatgroup/chat/chat.component';
+import { ChatGroupMessageModal } from './chatgroup/chat/chatgroupmessagemodal.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ChatgroupService } from './_services/chatgroup.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -65,7 +65,7 @@ import { ChatgroupModalComponent } from './modals/chatgroup-modal/chatgroup-moda
     RolesModalComponent,
     ConfirmDialogComponent,
     ManageComponent,
-    ChatComponent,
+    ChatGroupMessageModal,
     ChatgroupModalComponent
       ],
   imports: [

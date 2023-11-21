@@ -2,14 +2,16 @@ import { NgForm } from '@angular/forms';
 import { Message } from 'src/app/_models/message';
 import { MessageService } from 'src/app/_services/message.service';
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChatGroup } from 'src/app/_models/chatgroup';
 
 @Component({
-  selector: 'app-chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  selector: 'app-ChatGroupMessageModal',
+  templateUrl: './chatgroupmessagemodal.component.html',
+  styleUrls: ['./chatgroupmessagemodal.component.css']
 })
-export class ChatComponent implements OnInit
+export class ChatGroupMessageModal implements OnInit
 {
+  public chatgroup: ChatGroup
   @ViewChild('messageForm') messageForm?: NgForm
   @Input() username: string ="";
   messageContent = '';
