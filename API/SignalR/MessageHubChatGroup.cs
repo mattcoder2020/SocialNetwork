@@ -18,7 +18,7 @@ namespace API.SignalR
         /// </summary>
         /// <param name="chatgroupName">Name of the chat group</param>
         /// <returns></returns>
-        public async Task SubscribeToChatGroupByGroupName(string chatgroupName, int chatgroupid)
+        public async Task SubscribeToChatGroupByGroupName(int chatgroupid)
         {
             var httpContext = Context.GetHttpContext();
 
@@ -29,7 +29,7 @@ namespace API.SignalR
 
             //var group = await AddToGroup(groupName);
 
-            await Clients.Group(chatgroupName).SendAsync("UpdatedChatGroupName", chatgroupName);
+            //await Clients.Group(chatgroupName).SendAsync("UpdatedChatGroupName", chatgroupName);
 
             var messages = await _uow.ChatGroupRepository.GetMessageThreadAsync(chatgroupid);
 
@@ -55,7 +55,8 @@ namespace API.SignalR
             var message = new ChatGroupMessage
             {
                 ChatGroupId = chatgroup.Id,
-                SenderId = sender.Id
+                SenderId = sender.Id,
+                Content = createMessageDto.Content
             };
 
             var members = await _uow.ChatGroupRepository.GetMemberByChatGroupAsync(createMessageDto.chatgroupid);
@@ -64,13 +65,11 @@ namespace API.SignalR
             var connections = await PresenceTracker.GetChatGroupConnectionsByUsers(members);
             if (connections != null)
             {
-                //await _presenceHub.Clients.Clients(connections).SendAsync("NewChatGroupMessageReceived",
-                //    new { username = sender.UserName, chatgroup = createMessageDto.ChatgroupName });
                 await _presenceHub.Clients.Clients(connections).SendAsync("NewChatGroupMessageReceived",
                     new { username = sender.UserName, chatgroup = createMessageDto.chatgroupid});
 
                 foreach (var connection in connections)
-                    await Groups.AddToGroupAsync(connection, createMessageDto.chatgroupname);
+                    await Groups.AddToGroupAsync(connection, createMessageDto.chatgroupid.ToString());
             }
 
 
@@ -78,7 +77,7 @@ namespace API.SignalR
 
             if (await _uow.Complete())
             {
-                await Clients.Group(createMessageDto.chatgroupname).SendAsync("NewChatGroupMessage", _mapper.Map<MessageDto>(message));
+                await Clients.Group(createMessageDto.chatgroupname).SendAsync("NewChatGroupMessage", message);
             }
         }
 

@@ -10,6 +10,7 @@ import { BusyService } from './busy.service';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 import { AccountService } from './account.service';
 import { ChatGroupMessage } from '../_models/chatgroupmessage';
+import { ChatGroup } from '../_models/chatgroup';
 
 @Injectable({
   providedIn: 'root'
@@ -88,32 +89,17 @@ export class ChatGroupMessageService {
     return this.http.get<Message[]>(this.baseUrl + 'messages/thread/' + username);
   }
   
-  //Create a 1:1 private group and get ready to receive messages from the same group
-  async registerGroupByOtherUser(otheruser: string) {
-          this.hubConnection?.invoke('CreatePrivateGroupByOtherUser', {otherUser: otheruser})
+  //register to the chat group and get ready to receive messages from the same group
+  async registerGroupChatByGroupId(chatgroup: ChatGroup) {
+          this.hubConnection?.invoke('SubscribeToChatGroupByGroupName', 
+          chatgroup.id)
           .catch(error => console.log(error));
-          return this.hubConnection?.on('UpdatedGroup', (group: Group) => {
-          if (group.connections.some(x => x.username === otheruser)) {
-          this.messageThread$.pipe(take(1)).subscribe({
-            next: messages => {
-              messages.forEach(message => {
-                if (!message.dateRead) {
-                  message.dateRead = new Date(Date.now())
-                }
-              })
-              this.messageThreadSource.next([...messages]);
-            }
-          })
         }
-      })
-  
-     
-  }
 
 
 
-  async sendChatGroupMessage(chatgroupname: string, content: string) {
-    return this.hubConnection?.invoke('SendMessageToChatGroup', {chatgroupname: chatgroupname, content})
+  async sendChatGroupMessage(chatgroupid: number, senderid: number, content: string) {
+    return this.hubConnection?.invoke('SendMessageToChatGroup', {chatgroupid:chatgroupid, senderid:senderid, content:content})
       .catch(error => console.log(error));
   }
 

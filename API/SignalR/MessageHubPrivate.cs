@@ -60,7 +60,10 @@ namespace API.SignalR
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             var group = await RemoveFromMessageGroup();
-            await Clients.Group(group.Name).SendAsync("UpdatedGroup");
+            if (group != null)
+            {
+                await Clients.Group(group.Name).SendAsync("UpdatedGroup");
+            }
             await base.OnDisconnectedAsync(exception);
         }
 
@@ -151,8 +154,11 @@ namespace API.SignalR
         private async Task<Group> RemoveFromMessageGroup()
         {
             var group = await _uow.MessageRepository.GetGroupForConnection(Context.ConnectionId);
-            var connection = group.Connections.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-            _uow.MessageRepository.RemoveConnection(connection);
+            if (group !=null )
+            {
+                _uow.MessageRepository.RemoveConnection(group.Connections.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId));
+            }
+          
 
             if (await _uow.Complete()) return group;
 

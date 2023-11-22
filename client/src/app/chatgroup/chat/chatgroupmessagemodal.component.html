@@ -1,4 +1,12 @@
 <h4 class="modal-title pull-left"> {{chatgroup.name}}</h4>
+<div class="member-photos-tooltip">
+    <!-- Display member photos here -->
+    <div class="image-container">
+        <ng-container *ngFor="let chatgroupmember of chatgroup.chatGroupMembers">
+            <img height="25px" width="25px" [src]="chatgroupmember.member.photos?.[0]?.url || 'assets/user.png'" [title]="chatgroupmember.member.userName?chatgroupmember.member.userName:chatgroupmember.member.knownAs"> 
+        </ng-container>
+    </div>
+</div>
 
 <div class="card">
     <div class="card-body"
@@ -23,10 +31,7 @@
                         <div class="header">
                             <small class="text-muted">
                                 <span class="fa fa-clock-o">{{message.messageSent | timeago}}</span>
-                                <span class="text-danger" *ngIf="!message.dateRead 
-                                    && message.senderUsername !== username">(unread)</span>
-                                <span class="text-success" *ngIf="message.dateRead 
-                                    && message.senderUsername !== username">(read {{message.dateRead | timeago}})</span>
+                                
                             </small>
                         </div>
                         <p>{{message.content}}</p>
