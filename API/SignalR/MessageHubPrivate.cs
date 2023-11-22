@@ -166,11 +166,9 @@ namespace API.SignalR
             if (group !=null )
             {
                 _uow.MessageRepository.RemoveConnection(group.Connections.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId));
+                if (await _uow.Complete()) return group;
             }
-          
-
-            if (await _uow.Complete()) return group;
-
+            else { return null; }
             throw new HubException("Failed to remove from group");
         }
     }

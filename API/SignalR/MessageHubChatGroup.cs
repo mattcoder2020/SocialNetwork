@@ -64,10 +64,9 @@ namespace API.SignalR
             if (group != null)
             {
                 await _uow.ChatGroupRepository.RemoveConnectionFromChatGroup(Context.ConnectionId);
+                if (await _uow.Complete()) return group;
             }
-
-
-            if (await _uow.Complete()) return group;
+            else return null;
 
             throw new HubException("Failed to remove connection from chat group");
         }
@@ -79,7 +78,7 @@ namespace API.SignalR
             var sender = await _uow.UserRepository.GetUserByUsernameAsync(username);
             if (sender == null) throw new HubException("Message sender not found");
 
-            var chatgroup = await _uow.ChatGroupRepository.GetChatGroupByIdAsync(createMessageDto.chatgroupid);
+            var chatgroup = await _uow.ChatGroupRepository.GetChatGroupWithConnectionsByIdAsync(createMessageDto.chatgroupid);
             if (chatgroup == null) throw new HubException("Chat group not found");
 
 
@@ -90,15 +89,15 @@ namespace API.SignalR
                 Content = createMessageDto.Content
             };
 
-            var members = await _uow.ChatGroupRepository.GetMemberByChatGroupAsync(createMessageDto.chatgroupid);
+            //var members = await _uow.ChatGroupRepository.GetMemberByChatGroupAsync(createMessageDto.chatgroupid);
 
 
-            var connections = await PresenceTracker.GetChatGroupConnectionsByUsers(members);
+            var connections = chatgroup.ChatGroupConnections.Select(e=>e.ConnectionId);
             if (connections != null)
             {
                 //await _presenceHub.Clients.Clients(connections).SendAsync("NewChatGroupMessageReceived",
                 //    new { username = sender.UserName, chatgroup = createMessageDto.chatgroupid});
-                await _presenceHub.Clients.Clients(connections).SendAsync("NewChatGroupMessage",
+                await Clients.Clients(connections).SendAsync("NewChatGroupMessage",
                    message);
 
                 foreach (var connection in connections)

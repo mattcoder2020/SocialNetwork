@@ -52,20 +52,23 @@ export class ChatGroupMessageService {
             this.hubConnection.start()  
                 .then(() => {  
                   //Received batch of message that ocurred during user offine
-                    this.hubConnection?.on('ReceiveChatGroupMessageThread', messages => {  
-                        this.messageThreadSource.next(messages);  
-                    });  
+                  this.hubConnection?.on('ReceiveChatGroupMessageThread', messages => {  
+                    this.messageThreadSource.next(messages);  
+                   });  
+                    
   
-                    this.hubConnection?.on('NewChatGroupMessageReceived', message => {  
-                        this.messageThread$.pipe(take(1)).subscribe({  
-                            next: messages => {  
-                                this.messageThreadSource.next([...messages, message]);  
-                            }  
-                        });  
-                    });  
+                   this.hubConnection?.on('NewChatGroupMessageReceived', message => {  
+                      this.messageThread$.pipe(take(1)).subscribe({  
+                          next: messages => {  
+                              this.messageThreadSource.next([...messages, message]);  
+                          }  
+                      });  
+                  });  
+
 
                     this.hubConnection?.on('NewChatGroupMessage', message => {  
                       this.messageThread$.pipe(take(1)).subscribe({  
+                      //  this.messageThread$.subscribe({  
                           next: messages => {  
                               this.messageThreadSource.next([...messages, message]);  
                           }  

@@ -30,12 +30,13 @@ export class ChatGroupMessageModal implements OnInit
         }
       }
     })
+ 
 
   }
 
   ngOnInit(): void {
     this.messageService.createHubConnection(true)
-    .then(() => {this.messageService.registerGroupChatByGroupId(this.chatgroup); });
+      .then(() => { this.messageService.registerGroupChatByGroupId(this.chatgroup); });   
   }
 
   sendMessage() {
