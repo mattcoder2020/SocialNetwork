@@ -52,6 +52,13 @@ namespace API.Data
             return querable;
         }
 
+        public async Task<ChatGroup> GetChatGroupWithConnectionsByIdAsync(int chatgroupid)
+        {
+            var querable = await _dbContext.ChatGroups.Include(e=>e.ChatGroupConnections)
+                .FirstOrDefaultAsync(e => e.Id == chatgroupid);
+            return querable;
+        }
+
         public async Task<ChatGroup> GetChatGroupByNameAsync(string chatgroupname)
         {
             var querable = await _dbContext.ChatGroups.FirstOrDefaultAsync(e => e.Name == chatgroupname);
@@ -134,6 +141,19 @@ namespace API.Data
         {
             var cg = _dbContext.ChatGroups.FirstOrDefault(e => e.Id == id);
             _dbContext.ChatGroups.Remove(cg);
+            return Task.CompletedTask;
+        }
+
+        public async Task<ChatGroup> GetChatGroupByConnection(string connectionId)
+        {
+           var querable = await _dbContext.ChatGroups.FirstOrDefaultAsync(e => e.ChatGroupConnections.Any(e => e.ConnectionId == connectionId));
+           return querable;
+        }
+
+        public Task RemoveConnectionFromChatGroup(string connectionId)
+        {
+            var querable = _dbContext.ChatGroupConnections.Where(e => e.ConnectionId == connectionId);
+            _dbContext.ChatGroupConnections.RemoveRange(querable);
             return Task.CompletedTask;
         }
     }

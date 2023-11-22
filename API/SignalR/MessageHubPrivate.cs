@@ -42,7 +42,8 @@ namespace API.SignalR
             //Add the connection to the 2 people SignalR group
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
-            var group = await AddToGroup(groupName);
+            //add the connection to the database
+            var group = await AddConnectionToGroup(groupName);
 
             await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
@@ -59,10 +60,15 @@ namespace API.SignalR
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            var group = await RemoveFromMessageGroup();
+            var group = await RemoveConnectionFromMessageGroup();
             if (group != null)
             {
                 await Clients.Group(group.Name).SendAsync("UpdatedGroup");
+            }
+            var group2 = await RemoveConnectionFromChatGroup();
+            if (group2 != null)
+            {
+                await Clients.Group(group2.Id.ToString()).SendAsync("UpdatedGroup");
             }
             await base.OnDisconnectedAsync(exception);
         }
@@ -128,16 +134,19 @@ namespace API.SignalR
         }
 
         /// <summary>
-        /// Persist the 2 people group to the database if not exist, persist the connection to the group
+        /// Persist the current user / current 2 people group  relation to the database.
+        /// if group is not exist, persist the connection to the group
+        /// so that when group member send message, the message will be sent to all the group member
         /// </summary>
         /// <param name="groupName"></param>
         /// <returns></returns>
         /// <exception cref="HubException"></exception>
-        private async Task<Group> AddToGroup(string groupName)
+        private async Task<Group> AddConnectionToGroup(string groupName)
         {
             var group = await _uow.MessageRepository.GetMessageGroup(groupName);
             var connection = new Connection(Context.ConnectionId, Context.User.GetUsername());
 
+            
             if (group == null)
             {
                 group = new Group(groupName);
@@ -151,7 +160,7 @@ namespace API.SignalR
             throw new HubException("Failed to add to group");
         }
 
-        private async Task<Group> RemoveFromMessageGroup()
+        private async Task<Group> RemoveConnectionFromMessageGroup()
         {
             var group = await _uow.MessageRepository.GetGroupForConnection(Context.ConnectionId);
             if (group !=null )

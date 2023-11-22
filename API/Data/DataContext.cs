@@ -20,12 +20,12 @@ namespace API.Data
         public DbSet<ChatGroup> ChatGroups { get; set; }
         public DbSet<ChatGroupMessage> ChatGroupMessages { get; set; }
         public DbSet<ChatGroupMember> ChatGroupMembers { get; set; }
+        public DbSet<ChatGroupConnection> ChatGroupConnections { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-                       
                                                                                                          
             builder.Entity<AppUser>()
                 .HasMany(ur => ur.UserRoles)
@@ -53,6 +53,9 @@ namespace API.Data
 
             builder.Entity<UserLike>()
                 .HasKey(k => new { k.SourceUserId, k.TargetUserId });
+
+            builder.Entity<ChatGroupConnection>()
+               .HasKey(k => new { k.ChatGroupId, k.UserName });
 
             builder.Entity<UserLike>()
                 .HasOne(s => s.SourceUser)

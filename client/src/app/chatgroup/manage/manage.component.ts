@@ -15,6 +15,7 @@ import { Member } from 'src/app/_models/member';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { ChatGroupMessageModal } from '../chat/chatgroupmessagemodal.component';
+import { ChatGroupMessageService } from 'src/app/_services/chatgroupmessage.service';
 
 @Component({
   selector: 'app-manage',
@@ -55,6 +56,7 @@ export class ManageComponent implements OnInit {
   
 
   constructor(private chatgroupService: ChatgroupService, 
+    private messageService: ChatGroupMessageService,
     private fb: FormBuilder, 
     private accountService: AccountService,
     private modalService: BsModalService,
@@ -218,6 +220,12 @@ export class ManageComponent implements OnInit {
       }
     }
     this.bsModalRefMessaging = this.modalService.show(ChatGroupMessageModal, config);
+    this.bsModalRefMessaging.onHide?.subscribe({
+      next: () => {
+        this.messageService.stopHubConnection();
+
+
+      }})
   }
   
 

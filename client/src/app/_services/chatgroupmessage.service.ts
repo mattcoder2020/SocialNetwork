@@ -63,6 +63,14 @@ export class ChatGroupMessageService {
                             }  
                         });  
                     });  
+
+                    this.hubConnection?.on('NewChatGroupMessage', message => {  
+                      this.messageThread$.pipe(take(1)).subscribe({  
+                          next: messages => {  
+                              this.messageThreadSource.next([...messages, message]);  
+                          }  
+                      });  
+                  });  
   
                     this.busyService.idle();  
                     resolve(); // Resolve the Promise when everything is set up.  

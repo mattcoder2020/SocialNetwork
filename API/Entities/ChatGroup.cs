@@ -15,6 +15,7 @@
         public AppUser Owner { get; set; }
         public List<ChatGroupMember> ChatGroupMembers { get; set; } 
         public List<ChatGroupMessage> ChatGroupMessages { get; set; }
+        public List<ChatGroupConnection> ChatGroupConnections { get; set; } = new List<ChatGroupConnection> ();
 
     }
 }
