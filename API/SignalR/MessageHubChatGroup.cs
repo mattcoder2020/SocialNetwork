@@ -97,8 +97,8 @@ namespace API.SignalR
             {
                 //await _presenceHub.Clients.Clients(connections).SendAsync("NewChatGroupMessageReceived",
                 //    new { username = sender.UserName, chatgroup = createMessageDto.chatgroupid});
-                await Clients.Clients(connections).SendAsync("NewChatGroupMessage",
-                   message);
+                //await Clients.Clients(connections).SendAsync("NewChatGroupMessage",
+                //   message);
 
                 foreach (var connection in connections)
                     await Groups.AddToGroupAsync(connection, createMessageDto.chatgroupid.ToString());

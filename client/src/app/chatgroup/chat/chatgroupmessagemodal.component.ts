@@ -7,6 +7,7 @@ import { User } from 'src/app/_models/user';
 import { Member } from 'src/app/_models/member';
 import { take } from 'rxjs';
 import { id } from '@swimlane/ngx-datatable';
+import { ChatGroupMessage } from 'src/app/_models/chatgroupmessage';
 
 @Component({
   selector: 'app-ChatGroupMessageModal',
@@ -19,6 +20,7 @@ export class ChatGroupMessageModal implements OnInit
   @ViewChild('messageForm') messageForm?: NgForm
   @Input() username: string ="";
   messageContent = '';
+  localMessageThread: ChatGroupMessage[] = [];
   loading = false;
   user: User;
 
@@ -30,13 +32,28 @@ export class ChatGroupMessageModal implements OnInit
         }
       }
     })
+
+    this.messageService.messageThread$.subscribe({
+      next: messages => {
+        this.localMessageThread = [];
+        for (let i = 0; i < messages.length; i++) {
+          messages[i].senderPhotoUrl = this.chatgroup.chatGroupMembers.find(x => x.appuserid == messages[i].senderId)?.member.photoUrl;
+          this.localMessageThread.push(messages[i]);
+        }
+        //this.localMessageThread.sort((a, b) => (a.messageSent < b.messageSent) ? 1 : -1);
+      }
+    });
+
+    
  
 
   }
 
   ngOnInit(): void {
     this.messageService.createHubConnection(true)
-      .then(() => { this.messageService.registerGroupChatByGroupId(this.chatgroup); });   
+      .then(() => { this.messageService.registerGroupChatByGroupId(this.chatgroup); });
+
+    
   }
 
   sendMessage() {

@@ -5,5 +5,7 @@ export interface ChatGroupMessage {
     chatGroupId: number;
     content: string;
     messageSent: Date;
+    senderPhotoUrl: string;
+
     
 }
