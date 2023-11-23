@@ -50,12 +50,13 @@ export class ChatgroupModalComponent implements OnInit {
         }
       }
     });
-    //get members of chatgroup
+    //get members of chatgroup if it is edit mode then it shoudl has the id
+    if (this.chatgroup?.id){
     this.chatgroupService.getMembersByGroupById(this.chatgroup?.id).subscribe
     ({ next: users => {
       this.selectedUsers = users;
       this.initselectedUsers = this.selectedUsers.slice(); } });
-
+    }
     if (this.isedit && this.chatgroup) {
       this.title = 'Edit ' + this.chatgroup.name;
     }

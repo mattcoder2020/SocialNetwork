@@ -131,7 +131,8 @@ namespace API.Data
             var memberstoberemoved = _dbContext.ChatGroupMembers.Where(e=>e.ChatGroupId == chatgroup.Id);
             _dbContext.ChatGroupMembers.RemoveRange(memberstoberemoved);
             _dbContext.ChatGroupMembers.AddRange(chatgroup.ChatGroupMembers);
-
+            //special approach to avoid duplicate key error since we are not updating the owner
+            chatgroup.Owner.ChatGroupMembers = null;
 
             _dbContext.ChatGroups.Update(chatgroup);
             return Task.CompletedTask;

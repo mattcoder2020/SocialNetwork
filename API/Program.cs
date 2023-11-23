@@ -96,3 +96,7 @@ catch (Exception ex)
 }
 
 app.Run();
+
+//remove db records during application exit
+
+

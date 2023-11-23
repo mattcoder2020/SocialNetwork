@@ -44,9 +44,9 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="Actions">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <button class="btn btn-info" (click)="enterChatgroup(row)">chat</button> &nbsp;
-            <button *ngIf="row.owner.id == user.id" class="btn btn-success" (click)="openUpdateChatGroupModal(row)">edit</button> &nbsp;
-            <button *ngIf="row.owner.id == user.id" class="btn btn-info" (click)="openDeleteChatGroupModal(row, template)">delete</button> 
+            <button  class="btn btn-info" (click)="enterChatgroup(row)">chat</button> &nbsp;
+            <button *ngIf="displayButton(row)" class="btn btn-success" (click)="openUpdateChatGroupModal(row)">edit</button> &nbsp;
+            <button *ngIf="displayButton(row)" class="btn btn-info" (click)="openDeleteChatGroupModal(row, template)">delete</button> 
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>

@@ -108,7 +108,7 @@ export class ManageComponent implements OnInit {
             {
               chatgroup.id = chatgroupid;
               chatgroup.ownerid = this.user.id;
-              //chatgroup.owner.userName = this.user.username;
+              chatgroup.owner = {userName :this.user.username} as Member;
               chatgroup.chatGroupMembers = selectedUsers.map(user => {
                 const chatGroupMember: chatGroupMember = {
                   appuserid: user.id,
@@ -271,6 +271,13 @@ export class ManageComponent implements OnInit {
   private arrayEqual(arr1: any[], arr2: any[]) {
     return JSON.stringify(arr1.sort()) === JSON.stringify(arr2.sort());
   }
+
+  public displayButton(chatgroup: ChatGroup) {
+    if (chatgroup.ownerid === this.user.id || chatgroup.owner?.id === this.user.id || this.user.roles.includes('Admin') ) {
+      return true;
+    }
+    return false;
+}
 }
 
 

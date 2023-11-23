@@ -13,6 +13,7 @@ namespace API.Data
         public static async Task ClearConnections(DataContext context)
         {
             context.Connections.RemoveRange(context.Connections);
+            context.ChatGroupConnections.RemoveRange(context.ChatGroupConnections);
             await context.SaveChangesAsync();
         }
 
