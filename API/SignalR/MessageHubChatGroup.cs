@@ -14,22 +14,13 @@ namespace API.SignalR
     {
         /// <summary>
         /// Subscribe to a chat group with 2 or more members and register the client functions and lastly 
-        /// retrieve the messages base on the same group.
+        /// retrieve the messages base on the same group and send back to the caller client.
         /// </summary>
-        /// <param name="chatgroupName">Name of the chat group</param>
+        /// <param name="chatgroupid">id of the chat group</param>
         /// <returns></returns>
         public async Task SubscribeToChatGroupByGroupName(int chatgroupid)
         {
-            var httpContext = Context.GetHttpContext();
-
-            //var groupName = GetGroupName(Context.User.GetUsername(), createPrivateGroupDto.OtherUser);
-
-            ////Add the connection to the 2 people SignalR group
-            //await Groups.AddToGroupAsync(Context.ConnectionId, chatgroupid.ToString());
-
             var group = await AddConnectionToChatGroup(chatgroupid);
-
-            //await Clients.Group(chatgroupName).SendAsync("UpdatedChatGroupName", chatgroupName);
 
             var messages = await _uow.ChatGroupRepository.GetMessageThreadAsync(chatgroupid);
 
@@ -50,9 +41,7 @@ namespace API.SignalR
             var group = await _uow.ChatGroupRepository.GetChatGroupByIdAsync(chatgroupid);
             var connection = new ChatGroupConnection(Context.ConnectionId, chatgroupid, Context.User.GetUsername());
 
-
             group.ChatGroupConnections.Add(connection);
-
             if (await _uow.Complete()) return group;
 
             throw new HubException("Failed to add to group");
@@ -89,21 +78,12 @@ namespace API.SignalR
                 Content = createMessageDto.Content
             };
 
-            //var members = await _uow.ChatGroupRepository.GetMemberByChatGroupAsync(createMessageDto.chatgroupid);
-
-
             var connections = chatgroup.ChatGroupConnections.Select(e=>e.ConnectionId);
             if (connections != null)
             {
-                //await _presenceHub.Clients.Clients(connections).SendAsync("NewChatGroupMessageReceived",
-                //    new { username = sender.UserName, chatgroup = createMessageDto.chatgroupid});
-                //await Clients.Clients(connections).SendAsync("NewChatGroupMessage",
-                //   message);
-
                 foreach (var connection in connections)
                     await Groups.AddToGroupAsync(connection, createMessageDto.chatgroupid.ToString());
             }
-
 
             await _uow.ChatGroupRepository.AddMessageAsync(message.SenderId, message.ChatGroupId, message.Content);
 
