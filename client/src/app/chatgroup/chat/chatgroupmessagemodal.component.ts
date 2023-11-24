@@ -37,23 +37,32 @@ export class ChatGroupMessageModal implements OnInit
       next: messages => {
         this.localMessageThread = [];
         for (let i = 0; i < messages.length; i++) {
-          messages[i].senderPhotoUrl = this.chatgroup.chatGroupMembers.find(x => x.appuserid == messages[i].senderId)?.member.photoUrl;
+          var senderId = messages[i].senderId;
+          var chatGroupMember = this.chatgroup.chatGroupMembers.find(x => x.appUserId == senderId);
+          messages[i].senderPhotoUrl = chatGroupMember.member.photos[0]?.url;
+          if (messages[i].senderPhotoUrl == undefined) {
+            messages[i].senderPhotoUrl = "../../../assets/user.png";
+          }
+          messages[i].senderName = chatGroupMember.member.knownAs;
           this.localMessageThread.push(messages[i]);
         }
         //this.localMessageThread.sort((a, b) => (a.messageSent < b.messageSent) ? 1 : -1);
       }
     });
 
-    
- 
-
   }
 
   ngOnInit(): void {
     this.messageService.createHubConnection(true)
       .then(() => { this.messageService.registerGroupChatByGroupId(this.chatgroup); });
+  }
+  ngOnDestroy(): void {
+    this.messageService.stopHubConnection();
+  }
 
-    
+
+  userIsSender(message: ChatGroupMessage): boolean {
+    return message.senderId == this.user.id;
   }
 
   sendMessage() {

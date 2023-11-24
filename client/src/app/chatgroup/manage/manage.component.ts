@@ -96,7 +96,7 @@ export class ManageComponent implements OnInit {
         chatgroup.ownerid = this.user.id;
         chatgroup.chatGroupMembers = selectedUsers.map(user => {
           const chatGroupMember: chatGroupMember = {
-            appuserid: user.id,
+            appUserId: user.id,
             chatGroupId: chatgroup.id
           };
           return chatGroupMember;
@@ -111,7 +111,7 @@ export class ManageComponent implements OnInit {
               chatgroup.owner = {userName :this.user.username} as Member;
               chatgroup.chatGroupMembers = selectedUsers.map(user => {
                 const chatGroupMember: chatGroupMember = {
-                  appuserid: user.id,
+                  appUserId: user.id,
                   chatGroupId: chatgroup.id,
                   //a trick to add photos to chatgroupmember to render at datatable to avoid round trip to backend
                   member: { 
@@ -159,7 +159,7 @@ export class ManageComponent implements OnInit {
         if (!this.arrayEqual(selectedUsers, initselectedUsers)) {
           chatgroup.chatGroupMembers = selectedUsers.map(user => {
             const chatGroupMember: chatGroupMember = {
-              appuserid: user.id,
+              appUserId: user.id,
               chatGroupId: chatgroup.id
             };
             return chatGroupMember;
@@ -181,7 +181,7 @@ export class ManageComponent implements OnInit {
               {
                 chatgroup.chatGroupMembers = selectedUsers.map(user => {
                   const chatGroupMember: chatGroupMember = {
-                    appuserid: user.id,
+                    appUserId: user.id,
                     chatGroupId: chatgroup.id,
                     //a trick to add photos to chatgroupmember to render at datatable to avoid round trip to backend
                     member: { 
@@ -211,8 +211,6 @@ export class ManageComponent implements OnInit {
     }
 
   enterChatgroup(chatgroup: ChatGroup ) {
-    //this.router.navigateByUrl('/chatgroupmessage');
-    console.log(chatgroup.name);
     const config = {
       class: 'modal-dialog-centered',
       initialState: {
@@ -222,9 +220,7 @@ export class ManageComponent implements OnInit {
     this.bsModalRefMessaging = this.modalService.show(ChatGroupMessageModal, config);
     this.bsModalRefMessaging.onHide?.subscribe({
       next: () => {
-        this.messageService.stopHubConnection();
-
-
+        //this.messageService.stopHubConnection();
       }})
   }
   

@@ -10,6 +10,8 @@
             UserName = username;
 
         }
+
+        public ChatGroup ChatGroup { get; private set; }
         public string ConnectionId { get; private set; }
         public int ChatGroupId { get; private set; }
         public string UserName { get; private set;}

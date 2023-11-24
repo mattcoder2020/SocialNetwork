@@ -1,14 +1,19 @@
-<h4 class="modal-title pull-left"> {{chatgroup.name}}</h4>
-<div class="member-photos-tooltip">
-    <!-- Display member photos here -->
-    <div class="image-container">
-        <ng-container *ngFor="let chatgroupmember of chatgroup.chatGroupMembers">
-            <img height="25px" width="25px" [src]="chatgroupmember.member.photos?.[0]?.url || 'assets/user.png'" [title]="chatgroupmember.member.userName?chatgroupmember.member.userName:chatgroupmember.member.knownAs"> 
-        </ng-container>
-    </div>
+<div class="modal-header">
+    <div><h4 class="modal-title pull-left"> {{chatgroup.name}}</h4></div>
+   
 </div>
 
-<div class="card">
+<div class="card modal-body">
+    <div><h4 class="modal-title pull-left"> Group Members</h4>
+        <div class="member-photos-tooltip">
+            <!-- Display member photos here -->
+            <div class="image-container">
+                <ng-container *ngFor="let chatgroupmember of chatgroup.chatGroupMembers">
+                    <img height="25px" width="25px" [src]="chatgroupmember.member.photos?.[0]?.url || 'assets/user.png'" [title]="chatgroupmember.member.userName?chatgroupmember.member.userName:chatgroupmember.member.knownAs"> 
+                </ng-container>
+            </div>
+        </div>
+        </div>
     <div class="card-body"
             #scrollMe
             style="overflow: scroll; height: 535px"
@@ -26,21 +31,22 @@
                         <span class="fa fa-clock-o">{{message.messageSent | timeago}}</span>
                     </small>
                 </div>
-                <div  *ngIf="message.senderId != user.id">
+                <div  *ngIf="userIsSender(message)">
                     <span class="chat-img float-start">
-                        <img class="rounded-circle" 
-                            src="{{message.senderPhotoUrl || './assets/user.png'}}" 
-                            alt="image of user">
+                        <img class="rounded-circle" width="30px" height="30px"
+                            src="{{message.senderPhotoUrl}}" 
+                            alt="{{message.senderName}}">
                     </span>
                     <div class="chat-body">
                         <p>{{message.content}}</p>
                     </div>
+                   
                 </div>
-                <div *ngIf="message.senderId === user.id">
+                <div *ngIf="!userIsSender(message)">
                     <span class="chat-img float-end" >
-                        <img class="rounded-circle" 
-                            src="{{message.senderPhotoUrl || './assets/user.png'}}" 
-                            alt="image of user">
+                        <img class="rounded-circle"  width="30px" height="30px"
+                            src="{{message.senderPhotoUrl}}" 
+                            alt="{{message.senderName}}">
                     </span>
                     <div class="chat-body">
                         <p>{{message.content}}</p>
@@ -51,7 +57,8 @@
         </ul>
     </div>
 
-    <div class="card-footer">
+    <div class="modal-footer">
+        
         <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off">
             <div class="input-group">
                 <input 
@@ -60,7 +67,7 @@
                     [(ngModel)]="messageContent"
                     type="text" 
                     class="form-control input-sm" 
-                    placeholder="Send a private message">
+                    placeholder="Send a group message">
                 <div class="input-group-append">
                     <button [disabled]="!messageForm.valid || loading" 
                         class="btn btn-primary" type="submit">

@@ -49,13 +49,30 @@ namespace API.Data
                 .HasMany(cgm => cgm.ChatGroupMembers)
                 .WithOne(cgm => cgm.ChatGroup)
                 .HasForeignKey(cgm => cgm.ChatGroupId)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade); ;
+
+            builder.Entity<ChatGroup>()
+                .HasMany(cg => cg.ChatGroupConnections)
+                .WithOne(cgc => cgc.ChatGroup)
+                .HasForeignKey(cgm => cgm.ChatGroupId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ChatGroup>()
+                .HasMany(cg => cg.ChatGroupMessages)
+                 .WithOne(cgc => cgc.ChatGroup)
+                 .HasForeignKey(cgm => cgm.ChatGroupId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ChatGroupConnection>()
+               .HasKey(k => new { k.ChatGroupId, k.UserName });
+
 
             builder.Entity<UserLike>()
                 .HasKey(k => new { k.SourceUserId, k.TargetUserId });
 
-            builder.Entity<ChatGroupConnection>()
-               .HasKey(k => new { k.ChatGroupId, k.UserName });
 
             builder.Entity<UserLike>()
                 .HasOne(s => s.SourceUser)
@@ -79,20 +96,12 @@ namespace API.Data
                 .WithMany(m => m.MessagesSent)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            
+
             builder.Entity<ChatGroupMember>()
                .HasKey(k => new { k.ChatGroupId, k.AppUserId });
 
-            //builder.Entity<ChatGroupMember>()
-            //    .HasOne(cgm => cgm.Member)
-            //    .WithMany(cg => cg.ChatGroupMembers)
-            //    .HasForeignKey(cgm => cgm.AppUserId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //builder.Entity<ChatGroupMember>()
-            //    .HasOne(cgm => cgm.ChatGroup)
-            //    .WithMany(cg => cg.ChatGroupMembers)
-            //    .HasForeignKey(cgm => cgm.ChatGroupId)
-            //    .OnDelete(DeleteBehavior.Cascade);
+           
         }
     }
 }
