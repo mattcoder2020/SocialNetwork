@@ -4,9 +4,7 @@ import { ChatGroup } from 'src/app/_models/chatgroup';
 import { ChatGroupMessageService } from 'src/app/_services/chatgroupmessage.service';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
-import { Member } from 'src/app/_models/member';
 import { take } from 'rxjs';
-import { id } from '@swimlane/ngx-datatable';
 import { ChatGroupMessage } from 'src/app/_models/chatgroupmessage';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -25,7 +23,9 @@ export class ChatGroupMessageModal implements OnInit
   loading = false;
   user: User;
 
-  constructor(public messageService: ChatGroupMessageService, private accountService: AccountService, public bsModalRef: BsModalRef) { 
+  constructor(public messageService: ChatGroupMessageService, 
+    private accountService: AccountService, 
+    public bsModalRef: BsModalRef) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) {

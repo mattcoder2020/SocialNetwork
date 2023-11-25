@@ -1,4 +1,3 @@
-
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ChatGroup } from 'src/app/_models/chatgroup';
 import { ChatgroupService } from 'src/app/_services/chatgroup.service';
@@ -13,7 +12,6 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { chatGroupMember } from 'src/app/_models/chatgroupmember';
 import { Member } from 'src/app/_models/member';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 import { ChatGroupMessageModal } from '../chat/chatgroupmessagemodal.component';
 import { ChatGroupMessageService } from 'src/app/_services/chatgroupmessage.service';
 
@@ -53,15 +51,13 @@ export class ManageComponent implements OnInit {
   confirmmodalRef?: BsModalRef;
   @ViewChild(DatatableComponent) table?: DatatableComponent;
   
-  
-
   constructor(private chatgroupService: ChatgroupService, 
     private messageService: ChatGroupMessageService,
     private fb: FormBuilder, 
     private accountService: AccountService,
     private modalService: BsModalService,
     private toastr: ToastrService,
-    private router: Router) {
+    ) {
 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {

@@ -38,9 +38,11 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ChatgroupService } from './_services/chatgroup.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ChatgroupModalComponent } from './modals/chatgroup-modal/chatgroup-modal.component';
+import { ngxdatatable } from './chatgroup/manage/ngxdatatable';
 
 @NgModule({
   declarations: [
+    ngxdatatable,
     AppComponent,
     NavComponent,
     HomeComponent,
