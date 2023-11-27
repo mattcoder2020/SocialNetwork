@@ -16,6 +16,7 @@
     </div>
 </div>
 <div>
+    
     <ngx-datatable 
     class="material"
     [rows]="rows"
@@ -26,6 +27,7 @@
     [sortType]="SortType.multi"
     [columnMode]="ColumnMode.force"
     [limit]="10"   
+   
 >
     <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
     <ngx-datatable-column name="Owner" prop="owner.userName"></ngx-datatable-column>

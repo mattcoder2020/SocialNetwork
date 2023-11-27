@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ChatGroup } from 'src/app/_models/chatgroup';
 import { ChatgroupService } from 'src/app/_services/chatgroup.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -24,6 +24,7 @@ import { ChatGroupMessageService } from 'src/app/_services/chatgroupmessage.serv
     './dark.scss',
     './bootstrap.scss'
   ],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class ManageComponent implements OnInit {
   public chatgroups: ChatGroup[] = [];
