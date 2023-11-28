@@ -1,91 +1,70 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="post.css" rel="stylesheet">
-<div class="container">
-   <div class="row">
-      <div class="col-md-12">
-         <div id="content" class="content content-full-width">
-            <!-- begin profile -->
-            <div class="profile">
-               <div class="profile-header">
-                  <!-- BEGIN profile-header-cover -->
-                  <div class="profile-header-cover"></div>
-                  <!-- END profile-header-cover -->
-                  <!-- BEGIN profile-header-content -->
-                  <div class="profile-header-content">
-                     <!-- BEGIN profile-header-img -->
-                     <div class="profile-header-img">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
-                     </div>
-                     <!-- END profile-header-img -->
-                     <!-- BEGIN profile-header-info -->
-                     <div class="profile-header-info">
-                        <h4 class="m-t-10 m-b-5">Sean Ngu</h4>
-                        <p class="m-b-10">UXUI + Frontend Developer</p>
-                        <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a>
-                     </div>
-                     <!-- END profile-header-info -->
-                  </div>
-                  <!-- END profile-header-content -->
-                  <!-- BEGIN profile-header-tab -->
-                  <ul class="profile-header-tab nav nav-tabs">
-                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/bs4-profile-with-timeline-posts" target="__blank" class="nav-link_">POSTS</a></li>
-                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/bs4-profile-about" target="__blank" class="nav-link_">ABOUT</a></li>
-                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/profile-photos" target="__blank" class="nav-link_">PHOTOS</a></li>
-                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/profile-videos" target="__blank" class="nav-link_">VIDEOS</a></li>
-                     <li class="nav-item"><a href="https://www.bootdey.com/snippets/view/bs4-profile-friend-list" target="__blank" class="nav-link_ active show">FRIENDS</a></li>
-                  </ul>
-                  <!-- END profile-header-tab -->
-               </div>
-            </div>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
-    <div class="container">
-        <a class="navbar-brand" routerLink="/" routerLinkActive="active">Campus Social Network</a>
-
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-            <ng-container *ngIf="accountService.currentUser$  | async">
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/members" 
-                        [routerLinkActiveOptions]="{exact: true}"
-                        routerLinkActive="active">Matches</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
-                </li>
-                <li *appHasRole="['Admin', 'Moderator']" class="nav-item">
-                    <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/chatgroups" routerLinkActive="active">Chat Groups</a>
-                    <!-- <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Chat Groups </a>
-                    <div class="dropdown-menu mt-3" *dropdownMenu>
-                        <a class="dropdown-item" routerLink="/chatgroups/edit">Edit Profile</a>
-                        <a class="dropdown-item" (click)="logout()">Logout</a>
-                    </div> -->
-                </li>
-            </ng-container>
-            
-        </ul>
-
-        <div class="dropdown" *ngIf="(accountService.currentUser$  | async) as user" dropdown>
-            <img src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
-            <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user.knownAs}}</a>
-            <div class="dropdown-menu mt-3" *dropdownMenu>
+<nav class="profile-header navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+    <a class="navbar-brand" routerLink="/" routerLinkActive="active">Campus Social Network</a>
+    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <ng-container *ngIf="accountService.currentUser$  | async">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/members" 
+                    [routerLinkActiveOptions]="{exact: true}"
+                    routerLinkActive="active">Matches</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
+            </li>
+            <li *appHasRole="['Admin', 'Moderator']" class="nav-item">
+                <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/chatgroups" routerLinkActive="active">Chat Groups</a>
+            </li>
+        </ng-container>
+    </ul>
+    <!-- <div class="dropdown" *ngIf="(accountService.currentUser$  | async) as user" dropdown>
+        <div class="d-flex align-items-center">
+            <img width="80px" height="80px" src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
+            <div class="ml-2">
+                <p>{{user.knownAs}}</p>
                 <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
                 <a class="dropdown-item" (click)="logout()">Logout</a>
             </div>
         </div>
-
-        <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()"
-            autocomplete="off">
-            <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text"
-                placeholder="Username">
-            <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password"
-                placeholder="Password">
-            <button class="btn btn-success" type="submit">Login</button>
-        </form>
-
-    </div>
+    </div> -->
+    <div  *ngIf="(accountService.currentUser$  | async) as user">
+        <!-- BEGIN profile-header-img -->
+        <div class="profile-header-img">
+            <img width="80px" height="80px" src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
+        </div>
+        <!-- END profile-header-img -->
+        <!-- BEGIN profile-header-info -->
+        <div class="profile-header-info">
+           <h4 class="m-t-10 m-b-5">{{user.knownAs}}</h4>
+           <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+           &nbsp; <a href="#" class="btn btn-sm btn-info mb-2">Logout</a>
+          
+        </div>
+        
+       
+        <!-- END profile-header-info -->
+     </div>
+    <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()"
+        autocomplete="off">
+        <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text"
+            placeholder="Username">
+        <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password"
+            placeholder="Password">
+        <button class="btn btn-success" type="submit">Login</button>
+    </form>
 </nav>
+                            
+                       
+            
+                
+                 <!-- END profile-header-info -->
+              
+     
+ 
+

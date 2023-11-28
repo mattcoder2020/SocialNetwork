@@ -7,3 +7,7 @@ img {
     border: 2px solid white;
     display: inline;
 }
+
+.nav-header  {
+    background-image: url(https://bootdey.com/img/Content/bg1.jpg);
+}

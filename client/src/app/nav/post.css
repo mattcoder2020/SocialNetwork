@@ -5,12 +5,13 @@ body{
 
 .profile-header {
     position: relative;
-    overflow: hidden
+    overflow: hidden;
+    background-image: url(https://bootdey.com/img/Content/bg1.jpg);
 }
 
 .profile-header .profile-header-cover {
     background-image: url(https://bootdey.com/img/Content/bg1.jpg);
-    background-size: cover;
+    background-size:auto;
     background-position: center;
     background-repeat: no-repeat;
     position: absolute;
@@ -37,13 +38,13 @@ body{
 
 .profile-header-img {
     float: left;
-    width: 120px;
-    height: 120px;
+    width: 50px;
+    height: 50px;
     overflow: hidden;
     position: relative;
     z-index: 10;
     margin: 0 0 -20px;
-    padding: 3px;
+    padding: 1px;
     border-radius: 4px;
     background: #fff
 }
@@ -58,7 +59,7 @@ body{
 }
 
 .profile-header-img+.profile-header-info {
-    margin-left: 140px
+    margin-left: 80px
 }
 
 .profile-header .profile-header-content,
