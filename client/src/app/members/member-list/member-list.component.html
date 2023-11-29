@@ -129,23 +129,6 @@
     </div>
     </div>
 
-    <div class="job-filter mb-4 d-sm-flex align-items-center">
-    <div class="job-alert-bt"> <a class="btn btn-md btn-dark" href="#"><i class="fa fa-envelope"></i>Get job alert </a> </div>
-    <div class="job-shortby ml-sm-auto d-flex align-items-center">
-    <form class="form-inline">
-    <div class="form-group mb-0">
-    <label class="justify-content-start mr-2">Sort by :</label>
-    <div class="short-by">
-    <select class="form-control basic-select select2-hidden-accessible" data-select2-id="1" tabindex="-1" aria-hidden="true">
-    <option data-select2-id="3">Newest</option>
-    <option>Oldest</option>
-    </select>
-    </div>
-    </div>
-    </form>
-    </div>
-    </div>
-
     <div class="row ">   <!-- avatar row -->
         
         <div class="col-sm-6 col-lg-4 mb-4" *ngFor="let member of members">
@@ -157,17 +140,20 @@
 
     
     <div class="row">
-    <div class="col-12 text-center mt-4 mt-sm-5">
-    <ul class="pagination justify-content-center mb-0">
-    <li class="page-item disabled"> <span class="page-link">Prev</span> </li>
-    <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span class="sr-only">(current)</span></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">...</a></li>
-    <li class="page-item"><a class="page-link" href="#">25</a></li>
-    <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
-    </ul>
-    </div>
+        <div class="d-flex justify-content-center" *ngIf="pagination">
+            <pagination 
+                [boundaryLinks]="true" 
+                [totalItems]="pagination.totalItems"
+                [itemsPerPage]="pagination.itemsPerPage"
+                [maxSize]="10"
+                [(ngModel)]="pagination.currentPage"
+                (pageChanged)="pageChanged($event)"
+                previousText="&lsaquo;" 
+                nextText="&rsaquo;" 
+                firstText="&laquo;" 
+                lastText="&raquo;">
+            </pagination>
+        </div>
     </div>
 </div>       <!-- avatar row -->
 

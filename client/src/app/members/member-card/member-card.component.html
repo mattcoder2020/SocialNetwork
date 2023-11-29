@@ -38,18 +38,18 @@
     <div class="candidate-list-details">
     <div class="candidate-list-info">
     <div class="candidate-list-title">
-    <h5><a href="candidate-detail.html"> {{member.knownAs}}</a></h5>
+    <h5><a routerLink="/members/{{member.userName}}"> {{member.knownAs}}</a></h5>
     </div>
     <div class="candidate-list-option">
     <ul class="list-unstyled">
-    <li><i class="fas fa-filter pr-1"></i>Recruitment Consultancy</li>
-    <li><i class="fas fa-map-marker-alt pr-1"></i>Haines City, FL 33844</li>
+    <li><i class="fas fa-filter pr-1"></i>Recruitment Consultancy       </li>
+    <li><i class="fas fa-map-marker-alt pr-1"></i>{{member.city}}, {{member.country}}</li>
     </ul>
     </div>
     </div>
     <div class="candidate-list-favourite-time">
     <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-    <span class="candidate-list-time order-1"><i class="far fa-clock pr-1"></i>1M ago</span>
+    <span class="candidate-list-time order-1"><i class="far fa-clock pr-1"></i> {{member.lastActive | timeago}} </span>
     </div>
     </div>
     </div>

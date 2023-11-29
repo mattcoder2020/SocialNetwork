@@ -42,8 +42,8 @@
         <!-- BEGIN profile-header-info -->
         <div class="profile-header-info">
            <h4 class="m-t-10 m-b-5">{{user.knownAs}}</h4>
-           <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a>
-           &nbsp; <a href="#" class="btn btn-sm btn-info mb-2">Logout</a>
+           <a routerLink="/member/edit" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+           &nbsp; <a href="#" class="btn btn-sm btn-info mb-2" (click)="logout()">Logout</a>
           
         </div>
         
