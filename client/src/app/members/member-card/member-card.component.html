@@ -33,12 +33,12 @@
    
     <div class="candidate-list candidate-grid">
     <div class="candidate-list-image">
-    <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+    <img class="img-fluid" src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}">
     </div>
     <div class="candidate-list-details">
     <div class="candidate-list-info">
     <div class="candidate-list-title">
-    <h5><a href="candidate-detail.html">Rafael Briggs</a></h5>
+    <h5><a href="candidate-detail.html"> {{member.knownAs}}</a></h5>
     </div>
     <div class="candidate-list-option">
     <ul class="list-unstyled">

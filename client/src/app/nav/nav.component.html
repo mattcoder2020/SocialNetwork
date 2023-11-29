@@ -7,7 +7,7 @@
             <li class="nav-item">
                 <a class="nav-link" routerLink="/members" 
                     [routerLinkActiveOptions]="{exact: true}"
-                    routerLinkActive="active">Matches</a>
+                    routerLinkActive="active">People Search</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
@@ -36,7 +36,7 @@
     <div  *ngIf="(accountService.currentUser$  | async) as user">
         <!-- BEGIN profile-header-img -->
         <div class="profile-header-img">
-            <img width="80px" height="80px" src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
+            <img src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
         </div>
         <!-- END profile-header-img -->
         <!-- BEGIN profile-header-info -->
