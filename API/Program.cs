@@ -88,6 +88,8 @@ try
     await Seed.ClearConnections(context);
     await Seed.SeedUsers(userManager, roleManager);
     await Seed.SeedChatGroups(uowManager);
+    await Seed.SeedMajors(uowManager, context);
+    await Seed.SeedUniversity(uowManager, context);
 }
 catch (Exception ex)
 {

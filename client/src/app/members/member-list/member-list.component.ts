@@ -18,17 +18,23 @@ export class MemberListComponent implements OnInit {
   pagination: Pagination | undefined;
   userParams: UserParams | undefined;
   genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }]
-  universityList = [{ value: 1, display: 'Harvard University'}, 
-  { value: 2, display: 'Stanford University'}, 
-  { value: 3, display: 'Harvard University'},
-  { value: 4, display: 'University of Cambridge'},
-  { value: 5, display: 'University of Oxford'}]
+  universityList = [{ value: 0, display: 'Harvard University'}, 
+  { value: 1, display: 'Stanford University'}, 
+  { value: 2, display: 'Harvard University'},
+  { value: 3, display: 'University of Cambridge'},
+  { value: 4, display: 'University of Oxford'}]
 
- majorList = [{ value: 1, display: 'Computer Science'}, 
-  { value: 2, display: 'Psychology'}, 
-  { value: 3, display: 'Finance'},
-  { value: 4, display: 'Business'},
-  { value: 5, display: 'Economics'}]
+ majorList = [{ value: 0, display: 'Computer Science'}, 
+  { value: 1, display: 'Psychology'}, 
+  { value: 2, display: 'Finance'},
+  { value: 3, display: 'Business'},
+  { value: 4, display: 'Economics'}]
+
+  yearRangeList = [{ value: 1980, display: '1980-1989'}, 
+  { value: 1990, display: '1990-1999'}, 
+  { value: 2000, display: '2000-2009'},
+  { value: 2010, display: '2010-2019'},
+  { value: 2020, display: '2020-2029'}]
 
   constructor(private memberService: MembersService) {
     this.userParams = this.memberService.getUserParams();

@@ -1,3 +1,22 @@
-{
-
-}
+[
+  {
+    "id": 0,
+    "name": "Harvard University"
+  },
+  {
+    "id": 1,
+    "name": "Stanford University"
+  },
+  {
+    "id": 2,
+    "name": "Boston University"
+  },
+  {
+    "id": 3,
+    "name": "University of Cambridge"
+  },
+  {
+    "id": 4,
+    "name": "University of Oxford"
+  }
+]

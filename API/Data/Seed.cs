@@ -13,6 +13,8 @@ namespace API.Data
         public static async Task ClearConnections(DataContext context)
         {
             context.Connections.RemoveRange(context.Connections);
+            //context.Majors.RemoveRange(context.Majors);
+            //context.Universities.RemoveRange(context.Universities);
             context.ChatGroupConnections.RemoveRange(context.ChatGroupConnections);
             await context.SaveChangesAsync();
         }
@@ -73,6 +75,32 @@ namespace API.Data
                 await unitOfWork.ChatGroupRepository.AddChatGroupAsync(chatgroup);
             }
             await unitOfWork.Complete();
+        }
+
+        public static async Task SeedUniversity(IUnitOfWork unitOfWork, DataContext dataContext)
+        {
+            if (dataContext.Universities.Any()) return;
+            var majorData = await File.ReadAllTextAsync("Data/University.json");
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            var majors = JsonSerializer.Deserialize<List<University>>(majorData, options);
+
+            dataContext.Universities.AddRange(majors);
+            await unitOfWork.Complete();
+        }
+
+        public static async Task SeedMajors(IUnitOfWork unitOfWork, DataContext dataContext)
+        {
+            if (dataContext.Majors.Any()) return;
+            var majorData = await File.ReadAllTextAsync("Data/Majors.json");
+
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            var majors = JsonSerializer.Deserialize<List<Major>>(majorData, options);
+
+             dataContext.Majors.AddRange(majors);
+             await unitOfWork.Complete();
         }
     }
 }

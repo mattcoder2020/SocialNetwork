@@ -35,7 +35,50 @@ namespace API.Data
             {
                 query = query.Where(u => u.Gender == userParams.Gender);
             }
-            
+
+            if (userParams.YearRangeList != null && (userParams.YearRangeList.Count > 0))
+            {
+                foreach (int year in userParams.YearRangeList)
+                {
+                    if (year == 1980)
+                    {
+                        query = query.Where(u => u.YearOfGraduate > new DateTime(1960, 1 ,1) && u.YearOfGraduate < new DateTime(1969, 12, 30));
+                    }
+                    if (year == 1990)
+                    {
+                        query = query.Where(u => u.YearOfGraduate > new DateTime(1990, 1, 1) && u.YearOfGraduate < new DateTime(1999, 12, 30));
+                    }
+                    if (year == 2000)
+                    {
+                        query = query.Where(u => u.YearOfGraduate > new DateTime(2000, 1, 1) && u.YearOfGraduate < new DateTime(2009, 12, 30));
+                    }
+                    if (year == 2010)
+                    {
+                        query = query.Where(u => u.YearOfGraduate > new DateTime(2010, 1, 1) && u.YearOfGraduate < new DateTime(2019, 12, 30));
+                    }
+                    if (year == 2020)
+                    {
+                        query = query.Where(u => u.YearOfGraduate > new DateTime(2020, 1, 1) && u.YearOfGraduate < new DateTime(2029, 12, 30));
+                    }
+                }
+            }
+
+            if (userParams.MajorList!= null && (userParams.MajorList.Count > 0))
+            {
+                foreach (MajorEnum major in userParams.MajorList)
+                {  
+                        query = query.Where(u => u.MajorId== (int)(major));
+                }
+            }
+
+            if (userParams.UniversityList != null && (userParams.UniversityList.Count > 0))
+            {
+                foreach (UniversityEnum university in userParams.UniversityList)
+                {
+                    query = query.Where(u => u.UniversityId == (int)(university));
+                }
+            }
+
 
             var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
             var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));

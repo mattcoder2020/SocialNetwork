@@ -1,3 +1,5 @@
+using API.Entities;
+
 namespace API.Helpers
 {
     public class UserParams : PaginationParams
@@ -7,8 +9,8 @@ namespace API.Helpers
         public int MinAge { get; set; } = 18;
         public int MaxAge { get; set; } = 100;
         public string OrderBy { get; set; } = "lastActive";
-        public List<int> UniversityList { get; set; }
-        public List<int> MajorList { get; set; }
-        public List<int> YearRangeList { get; set; }
+        public List<UniversityEnum> UniversityList { get; set; }
+        public List<MajorEnum> MajorList { get; set; }
+        public List<YearRangeEnum> YearRangeList { get; set; }
     }
 }
