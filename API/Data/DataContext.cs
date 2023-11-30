@@ -21,6 +21,10 @@ namespace API.Data
         public DbSet<ChatGroupMessage> ChatGroupMessages { get; set; }
         public DbSet<ChatGroupMember> ChatGroupMembers { get; set; }
         public DbSet<ChatGroupConnection> ChatGroupConnections { get; set; }
+        public DbSet<University> Universities { get; set; }
+        public DbSet<Major> Majors { get; set; }
+
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)

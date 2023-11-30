@@ -17,7 +17,7 @@
     </div>
     <div class="widget">
     <div class="widget-title widget-collapse">
-    <h6>Date Join</h6>
+    <h6>Year of Guaduration</h6>
     <a class="ml-auto" data-toggle="collapse" href="#dateposted" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-chevron-down"></i> </a>
     </div>
     <div class="collapse show" id="dateposted">
@@ -44,26 +44,16 @@
     <div class="widget">
     <div class="widget-title widget-collapse">
     <h6>Major</h6>
-    <a class="ml-auto" data-toggle="collapse" href="#specialism" role="button" aria-expanded="false" aria-controls="specialism"> <i class="fas fa-chevron-down"></i> </a>
+    <a class="ml-auto" data-toggle="collapse" href="#specialism" 
+    role="button" aria-expanded="false" aria-controls="specialism"> <i class="fas fa-chevron-down"></i> </a>
     </div>
     <div class="collapse show" id="specialism">
     <div class="widget-content">
-    <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="specialism1">
-    <label class="custom-control-label" for="specialism1">Computer Science</label>
-    </div>
-    <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="specialism2">
-    <label class="custom-control-label" for="specialism2">Psychology</label>
-    </div>
-    <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="specialism3">
-    <label class="custom-control-label" for="specialism3">Finance</label>
-    </div>
-    <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="specialism4">
-    <label class="custom-control-label" for="specialism4">MBA</label>
-    </div>
+        <div class="custom-control custom-checkbox" *ngFor="let major of majorList">
+                
+            <input type="checkbox" class="custom-control-input" [value]="major.value" (change)="UniversityChange($event)">
+            <label class="custom-control-label" for="jobtype1">{{major.display}}</label>
+        </div>
    
     </div>
     </div>
@@ -71,29 +61,20 @@
     <div class="widget">
     <div class="widget-title widget-collapse">
     <h6>Job Type</h6>
-    <a class="ml-auto" data-toggle="collapse" href="#jobtype" role="button" aria-expanded="false" aria-controls="jobtype"> <i class="fas fa-chevron-down"></i> </a>
+    <a class="ml-auto" data-toggle="collapse" href="#jobtype" role="button" 
+    aria-expanded="false" aria-controls="jobtype"> <i class="fas fa-chevron-down"></i> </a>
     </div>
     <div class="collapse show" id="jobtype">
     <div class="widget-content">
-    <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="jobtype1">
-    <label class="custom-control-label" for="jobtype1">Full Time</label>
-    </div>
-    <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="jobtype2">
-    <label class="custom-control-label" for="jobtype2">Part-Time</label>
-    </div>
-    <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="jobtype3">
-    <label class="custom-control-label" for="jobtype3">Freelance</label>
-    </div>
-    <div class="custom-control custom-checkbox ">
-    <input type="checkbox" class="custom-control-input" id="jobtype4">
-    <label class="custom-control-label" for="jobtype4">Temporary</label>
-    </div>
-    </div>
-    </div>
-    </div>
+        <div class="custom-control custom-checkbox" *ngFor="let university of universityList">
+                
+            <input type="checkbox" class="custom-control-input" [value]="university.value" (change)="UniversityChange($event)">
+            <label class="custom-control-label" for="jobtype1">{{university.display}}</label>
+        </div>
+        
+        </div>
+        </div>
+        </div>
     
     
     <div class="widget">

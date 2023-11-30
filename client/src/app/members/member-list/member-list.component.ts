@@ -18,6 +18,17 @@ export class MemberListComponent implements OnInit {
   pagination: Pagination | undefined;
   userParams: UserParams | undefined;
   genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }]
+  universityList = [{ value: 1, display: 'Harvard University'}, 
+  { value: 2, display: 'Stanford University'}, 
+  { value: 3, display: 'Harvard University'},
+  { value: 4, display: 'University of Cambridge'},
+  { value: 5, display: 'University of Oxford'}]
+
+ majorList = [{ value: 1, display: 'Computer Science'}, 
+  { value: 2, display: 'Psychology'}, 
+  { value: 3, display: 'Finance'},
+  { value: 4, display: 'Business'},
+  { value: 5, display: 'Economics'}]
 
   constructor(private memberService: MembersService) {
     this.userParams = this.memberService.getUserParams();
@@ -53,5 +64,63 @@ export class MemberListComponent implements OnInit {
       this.memberService.setUserParams(this.userParams);
       this.loadMembers();
     }
+  }
+
+  UniversityChange(event: any) {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      if (this.userParams && this.userParams?.UniversityList.indexOf(event.target.value) === -1) {
+        this.userParams.UniversityList.push(event.target.value);
+        this.memberService.setUserParams(this.userParams);
+      }
+    }
+    else
+    {
+      if (this.userParams && this.userParams?.UniversityList.indexOf(event.target.value) > -1) {
+        this.userParams.UniversityList.splice(this.userParams.UniversityList.indexOf(event.target.value), 1);
+        this.memberService.setUserParams(this.userParams);
+      }
+    }
+    this.loadMembers();
+    console.log(this.userParams?.UniversityList);
+  }
+
+  MajorChange(event: any) {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      if (this.userParams && this.userParams?.MajorList.indexOf(event.target.value) === -1) {
+        this.userParams.MajorList.push(event.target.value);
+        }
+      }
+    else
+    {
+      if (this.userParams && this.userParams?.MajorList.indexOf(event.target.value) > -1) {
+        this.userParams.MajorList.splice(this.userParams.UniversityList.indexOf(event.target.value), 1);
+          }
+    }
+    this.memberService.setUserParams(this.userParams);
+    this.loadMembers();
+    console.log(this.userParams?.MajorList);
+  }
+
+  YearRangeChange(event: any) {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      if (this.userParams && this.userParams?.YearRangeList.indexOf(event.target.value) === -1) {
+        this.userParams.YearRangeList.push(event.target.value);
+        }
+      }
+    else
+    {
+      if (this.userParams && this.userParams?.YearRangeList.indexOf(event.target.value) > -1) {
+        this.userParams.YearRangeList.splice(this.userParams.UniversityList.indexOf(event.target.value), 1);
+      }
+    }
+    this.memberService.setUserParams(this.userParams);
+    this.loadMembers();
+    console.log(this.userParams?.YearRangeList);
   }
 }
