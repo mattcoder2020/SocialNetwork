@@ -20,7 +20,7 @@ export class MemberListComponent implements OnInit {
   genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }]
   universityList = [{ value: 0, display: 'Harvard University'}, 
   { value: 1, display: 'Stanford University'}, 
-  { value: 2, display: 'Harvard University'},
+  { value: 2, display: 'Boston University'},
   { value: 3, display: 'University of Cambridge'},
   { value: 4, display: 'University of Oxford'}]
 
