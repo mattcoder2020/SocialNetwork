@@ -46,7 +46,7 @@ namespace API.Controllers
         }
 
         [HttpPost("querybybody")]
-        public async Task<ActionResult<PagedList<MemberDto>>> GetUsersViaPostRequest([FromQuery] UserParams userParams)
+        public async Task<ActionResult<PagedList<MemberDto>>> GetUsersViaPostRequest([FromBody] UserParams userParams)
         {
             var currentUser = await _uow.UserRepository.GetUserByUsernameAsync(User.GetUsername());
             userParams.CurrentUsername = currentUser.UserName;
@@ -57,9 +57,6 @@ namespace API.Controllers
             //}
 
             var users = await _uow.UserRepository.GetMembersAsync(userParams);
-
-            Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage, users.PageSize,
-                users.TotalCount, users.TotalPages));
 
             return Ok(users);
         }
