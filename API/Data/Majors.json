@@ -1,22 +1,22 @@
 [
   {
-    "id": 0,
+    
     "name": "Computer Science"
   },
   {
-    "id": 1,
+    
     "name": "Psychology"
   },
   {
-    "id": 2,
+    
     "name": "Finance"
   },
   {
-    "id": 3,
+    
     "name": "Business"
   },
   {
-    "id": 4,
+   
     "name": "Economics"
   }
 ]

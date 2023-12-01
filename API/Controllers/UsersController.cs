@@ -45,6 +45,25 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        [HttpPost("querybybody")]
+        public async Task<ActionResult<PagedList<MemberDto>>> GetUsersViaPostRequest([FromQuery] UserParams userParams)
+        {
+            var currentUser = await _uow.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            userParams.CurrentUsername = currentUser.UserName;
+
+            //if (string.IsNullOrEmpty(userParams.Gender))
+            //{
+            //    userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
+            //}
+
+            var users = await _uow.UserRepository.GetMembersAsync(userParams);
+
+            Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage, users.PageSize,
+                users.TotalCount, users.TotalPages));
+
+            return Ok(users);
+        }
+
         [HttpGet("{username}")]
 
         public async Task<ActionResult<MemberDto>> GetUser(string username)

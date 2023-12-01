@@ -47,6 +47,7 @@ namespace API.Data
                 user.UserName = user.UserName.ToLower();
                 user.Created = DateTime.SpecifyKind(user.Created, DateTimeKind.Utc);
                 user.LastActive = DateTime.SpecifyKind(user.LastActive, DateTimeKind.Utc);
+                user.YearOfGraduate = DateTime.SpecifyKind(user.YearOfGraduate, DateTimeKind.Utc);
                 await userManager.CreateAsync(user, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(user, "Member");
             }

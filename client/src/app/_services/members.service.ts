@@ -7,7 +7,7 @@ import { PaginatedResult } from '../_models/pagination';
 import { User } from '../_models/user';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
-import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
+import { getPaginatedResult, getPaginatedResultWithBody, getPaginationHeaders } from './paginationHelper';
 
 @Injectable({
   providedIn: 'root'
@@ -58,14 +58,24 @@ export class MembersService {
     if (userParams.gender != null)
     params = params.append('gender', userParams.gender);
     params = params.append('orderBy', userParams.orderBy);
+    
 
-    return getPaginatedResult<Member[]>(this.baseUrl + 'users', params, this.http).pipe(
+    // return getPaginatedResult<Member[]>(this.baseUrl + 'users', params, this.http).pipe(
+    //   map(response => {
+    //     this.memberCache.set(Object.values(userParams).join('-'), response);
+    //     return response;
+    //   })
+    // )
+
+    return getPaginatedResultWithBody<Member[]>(this.baseUrl + 'users/querybybody', userParams, this.http).pipe(
       map(response => {
         this.memberCache.set(Object.values(userParams).join('-'), response);
         return response;
       })
     )
   }
+
+
 
   getMember(username: string) {
     const member = [...this.memberCache.values()]
