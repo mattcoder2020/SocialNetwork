@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, of, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
-import { PaginatedResult } from '../_models/pagination';
+import { PaginatedResult, PaginatedResult2 } from '../_models/pagination';
 import { User } from '../_models/user';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
@@ -67,7 +67,7 @@ export class MembersService {
     //   })
     // )
 
-    return getPaginatedResultWithBody<Member[]>(this.baseUrl + 'users/querybybody', userParams, this.http).pipe(
+    return getPaginatedResultWithBody<PaginatedResult2<Member[]>>(this.baseUrl + 'users/querybybody', userParams, this.http).pipe(
       map(response => {
         this.memberCache.set(Object.values(userParams).join('-'), response);
         return response;

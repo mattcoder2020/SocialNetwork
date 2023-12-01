@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { map } from "rxjs";
-import { PaginatedResult } from "../_models/pagination";
+import { PaginatedResult, PaginatedResult2 } from "../_models/pagination";
 import { UserParams } from "../_models/userParams";
 
 export function getPaginatedResult<T>(url: string, params: HttpParams, http: HttpClient) {
@@ -20,7 +20,8 @@ export function getPaginatedResult<T>(url: string, params: HttpParams, http: Htt
   }
 
   export function getPaginatedResultWithBody<T>(url: string, params: UserParams, http: HttpClient) {
-    let paginatedResult: PaginatedResult<T> = new PaginatedResult<T>;
+    let paginatedResult: T;
+
     return http.post<T>(url, params).pipe(
       map(response => {
         paginatedResult = response;
@@ -28,6 +29,8 @@ export function getPaginatedResult<T>(url: string, params: HttpParams, http: Htt
       })
     );
   }
+
+  
 
   
 

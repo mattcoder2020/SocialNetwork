@@ -54,9 +54,15 @@ export class MemberListComponent implements OnInit {
         next: response => {
           if (response.result && response.pagination) {
             this.members = response.result;
-            this.pagination = response.pagination;
+            this.pagination = {
+              currentPage: response.pagination.CurrentPage,
+              itemsPerPage: response.pagination.PageSize,
+              totalItems: response.pagination.TotalCount,
+              totalPages: response.pagination.TotalPages,
+            };
           }
         }
+
       })
     }
   }
