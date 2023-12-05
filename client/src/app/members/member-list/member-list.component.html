@@ -6,15 +6,10 @@
     <div class="col-lg-3">
     <div class="sidebar">
     <div class="widget border-0">
-    <div class="search">
-    <input class="form-control" type="text" placeholder="Search Keywords">
+        <a class="btn btn-md btn-dark" (click)="resetFilters()"><i class="fa fa-refresh" aria-hidden="true"></i>
+            Reset Filters </a>
     </div>
-    </div>
-    <div class="widget border-0">
-    <div class="locations">
-    <input class="form-control" type="text" placeholder="All Locations">
-    </div>
-    </div>
+   
     <div class="widget">
     <div class="widget-title widget-collapse">
     <h6>Year of Guaduration</h6>
@@ -97,8 +92,10 @@
     <div class="col-lg-9">
     <div class="row mb-4">
     <div class="col-12">
-
-    <h6 class="mb-0">
+    <div class="row" *ngIf="!members || members.length === 0">
+            <h3>No match connects</h3>
+    </div>
+    <h6 class="mb-0" *ngIf="members && members.length > 0">
         Showing {{pagination.currentPage * pagination.itemsPerPage - pagination.itemsPerPage + 1}}
         - {{(pagination.currentPage - 1) * pagination.itemsPerPage + members.length}} of <span class="text-primary">{{pagination.totalItems}}</span></h6>
     </div>
@@ -110,7 +107,7 @@
        </div>
     </div>
         
-    <div class="row">
+    <div class="row" *ngIf="members && members.length > 0">
         <div class="d-flex justify-content-center" *ngIf="pagination">
             <pagination 
                 [boundaryLinks]="true" 

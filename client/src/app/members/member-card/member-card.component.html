@@ -48,7 +48,7 @@
     </div>
     </div>
     <div class="candidate-list-favourite-time">
-    <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
+    <a class="candidate-list-favourite order-2" ><i class="far fa-heart" (click)="addLike(member)"></i></a>
     <span class="candidate-list-time order-1"><i class="far fa-clock pr-1"></i> {{member.lastActive | timeago}} </span>
     </div>
     </div>

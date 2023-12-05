@@ -4,16 +4,11 @@ import { PaginatedResult, PaginatedResult2 } from "../_models/pagination";
 import { UserParams } from "../_models/userParams";
 
 export function getPaginatedResult<T>(url: string, params: HttpParams, http: HttpClient) {
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>;
+    //const paginatedResult: PaginatedResult2<T> = new PaginatedResult2<T>;
+    let paginatedResult: T;
     return http.get<T>(url, { observe: 'response', params }).pipe(
       map(response => {
-        if (response.body) {
-          paginatedResult.result = response.body;
-        }
-        const pagination = response.headers.get('Pagination');
-        if (pagination) {
-          paginatedResult.pagination = JSON.parse(pagination);
-        }
+        paginatedResult = response.body as T;
         return paginatedResult;
       })
     );

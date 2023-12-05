@@ -113,7 +113,7 @@ export class MembersService {
 
     params = params.append('predicate', predicate);
 
-    return getPaginatedResult<Member[]>(this.baseUrl + 'likes', params, this.http);
+    return getPaginatedResult<PaginatedResult2<Member[]>>(this.baseUrl + 'likes', params, this.http);
   }
 
   
