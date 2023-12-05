@@ -12,7 +12,10 @@ export class PaginatedResult<T> {
 
 export class PaginatedResult2<T> {
     result?: T;
-    pagination?: Pagination2;
+    currentPage: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
 }
 
 export interface Pagination2 {

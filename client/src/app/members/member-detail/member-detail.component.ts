@@ -103,4 +103,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  
+
 }

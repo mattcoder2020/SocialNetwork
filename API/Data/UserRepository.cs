@@ -4,7 +4,9 @@ using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using CloudinaryDotNet;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace API.Data
 {
@@ -31,52 +33,58 @@ namespace API.Data
             var query = _context.Users.AsQueryable();
 
             query = query.Where(u => u.UserName != userParams.CurrentUsername);
-            if (!string.IsNullOrEmpty(userParams.Gender))
+            if (userParams.GenderList != null && (userParams.GenderList.Count > 0))
             {
-                query = query.Where(u => u.Gender == userParams.Gender);
+                query = query.Where(u =>
+                (
+                  (userParams.GenderList.Contains("male")) && (u.Gender == "male") ||
+                  (userParams.GenderList.Contains("female")) && (u.Gender == "female"))
+                );
             }
+            var tempYearList = userParams.YearRangeList;
 
-            if (userParams.YearRangeList != null && (userParams.YearRangeList.Count > 0))
+            if (tempYearList.Count() > 0)
             {
-                foreach (int year in userParams.YearRangeList)
-                {
-                    if (year == 1980)
-                    {
-                        query = query.Where(u => u.YearOfGraduate > new DateTime(1960, 1 ,1) && u.YearOfGraduate < new DateTime(1969, 12, 30));
-                    }
-                    if (year == 1990)
-                    {
-                        query = query.Where(u => u.YearOfGraduate > new DateTime(1990, 1, 1) && u.YearOfGraduate < new DateTime(1999, 12, 30));
-                    }
-                    if (year == 2000)
-                    {
-                        query = query.Where(u => u.YearOfGraduate > new DateTime(2000, 1, 1) && u.YearOfGraduate < new DateTime(2009, 12, 30));
-                    }
-                    if (year == 2010)
-                    {
-                        query = query.Where(u => u.YearOfGraduate > new DateTime(2010, 1, 1) && u.YearOfGraduate < new DateTime(2019, 12, 30));
-                    }
-                    if (year == 2020)
-                    {
-                        query = query.Where(u => u.YearOfGraduate > new DateTime(2020, 1, 1) && u.YearOfGraduate < new DateTime(2029, 12, 30));
-                    }
-                }
+                query = query.Where(u =>
+                (
+                     //(!tempYearList.Contains(1980) || (u.YearOfGraduate > new DateTime(1980, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(1989, 12, 30).ToUniversalTime())) ||
+                     //(!tempYearList.Contains(1990) || (u.YearOfGraduate > new DateTime(1990, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(1999, 12, 30).ToUniversalTime())) ||
+                     //(!tempYearList.Contains(2000) || (u.YearOfGraduate > new DateTime(2000, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2009, 12, 30).ToUniversalTime())) ||
+                     //(!tempYearList.Contains(2010) || (u.YearOfGraduate > new DateTime(2010, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2019, 12, 30).ToUniversalTime())) ||
+                     //(!tempYearList.Contains(2020) || (u.YearOfGraduate > new DateTime(2020, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2029, 12, 30).ToUniversalTime()))
+                     (tempYearList.Contains(1980) && (u.YearOfGraduate > new DateTime(1980, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(1989, 12, 30).ToUniversalTime())) ||
+                    (tempYearList.Contains(1990) && (u.YearOfGraduate > new DateTime(1990, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(1999, 12, 30).ToUniversalTime())) ||
+                    (tempYearList.Contains(2000) && (u.YearOfGraduate > new DateTime(2000, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2009, 12, 30).ToUniversalTime())) ||
+                    (tempYearList.Contains(2010) && (u.YearOfGraduate > new DateTime(2010, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2019, 12, 30).ToUniversalTime())) ||
+                    (tempYearList.Contains(2020) && (u.YearOfGraduate > new DateTime(2020, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2029, 12, 30).ToUniversalTime()))
+                )
+                );
             }
 
             if (userParams.MajorList!= null && (userParams.MajorList.Count > 0))
             {
-                foreach (MajorEnum major in userParams.MajorList)
-                {  
-                        query = query.Where(u => u.MajorId== (int)(major));
-                }
+                query = query.Where(u =>
+                (
+                    (userParams.MajorList.Contains(1)) && (u.MajorId == 1) ||
+                    (userParams.MajorList.Contains(2)) && (u.MajorId == 2) ||
+                    (userParams.MajorList.Contains(3)) && (u.MajorId == 3) ||
+                    (userParams.MajorList.Contains(4)) && (u.MajorId == 4) ||
+                    (userParams.MajorList.Contains(5)) && (u.MajorId == 5) 
+                )
+                );
             }
 
             if (userParams.UniversityList != null && (userParams.UniversityList.Count > 0))
             {
-                foreach (UniversityEnum university in userParams.UniversityList)
-                {
-                    query = query.Where(u => u.UniversityId == (int)(university));
-                }
+                query = query.Where(u =>
+               (
+                   (userParams.UniversityList.Contains(1)) && (u.UniversityId == 1) ||
+                   (userParams.UniversityList.Contains(2)) && (u.UniversityId == 2) ||
+                   (userParams.UniversityList.Contains(3)) && (u.UniversityId == 3) ||
+                   (userParams.UniversityList.Contains(4)) && (u.UniversityId == 4) ||
+                   (userParams.UniversityList.Contains(5)) && (u.UniversityId == 5)
+               )
+               );
             }
 
 

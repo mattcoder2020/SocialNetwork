@@ -23,7 +23,10 @@
     <div class="collapse show" id="dateposted">
     <div class="widget-content">
         <div class="custom-control custom-checkbox" *ngFor="let range of yearRangeList">
-            <input type="checkbox" class="custom-control-input" [value]="range.value" (change)="YearRangeChange($event)">
+            <input type="checkbox" class="custom-control-input" [value]="range.value" 
+            [checked]="this.userParams?.YearRangeList.includes(range.value)"
+            (change)="YearRangeChange($event)">
+          
             <label class="custom-control-label" for="jobtype1">{{range.display}}</label>
         </div>
     </div>
@@ -39,7 +42,9 @@
     <div class="widget-content">
         <div class="custom-control custom-checkbox" *ngFor="let major of majorList">
                 
-            <input type="checkbox" class="custom-control-input" [value]="major.value" (change)="MajorChange($event)">
+            <input type="checkbox" class="custom-control-input" [value]="major.value" 
+            [checked]="this.userParams?.MajorList.includes(major.value)"
+            (change)="MajorChange($event)">
             <label class="custom-control-label" for="jobtype1">{{major.display}}</label>
         </div>
    
@@ -55,8 +60,9 @@
     <div class="collapse show" id="jobtype">
     <div class="widget-content">
         <div class="custom-control custom-checkbox" *ngFor="let university of universityList">
-                
-            <input type="checkbox" class="custom-control-input" [value]="university.value" (change)="UniversityChange($event)">
+            <input type="checkbox" class="custom-control-input" [value]="university.value" 
+            [checked]="this.userParams?.UniversityList.includes(university.value)"
+            (change)="UniversityChange($event)">
             <label class="custom-control-label" for="jobtype1">{{university.display}}</label>
         </div>
         
@@ -72,13 +78,11 @@
     </div>
     <div class="collapse show" id="gender">
     <div class="widget-content">
-    <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="gender1">
-    <label class="custom-control-label" for="gender1">Male</label>
-    </div>
-    <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="gender2">
-    <label class="custom-control-label" for="gender2">Female</label>
+    <div class="custom-control custom-checkbox" *ngFor="let gender of genderList">
+    <input type="checkbox" class="custom-control-input" id="gender1" [value]="gender.value"
+    [checked]="this.userParams.GenderList.includes(gender.value)" (change)="GenderChange($event)"
+    >
+    <label class="custom-control-label" for="gender1">{{gender.display}}</label>
     </div>
     </div>
     </div>
@@ -94,20 +98,18 @@
     <div class="row mb-4">
     <div class="col-12">
 
-    <h6 class="mb-0">Showing 1-10 of <span class="text-primary">28 Candidates</span></h6>
+    <h6 class="mb-0">
+        Showing {{pagination.currentPage * pagination.itemsPerPage - pagination.itemsPerPage + 1}}
+        - {{(pagination.currentPage - 1) * pagination.itemsPerPage + members.length}} of <span class="text-primary">{{pagination.totalItems}}</span></h6>
     </div>
     </div>
 
     <div class="row ">   <!-- avatar row -->
-        
         <div class="col-sm-6 col-lg-4 mb-4" *ngFor="let member of members">
         <app-member-card [member]="member"></app-member-card>
        </div>
-     
     </div>
-    
-
-    
+        
     <div class="row">
         <div class="d-flex justify-content-center" *ngIf="pagination">
             <pagination 

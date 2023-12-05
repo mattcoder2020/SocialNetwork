@@ -52,15 +52,15 @@ export class MemberListComponent implements OnInit {
       this.memberService.setUserParams(this.userParams);
       this.memberService.getMembers(this.userParams).subscribe({
         next: response => {
-          if (response.result && response.pagination) {
+         // if (response.result ) {
             this.members = response.result;
             this.pagination = {
-              currentPage: response.pagination.CurrentPage,
-              itemsPerPage: response.pagination.PageSize,
-              totalItems: response.pagination.TotalCount,
-              totalPages: response.pagination.TotalPages,
+              currentPage: response.currentPage,
+              itemsPerPage: response.pageSize,
+              totalItems: response.totalCount,
+              totalPages: response.totalPages,
             };
-          }
+         // }
         }
 
       })
@@ -84,34 +84,53 @@ export class MemberListComponent implements OnInit {
     const isChecked = event.target.checked;
 
     if (isChecked) {
-      if (this.userParams && this.userParams?.UniversityList.indexOf(event.target.value) === -1) {
-        this.userParams.UniversityList.push(event.target.value);
+      if (this.userParams && this.userParams?.UniversityList.indexOf(Number(event.target.value)) === -1) {
+        this.userParams.UniversityList.push(Number(event.target.value));
         this.memberService.setUserParams(this.userParams);
       }
     }
     else
     {
-      if (this.userParams && this.userParams?.UniversityList.indexOf(event.target.value) > -1) {
-        this.userParams.UniversityList.splice(this.userParams.UniversityList.indexOf(event.target.value), 1);
+      if (this.userParams && this.userParams?.UniversityList.indexOf(Number(event.target.value)) > -1) {
+        this.userParams.UniversityList.splice(this.userParams.UniversityList.indexOf(Number(event.target.value)), 1);
         this.memberService.setUserParams(this.userParams);
       }
     }
     this.loadMembers();
     console.log(this.userParams?.UniversityList);
   }
+  GenderChange(event: any) {
+    const isChecked = event.target.checked;
 
+    if (isChecked) {
+      if (this.userParams && this.userParams?.GenderList.indexOf(event.target.value) === -1) {
+        this.userParams.GenderList.push(event.target.value);
+        this.memberService.setUserParams(this.userParams);
+      }
+    }
+    else
+    {
+      if (this.userParams && this.userParams?.GenderList.indexOf(event.target.value) > -1) {
+        this.userParams.GenderList.splice(this.userParams.GenderList.indexOf(event.target.value), 1);
+        this.memberService.setUserParams(this.userParams);
+      }
+    }
+    this.loadMembers();
+    console.log(this.userParams?.GenderList);
+  }
+  
   MajorChange(event: any) {
     const isChecked = event.target.checked;
 
     if (isChecked) {
-      if (this.userParams && this.userParams?.MajorList.indexOf(event.target.value) === -1) {
-        this.userParams.MajorList.push(event.target.value);
+      if (this.userParams && this.userParams?.MajorList.indexOf(Number(event.target.value)) === -1) {
+        this.userParams.MajorList.push(Number(event.target.value));
         }
       }
     else
     {
-      if (this.userParams && this.userParams?.MajorList.indexOf(event.target.value) > -1) {
-        this.userParams.MajorList.splice(this.userParams.UniversityList.indexOf(event.target.value), 1);
+      if (this.userParams && this.userParams?.MajorList.indexOf(Number(event.target.value)) > -1) {
+        this.userParams.MajorList.splice(this.userParams.UniversityList.indexOf(Number(event.target.value)), 1);
           }
     }
     this.memberService.setUserParams(this.userParams);
@@ -123,18 +142,26 @@ export class MemberListComponent implements OnInit {
     const isChecked = event.target.checked;
 
     if (isChecked) {
-      if (this.userParams && this.userParams?.YearRangeList.indexOf(event.target.value) === -1) {
-        this.userParams.YearRangeList.push(event.target.value);
+      if (this.userParams && this.userParams?.YearRangeList.indexOf(Number(event.target.value)) === -1) {
+        
+        this.userParams.YearRangeList.push(Number(event.target.value));
         }
       }
     else
     {
-      if (this.userParams && this.userParams?.YearRangeList.indexOf(event.target.value) > -1) {
-        this.userParams.YearRangeList.splice(this.userParams.UniversityList.indexOf(event.target.value), 1);
+      if (this.userParams && this.userParams?.YearRangeList.indexOf(Number(event.target.value)) > -1) {
+        this.userParams.YearRangeList.splice(this.userParams.UniversityList.indexOf(Number(event.target.value)), 1);
       }
     }
     this.memberService.setUserParams(this.userParams);
     this.loadMembers();
-    console.log(this.userParams?.YearRangeList);
+    console.log(this.memberService.getUserParams());
+  }
+
+  isYearRangeSelected(num: number) {
+    this.userParams = this.memberService.getUserParams();
+    
+    var result = this.userParams?.YearRangeList.includes(num);
+    return result;
   }
 }

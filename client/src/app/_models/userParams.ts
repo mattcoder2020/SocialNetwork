@@ -9,7 +9,8 @@ export class UserParams {
     orderBy = 'lastActive';
     UniversityList = [];
     MajorList = [];
-    YearRangeList = [];
+    YearRangeList: number[] = [];
+    GenderList: string[] = [];
 
     constructor(user: User) {
        // this.gender = user.gender === 'female' ? 'male' : 'female'
