@@ -44,8 +44,13 @@ namespace API.Data
                 Age = user.DateOfBirth.CalcuateAge(),
                 PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url,
                 City = user.City,
-                Id = user.Id
-            });
+                Id = user.Id,
+                LastActive = user.LastActive,
+                UniversityId = user.UniversityId,
+                MajorId = user.MajorId,
+                Country = user.Country,
+
+            }) ;
 
             return await PagedList<LikeDto>.CreateAsync(likedUsers, likesParams.PageNumber, likesParams.PageSize);
         }

@@ -1,15 +1,12 @@
-<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" crossorigin="anonymous"> -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
-
 <div class="container">
     <div class="row">
     <div class="col-lg-3">
     <div class="sidebar">
-    <div class="widget border-0">
+  
         <a class="btn btn-md btn-dark" (click)="resetFilters()"><i class="fa fa-refresh" aria-hidden="true"></i>
             Reset Filters </a>
-    </div>
-   
+            <br>
+
     <div class="widget">
     <div class="widget-title widget-collapse">
     <h6>Year of Guaduration</h6>
@@ -92,10 +89,8 @@
     <div class="col-lg-9">
     <div class="row mb-4">
     <div class="col-12">
-    <div class="row" *ngIf="!members || members.length === 0">
-            <h3>No match connects</h3>
-    </div>
-    <h6 class="mb-0" *ngIf="members && members.length > 0">
+
+    <h6 class="mb-0">
         Showing {{pagination.currentPage * pagination.itemsPerPage - pagination.itemsPerPage + 1}}
         - {{(pagination.currentPage - 1) * pagination.itemsPerPage + members.length}} of <span class="text-primary">{{pagination.totalItems}}</span></h6>
     </div>
@@ -107,7 +102,7 @@
        </div>
     </div>
         
-    <div class="row" *ngIf="members && members.length > 0">
+    <div class="row">
         <div class="d-flex justify-content-center" *ngIf="pagination">
             <pagination 
                 [boundaryLinks]="true" 
