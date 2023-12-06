@@ -1,9 +1,10 @@
 import { Photo } from "./photo";
 
 export interface Member {
+    yearOfGraduate?: Date;
     id: number;
-    universityid: number;
-    majorid: number;
+    universityId: number;
+    majorId: number;
     userName: string;
     photoUrl: string;
     age: number;

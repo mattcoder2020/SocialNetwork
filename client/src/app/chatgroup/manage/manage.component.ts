@@ -125,8 +125,8 @@ export class ManageComponent implements OnInit {
                     interests: null,
                     city: null,
                     country: null,
-                    universityid: null,
-                    majorid: null,
+                    universityId: null,
+                    majorId: null,
                     photos: [{id:0, isMain:true, url: user.photoUrl }] }
                 };
                 return chatGroupMember;
@@ -197,8 +197,8 @@ export class ManageComponent implements OnInit {
                       interests: null,
                       city: null,
                       country: null,
-                      universityid: null,
-                      majorid: null,
+                      universityId: null,
+                      majorId: null,
                       photos: [{id:0, isMain:true, url: user.photoUrl }] }
                   };
                   return chatGroupMember;

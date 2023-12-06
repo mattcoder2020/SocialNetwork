@@ -47,12 +47,7 @@ namespace API.Data
             {
                 query = query.Where(u =>
                 (
-                     //(!tempYearList.Contains(1980) || (u.YearOfGraduate > new DateTime(1980, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(1989, 12, 30).ToUniversalTime())) ||
-                     //(!tempYearList.Contains(1990) || (u.YearOfGraduate > new DateTime(1990, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(1999, 12, 30).ToUniversalTime())) ||
-                     //(!tempYearList.Contains(2000) || (u.YearOfGraduate > new DateTime(2000, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2009, 12, 30).ToUniversalTime())) ||
-                     //(!tempYearList.Contains(2010) || (u.YearOfGraduate > new DateTime(2010, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2019, 12, 30).ToUniversalTime())) ||
-                     //(!tempYearList.Contains(2020) || (u.YearOfGraduate > new DateTime(2020, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2029, 12, 30).ToUniversalTime()))
-                     (tempYearList.Contains(1980) && (u.YearOfGraduate > new DateTime(1980, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(1989, 12, 30).ToUniversalTime())) ||
+                    (tempYearList.Contains(1980) && (u.YearOfGraduate > new DateTime(1980, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(1989, 12, 30).ToUniversalTime())) ||
                     (tempYearList.Contains(1990) && (u.YearOfGraduate > new DateTime(1990, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(1999, 12, 30).ToUniversalTime())) ||
                     (tempYearList.Contains(2000) && (u.YearOfGraduate > new DateTime(2000, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2009, 12, 30).ToUniversalTime())) ||
                     (tempYearList.Contains(2010) && (u.YearOfGraduate > new DateTime(2010, 1, 1).ToUniversalTime() && u.YearOfGraduate < new DateTime(2019, 12, 30).ToUniversalTime())) ||

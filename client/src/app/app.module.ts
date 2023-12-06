@@ -40,6 +40,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ChatgroupModalComponent } from './modals/chatgroup-modal/chatgroup-modal.component';
 import { ngxdatatable } from './chatgroup/manage/ngxdatatable';
 import { UniversityNamePipe } from 'src/app/_pipes/universityPipe'; 
+import { MajorNamePipe } from 'src/app/_pipes/majorPipe'; 
+
 
 
 @NgModule({
@@ -71,7 +73,8 @@ import { UniversityNamePipe } from 'src/app/_pipes/universityPipe';
     ManageComponent,
     ChatGroupMessageModal,
     ChatgroupModalComponent,
-    UniversityNamePipe
+    UniversityNamePipe,
+    MajorNamePipe
       ],
   imports: [
     BrowserAnimationsModule,
