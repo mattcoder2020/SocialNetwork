@@ -12,11 +12,11 @@ import { MessageService } from 'src/app/_services/message.service';
 import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
-  selector: 'app-member-detail',
-  templateUrl: './member-detail.component.html',
-  styleUrls: ['./member-detail.component.css']
+  selector: 'app-member-detail2',
+  templateUrl: './member-detail2.component.html',
+  styleUrls: ['./member-detail2.component.css']
 })
-export class MemberDetailComponent implements OnInit, OnDestroy {
+export class MemberDetail2Component implements OnInit, OnDestroy {
   @ViewChild('memberTabs', {static: true}) memberTabs?: TabsetComponent;
   member: Member = {} as Member;
   galleryOptions: NgxGalleryOptions[] = [];
@@ -91,7 +91,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       })
     }
   }
-
   async onPanelActivated(panel: string) {
     
     if (panel === 'messages' && this.user) 
@@ -102,7 +101,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       this.messageService.stopHubConnection();
     }
   }
-
   async onTabActivated(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Messages' && this.user) 

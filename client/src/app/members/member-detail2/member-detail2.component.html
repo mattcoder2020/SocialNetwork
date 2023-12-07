@@ -1,0 +1,176 @@
+
+<div class="container"> 
+    <div class="col-md-12">  
+        <div class="col-md-4">      
+            <div class="portlet light profile-sidebar-portlet bordered">
+                <div class="profile-userpic">
+                    <img src="{{member.photoUrl || './assets/user.png'}}" class="img-responsive" alt=""> </div>
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name"> Marcus Doe </div>
+                    <div class="profile-usertitle-job"> Developer </div>
+                </div>
+                <div class="profile-userbuttons">
+                    <button type="button" class="btn btn-info  btn-sm">Follow</button>
+                    <button type="button" class="btn btn-info  btn-sm">Message</button>
+                </div>
+                <div class="profile-usermenu">
+                    <ul class="nav">
+                        <li class="active">
+                            <a href="#">
+                                <i class="icon-home"></i> Ticket List </a>
+                        </li>
+                        <div class="mb-2" *ngIf="(presenceService.onlineUsers$ | async)?.includes(member.userName)">
+                            <i class="class fa fa-user-circle text-success"></i> Online now
+                        </div>
+                        <div class="mb-2" *ngIf="(presenceService.onlineUsers$ | async)?.includes(member.userName) === false">
+                            <i class="class fa fa-user-circle text-success"></i> Offline 
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8"> 
+            <div class="portlet light bordered">
+                <div class="portlet-title tabbable-line">
+                    <div class="caption caption-md">
+                        <i class="icon-globe theme-font hide"></i>
+                        <span class="caption-subject font-blue-madison bold uppercase">Your info</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div>
+                    
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" (click)="onPanelActivated('nonmessages')">Info</a></li>
+                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" (click)="onPanelActivated('nonmessages')">Profile</a></li>
+                            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab" (click)="onPanelActivated('messages')">Messages</a></li>
+                            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" (click)="onPanelActivated('nonmessages')">Settings</a></li>
+                        </ul>
+                    
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home" >
+                                <div>
+                                    <strong>Location:</strong>
+                                    <p>{{member.city}}, {{member.country}}</p>
+                                </div>
+                                <div>
+                                    <strong>Age:</strong>
+                                    <p>{{member.age}}</p>
+                                </div>
+                                <div>
+                                    <strong>University:</strong>
+                                    <p>{{member.universityId| universityName }}</p>
+                                </div>
+                                <div>
+                                    <strong>Major:</strong>
+                                    <p>{{member.majorId| majorName }}</p>
+                                </div>
+                                <div>
+                                    <strong>Year of Graduration:</strong>
+                                    <p>{{member.yearOfGraduate | date: 'yyyy'}}</p>
+                                </div>
+                                <div>
+                                    <strong>Last active:</strong>
+                                    <p>{{member.lastActive | timeago}}</p>
+                                </div>
+                                
+                                <div>
+                                    <strong>Member since:</strong>
+                                    <p>{{member.created | date: 'dd MMM yyyy'}}</p>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="profile" >
+                                <h4>Description</h4>
+                                <p>{{member.introduction}}</p>
+                                <h4>Interests</h4>
+                                <p>{{member.interests}}</p>
+                            </div>
+                            
+                            <div role="tabpanel" class="tab-pane" id="messages" >
+                                <app-member-messages [username]="member.userName"></app-member-messages>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="settings" >
+                                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<div class="row">
+    <div class="col-4">
+        <div class="card">
+            <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}"
+                class="card-img-top img-thumbnail">
+            <div class="card-body">
+                <div class="mb-2" *ngIf="(presenceService.onlineUsers$ | async)?.includes(member.userName)">
+                    <i class="class fa fa-user-circle text-success"></i> Online now
+                </div>
+                <div>
+                    <strong>Location:</strong>
+                    <p>{{member.city}}, {{member.country}}</p>
+                </div>
+                <div>
+                    <strong>Age:</strong>
+                    <p>{{member.age}}</p>
+                </div>
+                <div>
+                    <strong>University:</strong>
+                    <p>{{member.universityId| universityName }}</p>
+                </div>
+                <div>
+                    <strong>Major:</strong>
+                    <p>{{member.majorId| majorName }}</p>
+                </div>
+                <div>
+                    <strong>Year of Graduration:</strong>
+                    <p>{{member.yearOfGraduate | date: 'yyyy'}}</p>
+                </div>
+                <div>
+                    <strong>Last active:</strong>
+                    <p>{{member.lastActive | timeago}}</p>
+                </div>
+                
+                <div>
+                    <strong>Member since:</strong>
+                    <p>{{member.created | date: 'dd MMM yyyy'}}</p>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="btn-group d-flex">
+                    <button class="btn btn-primary">Connect</button>
+                    <button (click)="selectTab('Messages')" class="btn btn-success">Messages</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-8">
+        <tabset class="member-tabset" #memberTabs>
+            <tab heading="About {{member.knownAs}}" (selectTab)="onTabActivated($event)" >
+                <h4>Description</h4>
+                <p>{{member.introduction}}</p>
+                <h4>Looking for</h4>
+                <p>{{member.lookingFor}}</p>
+            </tab>
+            <tab heading="Interests" (selectTab)="onTabActivated($event)" >
+                <h4>Interests</h4>
+                <p>{{member.interests}}</p>
+            </tab>
+            <tab heading="Photos" (selectTab)="onTabActivated($event)" >
+                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+            </tab>
+            <tab heading="Messages" (selectTab)="onTabActivated($event)" >
+                <app-member-messages [username]="member.userName"></app-member-messages>
+            </tab>
+        </tabset>
+    </div>
+</div>
