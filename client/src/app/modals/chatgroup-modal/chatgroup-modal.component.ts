@@ -42,7 +42,13 @@ export class ChatgroupModalComponent implements OnInit {
   ngOnInit(): void {
     //get all users
     this.adminService.getUsersWithRoles().subscribe
-    ({ next: users => this.allusers = users });
+    ({ next: users => 
+      {
+      users.splice(users.findIndex(e=>e.username == 'admin'),1);
+      this.allusers = users;
+      }
+    
+    });
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) {

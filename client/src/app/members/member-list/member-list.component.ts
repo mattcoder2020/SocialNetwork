@@ -13,10 +13,10 @@ import { MembersService } from 'src/app/_services/members.service';
   styleUrls: ['./member-list.component.css']
 })
 export class MemberListComponent implements OnInit {
-  // members$: Observable<Member[]> | undefined;
   members: Member[] = [];
   pagination: Pagination | undefined;
   userParams: UserParams | undefined;
+  
   genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }]
   universityList = [{ value: 1, display: 'Harvard University'}, 
   { value: 2, display: 'Stanford University'}, 
@@ -156,12 +156,5 @@ export class MemberListComponent implements OnInit {
     this.memberService.setUserParams(this.userParams);
     this.loadMembers();
     console.log(this.memberService.getUserParams());
-  }
-
-  isYearRangeSelected(num: number) {
-    this.userParams = this.memberService.getUserParams();
-    
-    var result = this.userParams?.YearRangeList.includes(num);
-    return result;
   }
 }
