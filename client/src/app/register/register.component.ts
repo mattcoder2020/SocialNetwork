@@ -20,15 +20,6 @@ export class RegisterComponent implements OnInit {
   majors: Major[] = [];
   occupations: Occupation[] = [];
 
-
-  constructor(private accountService: AccountService, private toastr: ToastrService, 
-      private fb: FormBuilder, private router: Router, private metadataService: MetaDataService) { }
-
-  ngOnInit(): void {
-    this.initializeForm();
-    this.getMetadata();
-    this.maxDate.setFullYear(this.maxDate.getFullYear() -18);
-  }
   getMetadata() {
     this.metadataService.universityAll().subscribe({
       next: response => {
@@ -48,18 +39,32 @@ export class RegisterComponent implements OnInit {
       }
     })
   }
+  constructor(private accountService: AccountService, private toastr: ToastrService, 
+      private fb: FormBuilder, private router: Router, private metadataService: MetaDataService) { }
+
+  ngOnInit(): void {
+    this.initializeForm();
+    this.getMetadata();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() -18);
+  }
+  
 
   initializeForm() {
     this.registerForm = this.fb.group({
-      gender: ['male'],
+      gender: ['male',Validators.required],
       username: ['', Validators.required],
       knownAs: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
       city: ['', Validators.required],
       country: ['', Validators.required],
+      yearofgraduate: ['', Validators.required],
+      universityid: ['', Validators.required],
+      majorid: ['', Validators.required],
+      occupationid: ['', Validators.required],
       password: ['', [Validators.required, 
         Validators.minLength(4), Validators.maxLength(8)]],
       confirmPassword: ['', [Validators.required, this.matchValues('password')]],
+
     });
     this.registerForm.controls['password'].valueChanges.subscribe({
       next: () => this.registerForm.controls['confirmPassword'].updateValueAndValidity()
@@ -94,6 +99,26 @@ export class RegisterComponent implements OnInit {
     let theDob = new Date(dob);
     return new Date(theDob.setMinutes(theDob.getMinutes()-theDob.getTimezoneOffset()))
       .toISOString().slice(0,10);
+  }
+
+  onUniversitySelected(event: Event)
+  {
+    this.registerForm.controls['universityid'].setValue((event.target as HTMLSelectElement).value);
+  }
+
+  onYearSelected(event: Event)
+  {
+    this.registerForm.controls['yearofgraduate'].setValue((event.target as HTMLSelectElement).value);
+  }
+
+  onMajorSelected(event: Event)
+  {
+    this.registerForm.controls['majorid'].setValue((event.target as HTMLSelectElement).value);
+  }
+
+  onOccupationSelected(event: Event)
+  {
+    this.registerForm.controls['occupationid'].setValue((event.target as HTMLSelectElement).value);
   }
 
 }

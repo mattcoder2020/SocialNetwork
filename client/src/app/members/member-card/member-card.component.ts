@@ -28,9 +28,19 @@ export class MemberCardComponent implements OnInit {
     }
     else
     {
-      this.toastr.error('You need to login first');
+      this.toastr.error('You need to register to continue');
       this.router.navigate(['register']);
       }
+    }
+
+    nvigateToMemberDetails(member: Member) {
+      if (this.memberService.user == null)
+      {
+        this.toastr.error('You need to register to continue');
+        this.router.navigate(['register']);
+        return;
+      }
+      this.router.navigate(['members', member.userName]);
     }
   }
 

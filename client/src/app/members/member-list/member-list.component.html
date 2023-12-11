@@ -34,10 +34,10 @@
     <div class="widget-content">
         <div class="custom-control custom-checkbox" *ngFor="let major of majorList">
                 
-            <input type="checkbox" class="custom-control-input" [value]="major.value" 
-            [checked]="this.userParams?.MajorList.includes(major.value)"
+            <input type="checkbox" class="custom-control-input" [value]="major.id" 
+            [checked]="this.userParams?.MajorList.includes(major.id)"
             (change)="MajorChange($event)">
-            <label class="custom-control-label" for="jobtype1">{{major.display}}</label>
+            <label class="custom-control-label" for="jobtype1">{{major.name}}</label>
         </div>
    
     </div>
@@ -52,10 +52,10 @@
     <div class="collapse show" id="jobtype">
     <div class="widget-content">
         <div class="custom-control custom-checkbox" *ngFor="let university of universityList">
-            <input type="checkbox" class="custom-control-input" [value]="university.value" 
-            [checked]="this.userParams?.UniversityList.includes(university.value)"
+            <input type="checkbox" class="custom-control-input" [value]="university.id" 
+            [checked]="this.userParams?.UniversityList.includes(university.id)"
             (change)="UniversityChange($event)">
-            <label class="custom-control-label" for="jobtype1">{{university.display}}</label>
+            <label class="custom-control-label" for="jobtype1">{{university.name}}</label>
         </div>
         
         </div>

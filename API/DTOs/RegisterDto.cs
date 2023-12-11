@@ -13,6 +13,11 @@ namespace API.DTOs
         [Required] public DateOnly? DateOfBirth { get; set; } // optional to make required work!
         [Required] public string City { get; set; }
         [Required] public string Country { get; set; }
+        [Required] public int MajorId { get; set; }
+        [Required] public int UniversityId { get; set; }
+        [Required] public int OccupationId { get; set; }
+        [Required] public DateTime? YearOfGraduate { get; set; }
+
 
         [Required]
         [StringLength(8, MinimumLength = 4)]

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
+import { Major, University } from 'src/app/_models/metadatas';
 import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
 import { UserParams } from 'src/app/_models/userParams';
 import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
+import { MetaDataService } from 'src/app/_services/metadata.service';
 
 @Component({
   selector: 'app-member-list',
@@ -21,17 +23,9 @@ export class MemberListComponent implements OnInit {
   { value: 'male', display: 'Males' }, 
   { value: 'female', display: 'Females' }]
 
-  universityList = [{ value: 1, display: 'Harvard University'}, 
-  { value: 2, display: 'Stanford University'}, 
-  { value: 3, display: 'Harvard University'},
-  { value: 4, display: 'University of Cambridge'},
-  { value: 5, display: 'University of Oxford'}]
+  universityList : University[] = [];
 
- majorList = [{ value: 1, display: 'Computer Science'}, 
-  { value: 2, display: 'Psychology'}, 
-  { value: 3, display: 'Finance'},
-  { value: 4, display: 'Business'},
-  { value: 5, display: 'Economics'}]
+ majorList: Major[] = [];
 
   yearRangeList = [
   { value: 1980, display: "1980 - 1989"}, 
@@ -41,7 +35,7 @@ export class MemberListComponent implements OnInit {
   { value: 2020, display: "2020 - 2029"}
 ]
 
-  constructor(private memberService: MembersService) {
+  constructor(private memberService: MembersService, private metadataService: MetaDataService) {
     this.userParams = this.memberService.getUserParams();
    
   }
@@ -49,6 +43,27 @@ export class MemberListComponent implements OnInit {
   ngOnInit(): void {
     // this.members$ = this.memberService.getMembers();
     this.loadMembers();
+    this.getMetadata();
+  } 
+
+  getMetadata() {
+    this.metadataService.universityAll().subscribe({
+      next: response => {
+        this.universityList = response;
+      }
+    })
+
+    this.metadataService.majorAll().subscribe({
+      next: response => {
+        this.majorList = response;
+      }
+    })
+
+    // this.metadataService.occupationAll().subscribe({
+    //   next: response => {
+    //     this.occupations = response;
+    //   }
+    // })
   }
 
   loadMembers() {
