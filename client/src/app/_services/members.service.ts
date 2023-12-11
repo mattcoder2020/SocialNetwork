@@ -20,10 +20,11 @@ export class MembersService {
   userParams: UserParams | undefined;
 
   constructor(private http: HttpClient, private accountService: AccountService) {
+    this.userParams = new UserParams();
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if (user) {
-          this.userParams = new UserParams(user);
+          // this.userParams = new UserParams();
           this.user = user;
         }
       }
@@ -39,33 +40,17 @@ export class MembersService {
   }
 
   resetUserParams() {
-    if (this.user) {
-      this.userParams = new UserParams(this.user);
+    // if (this.user) {
+      this.userParams = new UserParams();
       return this.userParams;
-    }
-    return;
+    // }
+    // return;
   }
 
   getMembers(userParams: UserParams) {
     //const response = this.memberCache.get(Object.values(userParams).join('-'));
 
     //if (response) return of(response);
-
-    let params = getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
-
-    params = params.append('minAge', userParams.minAge);
-    params = params.append('maxAge', userParams.maxAge);
-    if (userParams.gender != null)
-    params = params.append('gender', userParams.gender);
-    params = params.append('orderBy', userParams.orderBy);
-    
-
-    // return getPaginatedResult<Member[]>(this.baseUrl + 'users', params, this.http).pipe(
-    //   map(response => {
-    //     this.memberCache.set(Object.values(userParams).join('-'), response);
-    //     return response;
-    //   })
-    // )
 
     return getPaginatedResultWithBody<PaginatedResult2<Member[]>>(this.baseUrl + 'users/querybybody', userParams, this.http).pipe(
       map(response => {

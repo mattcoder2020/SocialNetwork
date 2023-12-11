@@ -1,7 +1,7 @@
 import { User } from "./user";
 
 export class UserParams {
-    gender: string ;
+    gender: string | undefined;
     minAge = 18;
     maxAge = 99;
     pageNumber = 1;
@@ -12,7 +12,8 @@ export class UserParams {
     YearRangeList: number[] = [];
     GenderList: string[] = [];
 
-    constructor(user: User) {
+  
+    constructor() {
        // this.gender = user.gender === 'female' ? 'male' : 'female'
     }
 }

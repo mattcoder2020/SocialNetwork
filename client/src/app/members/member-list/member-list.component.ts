@@ -17,7 +17,10 @@ export class MemberListComponent implements OnInit {
   pagination: Pagination | undefined;
   userParams: UserParams | undefined;
   
-  genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }]
+  genderList = [
+  { value: 'male', display: 'Males' }, 
+  { value: 'female', display: 'Females' }]
+
   universityList = [{ value: 1, display: 'Harvard University'}, 
   { value: 2, display: 'Stanford University'}, 
   { value: 3, display: 'Harvard University'},
@@ -40,6 +43,7 @@ export class MemberListComponent implements OnInit {
 
   constructor(private memberService: MembersService) {
     this.userParams = this.memberService.getUserParams();
+   
   }
 
   ngOnInit(): void {

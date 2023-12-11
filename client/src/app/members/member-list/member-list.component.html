@@ -71,8 +71,8 @@
     <div class="collapse show" id="gender">
     <div class="widget-content">
     <div class="custom-control custom-checkbox" *ngFor="let gender of genderList">
-    <input type="checkbox" class="custom-control-input" id="gender1" [value]="gender.value"
-    [checked]="this.userParams.GenderList.includes(gender.value)" (change)="GenderChange($event)"
+    <input type="checkbox" class="custom-control-input" [value]="gender.value"
+    [checked]="this.userParams?.GenderList.includes(gender.value)" (change)="GenderChange($event)"
     >
     <label class="custom-control-label" for="gender1">{{gender.display}}</label>
     </div>

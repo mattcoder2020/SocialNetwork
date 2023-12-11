@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Vali
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../_services/account.service';
+import { MetaDataService } from '../_services/metadata.service';
+import { Major, Occupation, University } from '../_models/metadatas';
 
 @Component({
   selector: 'app-register',
@@ -14,13 +16,37 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup = new FormGroup({});
   maxDate: Date = new Date();
   validationErrors: string[] | undefined;
+  universities: University[] = [];
+  majors: Major[] = [];
+  occupations: Occupation[] = [];
+
 
   constructor(private accountService: AccountService, private toastr: ToastrService, 
-      private fb: FormBuilder, private router: Router) { }
+      private fb: FormBuilder, private router: Router, private metadataService: MetaDataService) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.getMetadata();
     this.maxDate.setFullYear(this.maxDate.getFullYear() -18);
+  }
+  getMetadata() {
+    this.metadataService.universityAll().subscribe({
+      next: response => {
+        this.universities = response;
+      }
+    })
+
+    this.metadataService.majorAll().subscribe({
+      next: response => {
+        this.majors = response;
+      }
+    })
+
+    this.metadataService.occupationAll().subscribe({
+      next: response => {
+        this.occupations = response;
+      }
+    })
   }
 
   initializeForm() {

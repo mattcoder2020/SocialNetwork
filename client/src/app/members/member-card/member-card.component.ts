@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
@@ -13,15 +14,24 @@ export class MemberCardComponent implements OnInit {
   @Input() member: Member | undefined;
 
   constructor(private memberService: MembersService, private toastr: ToastrService, 
-      public presenceService: PresenceService) { }
+      public presenceService: PresenceService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   addLike(member: Member) {
+    if (this.memberService.user)
+    {
     this.memberService.addLike(member.userName).subscribe({
       next: () => this.toastr.success('You have connect to ' + member.knownAs)
     })
+    }
+    else
+    {
+      this.toastr.error('You need to login first');
+      this.router.navigate(['register']);
+      }
+    }
   }
 
-}
+

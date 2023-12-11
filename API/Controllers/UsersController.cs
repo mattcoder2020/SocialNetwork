@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiExplorerSettings(GroupName = "v1")]
 
     public class UsersController : BaseApiController
@@ -50,8 +50,8 @@ namespace API.Controllers
         [HttpPost("querybybody")]
         public async Task<ActionResult<PagedList<MemberDto>>> GetUsersViaPostRequest([FromBody] UserParams userParams)
         {
-            var currentUser = await _uow.UserRepository.GetUserByUsernameAsync(User.GetUsername());
-            userParams.CurrentUsername = currentUser.UserName;
+            //var currentUser = await _uow.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            //userParams.CurrentUsername = currentUser.UserName;
 
             //if (string.IsNullOrEmpty(userParams.Gender))
             //{

@@ -3,7 +3,35 @@
     <hr>
 
     <div class="mb-3">
-        <label style="margin-right:10px">I am a: </label>
+        <label style="margin-right:10px">I am a alumni graduate at: </label>
+        <select class="custom-select mb-4" >
+            <option *ngFor="let sort of sortOptions" 
+                 [value]="sort.value">
+                {{sort.name}}
+            </option>
+          </select>
+        in the year of 
+        <select class="custom-select mb-4" (change)="onSortSelected($event.target.value)">
+            <option value="0" selected>To be selected</option>
+            <option value="2021" >2021</option>
+            <option value="2020">2020</option>
+            <option value="2019">2019</option>
+            <option value="2020">2018</option>
+            <option value="2019">2017</option>
+            <option value="2020">2016</option>
+            <option value="2019">2015</option>
+            <option value="2020">2014</option>
+            <option value="2019">2013</option>
+            <option value="2020">2012</option>
+            <option value="2019">2011</option>
+            <option value="2020">2010</option>
+            <option value="2019">2009</option>
+            <option value="2020">2008</option>
+            <option value="2019">2009</option>
+            <option value="2020">2008</option>
+             
+
+          </select>
         <label class="form-check-label">
             <input type="radio" class="form-check-input" value="male" formControlName="gender"> Male
         </label>
