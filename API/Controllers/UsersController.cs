@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
 {
     [Authorize]
+    [ApiExplorerSettings(GroupName = "v1")]
+
     public class UsersController : BaseApiController
     {
         private readonly IMapper _mapper;

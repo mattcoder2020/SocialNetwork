@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class ChatGroupController : BaseApiController
     {
         private readonly IUnitOfWork _uow;

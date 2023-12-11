@@ -4,6 +4,7 @@ using API.Extensions;
 using API.Interfaces;
 using API.Middleware;
 using API.SignalR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -21,7 +22,8 @@ builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API - V1", Version = "v1" });
+    c.SwaggerDoc("metadata", new OpenApiInfo { Title = "API - MetaData", Version = "metadata" });
 });
 
 
@@ -69,7 +71,14 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.UseSwagger();
-app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+//app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+//app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v2/swagger.json", "API - V2"));
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+    c.SwaggerEndpoint("/swagger/metadata/swagger.json", "MetaData Docs");
+});
 
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
@@ -84,12 +93,14 @@ try
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
     var uowManager = services.GetRequiredService<IUnitOfWork>();
+
     await context.Database.MigrateAsync();
     await Seed.ClearConnections(context);
-    await Seed.SeedUsers(userManager, roleManager);
-    await Seed.SeedChatGroups(uowManager);
     await Seed.SeedMajors(uowManager, context);
     await Seed.SeedUniversity(uowManager, context);
+    await Seed.SeedOccupations(uowManager, context);
+    await Seed.SeedUsers(userManager, roleManager);
+    await Seed.SeedChatGroups(uowManager);
 }
 catch (Exception ex)
 {

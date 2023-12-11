@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "v1")]
     public class AdminController : BaseApiController
     {
         private readonly UserManager<AppUser> _userManager;

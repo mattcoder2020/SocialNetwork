@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Xml.Linq;
 using API.Entities;
 using API.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -19,29 +20,28 @@ namespace API.Data
             await context.SaveChangesAsync();
         }
 
-        public static async Task SeedUsers(UserManager<AppUser> userManager, 
+        public static async Task SeedUsers(UserManager<AppUser> userManager,
             RoleManager<AppRole> roleManager)
         {
             if (await userManager.Users.AnyAsync()) return;
 
             var userData = await File.ReadAllTextAsync("Data/UserSeedData.json");
 
-            var options = new JsonSerializerOptions{PropertyNameCaseInsensitive = true};
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
             var users = JsonSerializer.Deserialize<List<AppUser>>(userData);
-
-            var roles = new List<AppRole>
-            {
+            if(roleManager.Roles.Any() == false) { 
+              var roles = new List<AppRole>
+              {
                 new AppRole{Name = "Member"},
                 new AppRole{Name = "Admin"},
                 new AppRole{Name = "Moderator"},
-            };
-
-            foreach (var role in roles)
-            {
-                await roleManager.CreateAsync(role);
+              };
+                foreach (var role in roles)
+                {
+                    await roleManager.CreateAsync(role);
+                }
             }
-
             foreach (var user in users)
             {
                 user.UserName = user.UserName.ToLower();
@@ -54,11 +54,16 @@ namespace API.Data
 
             var admin = new AppUser
             {
-                UserName = "admin"
+                UserName = "admin",
+                UniversityId = 1,
+                MajorId = 1,
+                OccupationId = 1,
+
+                
             };
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");
-            await userManager.AddToRolesAsync(admin, new[] {"Admin", "Moderator"});
+            await userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" });
         }
 
         public static async Task SeedChatGroups(IUnitOfWork unitOfWork)
@@ -69,7 +74,7 @@ namespace API.Data
 
             var chatgroups = JsonSerializer.Deserialize<List<ChatGroup>>(chatgroupData);
 
-           foreach (var chatgroup in chatgroups)
+            foreach (var chatgroup in chatgroups)
             {
                 var tempgroup = await unitOfWork.ChatGroupRepository.GetChatGroupByNameAsync(chatgroup.Name);
                 if (tempgroup != null) continue;
@@ -100,8 +105,17 @@ namespace API.Data
 
             var majors = JsonSerializer.Deserialize<List<Major>>(majorData, options);
 
-             dataContext.Majors.AddRange(majors);
-             await unitOfWork.Complete();
+            dataContext.Majors.AddRange(majors);
+            await unitOfWork.Complete();
+        }
+
+        public static async Task SeedOccupations(IUnitOfWork unitOfWork, DataContext dataContext)
+        {
+
+            if (dataContext.Occupations.Any()) return;
+            Occupation[] list = new Occupation[3] { new Occupation { Name = "Lawyer" }, new Occupation { Name = "Doctor" }, new Occupation { Name = "Software Architect" } };
+            dataContext.Occupations.AddRange(list);
+            await unitOfWork.Complete();
         }
     }
 }

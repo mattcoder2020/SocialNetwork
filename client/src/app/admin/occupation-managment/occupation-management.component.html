@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-2"><button (click)="openModal()" class="btn btn-info">Add Occupation</button>
+    </div>
+        <table class="table">
+        <thead>
+            <tr>
+                <th style="width: 30%;">Id</th>
+                <th style="width: 40%;">Name</th>
+                <th style="width: 30%;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let Occupation of Occupations">
+                <td>{{Occupation.id}}</td>
+                <td>{{Occupation.name}}</td>
+                
+            </tr>
+        </tbody>
+    </table>
+</div>

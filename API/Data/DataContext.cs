@@ -23,6 +23,7 @@ namespace API.Data
         public DbSet<ChatGroupConnection> ChatGroupConnections { get; set; }
         public DbSet<University> Universities { get; set; }
         public DbSet<Major> Majors { get; set; }
+        public DbSet<Occupation> Occupations { get; set; }
 
 
 

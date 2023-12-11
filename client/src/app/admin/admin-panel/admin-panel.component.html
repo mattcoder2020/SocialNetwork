@@ -6,6 +6,21 @@
                 <app-user-management></app-user-management>
             </div>
         </tab>
+        <tab heading="Institute management" *appHasRole="['Admin']">
+            <div class="container">
+                <app-institute-management></app-institute-management>
+            </div>
+        </tab>
+        <tab heading="Major management" *appHasRole="['Admin']">
+            <div class="container">
+                <app-major-management></app-major-management>
+            </div>
+        </tab>
+        <tab heading="Profession management" *appHasRole="['Admin']">
+            <div class="container">
+                <app-occupation-management></app-occupation-management>
+            </div>
+        </tab>
         <tab heading="Photo management" *appHasRole="['Admin', 'Moderator']">
             <div class="container">
                 <app-photo-management></app-photo-management>

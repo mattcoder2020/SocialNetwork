@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "v1")]
     public class BuggyController : BaseApiController
     {
         private readonly DataContext _context;

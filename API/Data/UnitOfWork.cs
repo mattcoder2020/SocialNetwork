@@ -1,3 +1,4 @@
+using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 
@@ -20,6 +21,12 @@ namespace API.Data
         public ILikesRepository LikesRepository => new LikesRepository(_context);
 
         public IChatGroupRepository ChatGroupRepository => new ChatGroupRespository(_context, _mapper);
+
+        public IGenericRepository<Major> MajorRepository => new GenericRepository<Major>(_context);
+
+        public IGenericRepository<University> UniversityRepository =>  new GenericRepository<University>(_context);
+
+        public IGenericRepository<Occupation> OccupationRepository => new GenericRepository<Occupation>(_context);
 
         public async Task<bool> Complete()
         {

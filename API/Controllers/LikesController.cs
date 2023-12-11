@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "v1")]
     public class LikesController : BaseApiController
     {
         private readonly IUnitOfWork _uow;

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "v1")]
     public class MessagesController : BaseApiController
     {
         private readonly IMapper _mapper;
