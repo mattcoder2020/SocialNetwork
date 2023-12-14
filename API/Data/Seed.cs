@@ -14,8 +14,6 @@ namespace API.Data
         public static async Task ClearConnections(DataContext context)
         {
             context.Connections.RemoveRange(context.Connections);
-            //context.Majors.RemoveRange(context.Majors);
-            //context.Universities.RemoveRange(context.Universities);
             context.ChatGroupConnections.RemoveRange(context.ChatGroupConnections);
             await context.SaveChangesAsync();
         }
@@ -58,8 +56,7 @@ namespace API.Data
                 UniversityId = 1,
                 MajorId = 1,
                 OccupationId = 1,
-
-                
+         
             };
 
             await userManager.CreateAsync(admin, "Pa$$w0rd");
@@ -69,9 +66,7 @@ namespace API.Data
         public static async Task SeedChatGroups(IUnitOfWork unitOfWork)
         {
             var chatgroupData = await File.ReadAllTextAsync("Data/ChatGroupSeedData.json");
-
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
             var chatgroups = JsonSerializer.Deserialize<List<ChatGroup>>(chatgroupData);
 
             foreach (var chatgroup in chatgroups)
@@ -87,9 +82,7 @@ namespace API.Data
         {
             if (dataContext.Universities.Any()) return;
             var majorData = await File.ReadAllTextAsync("Data/University.json");
-
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
             var majors = JsonSerializer.Deserialize<List<University>>(majorData, options);
 
             dataContext.Universities.AddRange(majors);
@@ -100,9 +93,7 @@ namespace API.Data
         {
             if (dataContext.Majors.Any()) return;
             var majorData = await File.ReadAllTextAsync("Data/Majors.json");
-
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
             var majors = JsonSerializer.Deserialize<List<Major>>(majorData, options);
 
             dataContext.Majors.AddRange(majors);
@@ -111,7 +102,6 @@ namespace API.Data
 
         public static async Task SeedOccupations(IUnitOfWork unitOfWork, DataContext dataContext)
         {
-
             if (dataContext.Occupations.Any()) return;
             Occupation[] list = new Occupation[3] { new Occupation { Name = "Lawyer" }, new Occupation { Name = "Doctor" }, new Occupation { Name = "Software Architect" } };
             dataContext.Occupations.AddRange(list);

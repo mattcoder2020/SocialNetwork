@@ -9,9 +9,5 @@ namespace API.DTOs
             public int OwnerId { get; set; }
             public AppUser Owner { get; set; }
             public List<ChatGroupMember> ChatGroupMembers { get; set; }
-
-
-
-
     }
 }

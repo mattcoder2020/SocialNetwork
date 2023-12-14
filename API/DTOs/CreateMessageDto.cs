@@ -9,6 +9,5 @@ namespace API.DTOs
     public class CreatePrivateGroupDto
     {
         public string OtherUser { get; set; }
-       
     }
 }

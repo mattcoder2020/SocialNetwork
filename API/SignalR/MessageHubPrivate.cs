@@ -36,7 +36,6 @@ namespace API.SignalR
         public async Task CreatePrivateGroupByOtherUser(CreatePrivateGroupDto createPrivateGroupDto)
         {
             var httpContext = Context.GetHttpContext();
-           
             var groupName = GetGroupName(Context.User.GetUsername(), createPrivateGroupDto.OtherUser);
 
             //Add the connection to the 2 people SignalR group

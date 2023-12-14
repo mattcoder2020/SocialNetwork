@@ -14,6 +14,5 @@ export class UserParams {
 
   
     constructor() {
-       // this.gender = user.gender === 'female' ? 'male' : 'female'
     }
 }

@@ -1,10 +1,6 @@
 ﻿using API.Entities;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace API.Controllers
 {
@@ -28,7 +24,6 @@ namespace API.Controllers
         }
 
         
-        // POST api/<MetaDataController>
         [HttpPost("university")]
         [ApiExplorerSettings(GroupName = "metadata")]
         public async void PostNewUniversity([FromBody] University value)
@@ -36,7 +31,6 @@ namespace API.Controllers
             await uow.UniversityRepository.AddAsync(value);
         }
 
-        // DELETE api/<MetaDataController>/5
         [HttpDelete("university/{id}")]
         [ApiExplorerSettings(GroupName = "metadata")]
         public async void Delete(int id)
@@ -50,7 +44,7 @@ namespace API.Controllers
         {
             return await uow.MajorRepository.GetAllAsync();
         }
-        // POST api/<MetaDataController>
+
         [HttpPost("major")]
         [ApiExplorerSettings(GroupName = "metadata")]
         public async void PostNewMajor([FromBody] Major value)
@@ -58,7 +52,6 @@ namespace API.Controllers
             await uow.MajorRepository.AddAsync(value);
         }
 
-        // DELETE api/<MetaDataController>/5
         [HttpDelete("major/{id}")]
         [ApiExplorerSettings(GroupName = "metadata")]
         public async void DeleteMajor(int id)

@@ -21,7 +21,6 @@ namespace API.SignalR
         public async Task SubscribeToChatGroupByGroupName(int chatgroupid)
         {
             var group = await AddConnectionToChatGroup(chatgroupid);
-
             var messages = await _uow.ChatGroupRepository.GetMessageThreadAsync(chatgroupid);
 
             await Clients.Caller.SendAsync("ReceiveChatGroupMessageThread", messages);

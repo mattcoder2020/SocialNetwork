@@ -26,6 +26,6 @@
          Stanford,
          Boston,
          Cambridge,
-          Oxford
+         Oxford
     }
 }

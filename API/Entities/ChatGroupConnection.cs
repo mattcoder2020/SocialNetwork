@@ -8,7 +8,6 @@
             ConnectionId = connectionId;
             ChatGroupId = chatgroupid;
             UserName = username;
-
         }
 
         public ChatGroup ChatGroup { get; private set; }

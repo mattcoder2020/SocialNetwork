@@ -5,8 +5,7 @@ namespace API.Entities
     public class Group
     {
         public Group()
-        {
-            
+        {            
         }
 
         public Group(string name)

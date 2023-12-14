@@ -17,18 +17,8 @@ namespace API.Controllers
         {
             //provide the readonly IUnitOfWork uow
             this._uow = uow;
-
         }
 
-        //[Route("/owner/{ownername}")]
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<ChatGroupDto>>> GetChatgroupsByUserNameAsync([FromQuery] OwnerParams ownerparam)
-        //{
-        //    return Ok(await _uow.ChatGroupRepository.GetChatGroupsByUserNameAsync(ownerparam.owner));
-
-        //}
-
-        //[Route]
         [HttpGet("owner/{ownerid}")]
         public async Task<ActionResult<IEnumerable<ChatGroupDto>>> GetChatgroupsByOwnerIdAsync(string ownerid)
         {

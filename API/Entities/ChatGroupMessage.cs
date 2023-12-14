@@ -9,8 +9,6 @@ namespace API.Entities
         public int? ChatGroupId { get; set; }
         public string Content { get; set; }
 
-        // ignore this in json response
-
         [JsonIgnore]
         public ChatGroup ChatGroup { get; set; }
         public DateTime MessageSent { get; set; } = DateTime.UtcNow;
