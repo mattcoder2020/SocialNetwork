@@ -1,103 +1,145 @@
-<div class="container">
+<div class="container" style="text-align: left;">
     <div class="row">
         <div class="col-md-12">
             <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
                 <h2 class="text-center text-primary">Sign up</h2>
                 <hr>
-            
-                <div class="mb-3">
-                    <label style="margin-right:10px">I am an alumni graduate at: </label>
-                    <select class="custom-select mb-4" (change)="onUniversitySelected($event)" formControlName="universityid">
-                        <option *ngFor="let university of universities" 
-                             [value]="university.id">
-                            {{university.name}}
-                        </option>
-                      </select><br>
-                    <label style="margin-right:10px">in year of </label>
-                    <select class="custom-select mb-4" (change)="onYearSelected($event)" formControlName="yearofgraduate">
-                        <option selected>           </option>
-                        <option value="2021-01-01">2021</option>
-                        <option value="2020-01-01">2020</option>
-                        <option value="2019-01-01">2019</option>
-                        <option value="2018-01-01">2018</option>
-                        <option value="2017-01-01">2017</option>
-                        <option value="2016-01-01">2016</option>
-                        <option value="2015-01-01">2015</option>
-                        <option value="2014-01-01">2014</option>
-                        <option value="2013-01-01">2013</option>
-                        <option value="2012-01-01">2012</option>
-                        <option value="2011-01-01">2011</option>
-                        <option value="2010-01-01">2010</option>
-                        <option value="2009-01-01">2009</option>
-                        <option value="2008-01-01">2008</option>
-                        <option value="2007-01-01">2007</option>
-                        <option value="2006-01-01">2006</option>
-                        <option value="2005-01-01">2005</option>
-                        <option value="2004-01-01">2004</option>
-                        <option value="2003-01-01">2003</option>
-                        <option value="2002-01-01">2002</option>
-                        <option value="2001-01-01">2001</option>
-                        <option value="2000-01-01">2000</option>
-                        <option value="1999-01-01">1999</option>
-                        <option value="1998-01-01">1998</option>
-                        <option value="1997-01-01">1997</option>
-                        <option value="1996-01-01">1996</option>
-                        <option value="1995-01-01">1995</option>
-                        <option value="1994-01-01">1994</option>
-                        <option value="1993-01-01">1993</option>
-                        <option value="1992-01-01">1992</option>
-                        <option value="1991-01-01">1991</option>
-                        <option value="1990-01-01">1990</option>
-                        <option value="1989-01-01">1989</option>
-                        <option value="1988-01-01">1988</option>
-                        <option value="1987-01-01">1987</option>
-                        <option value="1986-01-01">1986</option>
-                        <option value="1985-01-01">1985</option>
-                        <option value="1984-01-01">1984</option>
-                        <option value="1983-01-01">1983</option>
-                        <option value="1982-01-01">1982</option>
-                        <option value="1981-01-01">1981</option>
-                        <option value="1980-01-01">1980</option>
-                      </select><br>
-                    <label style="margin-right:10px">with major in: </label>
-                    <select class="custom-select mb-4" (change)="onMajorSelected($event)" formControlName="majorid">
-                        <option *ngFor="let major of majors" 
-                             [value]="major.id">
-                            {{major.name}}
-                        </option>
-                      </select><br>
-                      <label style="margin-right:10px">and now work as: </label>
-                      <select class="custom-select mb-4" (change)="onOccupationSelected($event)" formControlName="occupationid">
-                        <option *ngFor="let occupation of occupations" 
-                             [value]="occupation.id">
-                            {{occupation.name}}
-                        </option>
-                      </select><br>
-                    <label class="form-check-label">
-
-                        <input type="radio" class="form-check-input" value="male" formControlName="gender" checked> Male
-                    </label>
-                    <label class="form-check-label">
-                        <input type="radio" class="form-check-input ms-3" value="female" formControlName="gender"> Female
-                    </label>
+                    
+                    <div class="row">
+                        <label class="col-md-3">I am an alumni graduate at: </label>
+                        <div class="col-md-9">
+                        <select  style="width: 200px"  class="form-select"  (change)="onUniversitySelected($event)" formControlName="universityid">
+                            <option *ngFor="let university of universities" 
+                                 [value]="university.id">
+                                {{university.name}}
+                            </option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-3" >in year of </label>
+                        <div class="col-md-9">
+                            <select style="width: 200px"  class="form-select"  (change)="onYearSelected($event)" formControlName="yearofgraduate">
+                                <option selected>           </option>
+                                <option value="2021-01-01">2021</option>
+                                <option value="2020-01-01">2020</option>
+                                <option value="2019-01-01">2019</option>
+                                <option value="2018-01-01">2018</option>
+                                <option value="2017-01-01">2017</option>
+                                <option value="2016-01-01">2016</option>
+                                <option value="2015-01-01">2015</option>
+                                <option value="2014-01-01">2014</option>
+                                <option value="2013-01-01">2013</option>
+                                <option value="2012-01-01">2012</option>
+                                <option value="2011-01-01">2011</option>
+                                <option value="2010-01-01">2010</option>
+                                <option value="2009-01-01">2009</option>
+                                <option value="2008-01-01">2008</option>
+                                <option value="2007-01-01">2007</option>
+                                <option value="2006-01-01">2006</option>
+                                <option value="2005-01-01">2005</option>
+                                <option value="2004-01-01">2004</option>
+                                <option value="2003-01-01">2003</option>
+                                <option value="2002-01-01">2002</option>
+                                <option value="2001-01-01">2001</option>
+                                <option value="2000-01-01">2000</option>
+                                <option value="1999-01-01">1999</option>
+                                <option value="1998-01-01">1998</option>
+                                <option value="1997-01-01">1997</option>
+                                <option value="1996-01-01">1996</option>
+                                <option value="1995-01-01">1995</option>
+                                <option value="1994-01-01">1994</option>
+                                <option value="1993-01-01">1993</option>
+                                <option value="1992-01-01">1992</option>
+                                <option value="1991-01-01">1991</option>
+                                <option value="1990-01-01">1990</option>
+                                <option value="1989-01-01">1989</option>
+                                <option value="1988-01-01">1988</option>
+                                <option value="1987-01-01">1987</option>
+                                <option value="1986-01-01">1986</option>
+                                <option value="1985-01-01">1985</option>
+                                <option value="1984-01-01">1984</option>
+                                <option value="1983-01-01">1983</option>
+                                <option value="1982-01-01">1982</option>
+                                <option value="1981-01-01">1981</option>
+                                <option value="1980-01-01">1980</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-3" >with major in: </label>
+                        <div class="col-md-9">
+                            <select class="form-select" style="width: 200px"  (change)="onMajorSelected($event)" formControlName="majorid">
+                                <option *ngFor="let major of majors" 
+                                    [value]="major.id">
+                                    {{major.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-3" >and now work as: </label>
+                        <div class="col-md-9">
+                        <select class="form-select" style="width: 200px"  (change)="onOccupationSelected($event)" formControlName="occupationid">
+                            <option *ngFor="let occupation of occupations" 
+                                 [value]="occupation.id">
+                                {{occupation.name}}
+                            </option>
+                        </select></div>
+                    </div>
+              
+                <div class="row">
+                    <label class="col-md-3">I will login as:</label>
+                    <div class="col-md-9">
+                        <app-text-input [formControl]="$any(registerForm.controls['username'])" [label]="'Username'"></app-text-input>
+                    </div>
                 </div>
-            
-                <app-text-input [formControl]="$any(registerForm.controls['username'])" 
-                    [label]="'Username'"></app-text-input>
-                <app-text-input [formControl]="$any(registerForm.controls['knownAs'])" 
-                    [label]="'Known As'"></app-text-input>
-                <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])" 
-                    [label]="'Date of Birth'" [maxDate]="maxDate"></app-date-picker >
-                <app-text-input [formControl]="$any(registerForm.controls['city'])" 
-                    [label]="'City'"></app-text-input>
-                <app-text-input [formControl]="$any(registerForm.controls['country'])" 
-                    [label]="'Country'"></app-text-input>
-                <app-text-input [formControl]="$any(registerForm.controls['password'])" 
-                    [label]="'Password'" [type]="'password'">
-                </app-text-input>
-                <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" 
-                    [label]="'Confirm Password'"
-                    [type]="'password'"></app-text-input>
+                <div class="row">
+                    <label class="col-md-3">With the password:</label>
+                    <div class="col-md-9">
+                        <app-text-input [formControl]="$any(registerForm.controls['password'])" [label]="'Password'" [type]="'password'"></app-text-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">Confirm Password:</label>
+                    <div class="col-md-9">
+                        <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" [label]="'Confirm Password'" [type]="'password'"></app-text-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">And I want to be known as:</label>
+                    <div class="col-md-9">
+                        <app-text-input [formControl]="$any(registerForm.controls['knownAs'])" [label]="'Known As'"></app-text-input>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <label class="col-md-3">My birthday is on:</label>
+                    <div class="col-md-9">
+                        <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])" [label]="'Date of Birth'" [maxDate]="maxDate"></app-date-picker>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">And I am now living in:</label>
+                    <div class="col-md-9">
+                        <app-text-input [formControl]="$any(registerForm.controls['city'])" [label]="'City'"></app-text-input>
+                        <app-text-input [formControl]="$any(registerForm.controls['country'])" [label]="'Country'"></app-text-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-3">I am a:</label>
+                    <div class="col-md-9">
+                        <label class="form-check-label">
+
+                            <input type="radio" class="form-check-input" value="male" formControlName="gender" checked> Gentleman
+                        </label>
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input ms-3" value="female" formControlName="gender"> Lady
+                        </label>
+                    </div>
+                </div>
+             
+               
             
                 <div class="row" *ngIf="validationErrors">
                     <ul class="text-danger">
@@ -106,7 +148,7 @@
                         </li>
                     </ul>
                 </div>
-            
+               
                 <div class="text-center">
                     <button [disabled]="!registerForm.valid" class="btn btn-success me-2" type="submit">Register</button>
                     <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
