@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { ChatGroup } from 'src/app/_models/chatgroup';
-import { User } from 'src/app/_models/user';
-import { AdminService } from 'src/app/_services/admin.service';
-import { ChatgroupService } from 'src/app/_services/chatgroup.service';
-import { EventEmitter } from '@angular/core';
-import { AccountService } from 'src/app/_services/account.service';
-import { take } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({

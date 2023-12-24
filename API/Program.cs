@@ -4,10 +4,11 @@ using API.Extensions;
 using API.Interfaces;
 using API.Middleware;
 using API.SignalR;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.IO.Compression;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-}); 
+});
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddSwaggerGen(c =>
@@ -53,8 +54,29 @@ builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseNpgsql(connString);
 });
 
-var app = builder.Build();
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true; // Enable compression for HTTPS requests
+    options.Providers.Add<GzipCompressionProvider>(); // Enable Gzip compression
+                                                      //options.Providers.Add<BrotliCompressionProvider>(); // Enable Brotli compression
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
 
+});
+
+builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;
+});
+
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;
+});
+
+var app = builder.Build();
+app.UseResponseCompression();
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionMiddleware>();
 
