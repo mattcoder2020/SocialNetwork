@@ -7,8 +7,8 @@ Test User Credentials:
 Username: user
 Password: Pa$$w0rd
 
-Technical Stacks:
-Backend:
+[Technical Stacks:]()
+[Backend:]()
 ASP.NET Core 7.0 WebAPI
 PostgreSQL database, dockerized for scalability
 Entity Framework for seamless data management
@@ -21,7 +21,7 @@ Automapper for streamlined object-to-object mapping
 ASP.NET Core built-in Dependency Injection
 Paging, Sorting, and Filtering for enhanced data handling
 
-Frontend:
+[Frontend:]()
 Angular 14 framework
 Bootstrap 5.2 for a responsive and visually appealing UI
 ngx components for additional functionality
