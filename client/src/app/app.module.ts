@@ -36,11 +36,12 @@ import { UserManagementComponent } from './admin/user-management/user-management
 import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
-import { ManageComponent } from './chatgroup/manage/manage.component';
-import { ChatGroupMessageModal } from './chatgroup/chat/chatgroupmessagemodal.component';
+// import { ManageComponent } from './chatgroup/manage/manage.component';
+// import { ChatGroupMessageModal } from './chatgroup/chat/chatgroupmessagemodal.component';
+import { ChatgroupModalComponent } from './modals/chatgroup-modal/chatgroup-modal.component';
+
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { ChatgroupModalComponent } from './modals/chatgroup-modal/chatgroup-modal.component';
 import { MetaDataModalComponent } from './modals/metadata-modal/metadata-modal.component';
 import { UniversityNamePipe } from 'src/app/_pipes/universityPipe'; 
 import { MajorNamePipe } from 'src/app/_pipes/majorPipe'; 
@@ -74,8 +75,6 @@ import { MajorManagementComponent } from  './admin/major-managment/major-managem
     PhotoManagementComponent,
     RolesModalComponent,
     ConfirmDialogComponent,
-    ManageComponent,
-    ChatGroupMessageModal,
     ChatgroupModalComponent,
     UniversityNamePipe,
     MajorNamePipe,

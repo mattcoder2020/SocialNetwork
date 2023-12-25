@@ -1,28 +1,37 @@
-// import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule, Routes } from '@angular/router';
+import { ManageComponent } from './manage/manage.component';
+import { ChatGroupMessageModal } from './chat/chatgroupmessagemodal.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { SharedModule } from '../_modules/shared.module';
 
-// import { ManageComponent } from './manage/manage.component';
-// import { ChatComponent } from './chat/chat.component';
-// //import { ChatgroupRoutingModule } from './chatgroup-routing.module';
-// import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { MatTableModule } from '@angular/material/table';
-// import { MatPaginatorModule } from '@angular/material/paginator';
-// import { MatIconModule } from '@angular/material/icon';
 
 
-// @NgModule({
-//   declarations: [
-//     ManageComponent,
-//     ChatComponent
-//   ],
-//   imports: [
-//     CommonModule,
-//    // ChatgroupRoutingModule,
-//     MatTableModule,
-//     FormsModule,
-//     ReactiveFormsModule,
-//     MatPaginatorModule,
-//     MatIconModule
-//    ]
-// })
-// export class ChatgroupModule { }
+const routes: Routes = [
+    {path: '', component: ManageComponent},
+  ]
+@NgModule({
+  declarations: [
+    ManageComponent,
+    ChatGroupMessageModal,
+    ChatGroupMessageModal
+  ],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatIconModule,
+    NgxDatatableModule,
+    SharedModule,
+    RouterModule.forChild(routes)
+   ],
+   exports: [RouterModule]
+})
+export class ChatgroupModule { }
