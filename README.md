@@ -62,14 +62,20 @@ Explore our application, experience the power of seamless connectivity, and join
 - ASP.NET Core 7.0 WebAPI
 - PostgreSQL数据库，通过Docker实现可伸缩性
 - Entity Framework用于无缝数据管理
-- 单元工作（UOW）模式用于事务控制 SignalR用于实时成员在线状态、通知和即时消息 响应压缩以优化网络流量 Swagger提供全面的API文档 IdentityModel.Tokens用于JWT令牌的创建、身份验证和基于角色的授权 Automapper用于简化对象到对象的映射 ASP.NET Core内置的依赖注入 分页、排序和过滤以增强数据处理
+- 单元工作（UOW）模式用于事务控制 
+- SignalR用于实时成员在线状态、通知和即时消息 
+- 响应压缩(Response Compression) 以优化网络流量 
+- Swagger提供全面的API文档 
+- IdentityModel.Tokens用于JWT令牌的创建、身份验证和基于角色的授权 
+- Automapper用于简化对象到对象的映射 
+- ASP.NET Core内置的依赖注入 分页、排序和过滤以增强数据处理
 
 **前端:**
 - Angular 14框架
 - Bootstrap 5.2实现响应式和视觉上吸引人的用户界面
 - ngx组件提供额外功能
-- 用于CSS文件优化的PurgeCss
-- 路由和安全路由以增强用户体验
-- 根据领域上下文模块化组件和基于路由的懒加载 集成ngxdatatable实现流畅的表格导航
+- PurgeCss用于CSS文件裁剪和优化的
+- 路由和安全路由（Routing and secured routes）以增强用户体验
+- 根据领域上下文模块化组件和基于路由的懒加载(lazy loading) 集成ngxdatatable实现流畅的表格导航
 - 具有引人入胜的画廊功能的照片上传功能
--
+
