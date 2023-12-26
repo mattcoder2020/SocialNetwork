@@ -54,8 +54,11 @@ Explore our application, experience the power of seamless connectivity, and join
 [后端:](http://119.23.216.60:5003/)
 
 ASP.NET Core 7.0 WebAPI
+
 PostgreSQL数据库，通过Docker实现可伸缩性
+
 Entity Framework用于无缝数据管理
+
 单元工作（UOW）模式用于事务控制
 SignalR用于实时成员在线状态、通知和即时消息
 响应压缩以优化网络流量
