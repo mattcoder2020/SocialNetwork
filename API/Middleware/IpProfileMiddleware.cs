@@ -26,6 +26,7 @@ namespace API.Middleware
         {
             try
             {
+                
                 this.ipProfileRepoistory = context.RequestServices.GetRequiredService<IIpProfileRepoistory>();
 
                // await ipProfileRepoistory.AddIpProfileAsync(context.Connection.RemoteIpAddress.ToString());

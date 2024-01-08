@@ -7,7 +7,7 @@ namespace API.Interfaces
         Task<IpProfile> GetIpProfileByIpAddressAsync(string ipAddress);
         Task<IpProfile> GetIpProfileByIdAsync(int id);
         Task<List<IpProfile>> GetAllIpProfiles();
-        Task AddIpProfileAsync(string ipAddress);
+        Task<IpProfile> AddIpProfileAsync(string ipAddress);
         
     }
 }

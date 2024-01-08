@@ -23,25 +23,34 @@ namespace API.Data
             this.dataContextIpProfile = dataContextIpProfile;
            
         }
-        public async Task AddIpProfileAsync(string IpAddress)
+        public async Task<IpProfile> AddIpProfileAsync(string IpAddress)
         {
             List<IpProfile> ipProfiles = await GetAllIpProfiles();
             IpProfile ipProfile = null;
             //fetch cache from httpcontext cache or db
             //if it is not in the cache and db, then get it from the ipinfo.io
-            if (ipProfiles.Find(e=>e.IpAddress == IpAddress) ==null)
+            if (ipProfiles.Find(e => e.IpAddress == IpAddress) == null)
             {
                 //get the profile from ipinfo.io
                 ipProfile = await GetIpProfileByIpAddressAsync(IpAddress);
                 // if failed to get the profile from ipinfo.io, then return
-                if (ipProfile == null) return;
+                if (ipProfile == null) return null;
                 // otherwise persist to db and cache
-                ipProfiles.Add(ipProfile);
                 dataContextIpProfile.Set<IpProfile>().Add(ipProfile);
                 await dataContextIpProfile.SaveChangesAsync();
 
+                // Fetch the resultant ipProfiles from the database
+                ipProfile = dataContextIpProfile.Set<IpProfile>().FirstOrDefault(e => e.IpAddress == IpAddress);
+
+                ipProfiles.Add(ipProfile);
                 memoryCache.Set(ProfileCache, ipProfiles);
 
+                return ipProfile;
+
+            }
+            else
+            {
+                return ipProfiles.Find(e => e.IpAddress == IpAddress);
             }
         }
 
@@ -79,8 +88,6 @@ namespace API.Data
                 ipProfile.City = ipInfo.City;
             
                 return ipProfile;
-
-
             }
             catch (Exception ex)
             {

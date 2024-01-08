@@ -88,7 +88,7 @@ builder.Services.Configure<GzipCompressionProviderOptions>(options =>
 var app = builder.Build();
 app.UseResponseCompression();
 // Configure the HTTP request pipeline.
-app.UseMiddleware<IpProfileMiddleware>();
+//app.UseMiddleware<IpProfileMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors(builder => builder
