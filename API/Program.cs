@@ -29,8 +29,12 @@ builder.Services.AddSwaggerGen(c =>
 
 
 var connString = "";
+var connStringIpProfile = "";
 if (builder.Environment.IsDevelopment())
+{ 
     connString = builder.Configuration.GetConnectionString("DefaultConnection");
+    connStringIpProfile = builder.Configuration.GetConnectionString("IpProfileConnection");
+}
 else
 {
     // Use connection string provided at runtime by FlyIO.
@@ -53,6 +57,12 @@ builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseNpgsql(connString);
 });
+
+builder.Services.AddDbContext<DataContextIpProfile>(opt =>
+{
+    opt.UseNpgsql(connStringIpProfile);
+});
+builder.Services.AddMemoryCache();
 
 builder.Services.AddResponseCompression(options =>
 {
@@ -78,6 +88,7 @@ builder.Services.Configure<GzipCompressionProviderOptions>(options =>
 var app = builder.Build();
 app.UseResponseCompression();
 // Configure the HTTP request pipeline.
+app.UseMiddleware<IpProfileMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors(builder => builder
