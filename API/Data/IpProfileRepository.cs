@@ -82,7 +82,6 @@ namespace API.Data
                 ipInfo.Country = regionalInfo.EnglishName;
 
                 var ipProfile = new IpProfile();
-                ipProfile.AppName = "SocialNetWorkApp";
                 ipProfile.IpAddress = ipAddress;
                 ipProfile.Country = ipInfo.Country;
                 ipProfile.City = ipInfo.City;

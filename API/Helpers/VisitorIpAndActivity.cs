@@ -28,6 +28,7 @@ namespace API.Helpers
                 visitorPath.Verb = httpVerb;
                 visitorPath.IpProfileId = ipProfile.Id;
                 visitorPath.Created = DateTime.UtcNow;
+                visitorPath.AppName = "SocialNetWork";
                 await VisitorPathRepoistory.AddVisitedPathAsync(visitorPath);
             }
             catch (Exception ex)
